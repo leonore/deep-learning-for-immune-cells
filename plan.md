@@ -1,9 +1,9 @@
 # Plan
 
-* DEEP LEARNING FOR ANALYSING IMMUNE CELL INTERACTIONS
-* LEONORE PAPALOIZOS
-* 2264897V
-* CAROL WEBSTER
+* Deep learning for analysing immune cell interactions
+* Leonore Papaloizos
+* 2264897v
+* Carol Webster
 
 Week-by-week plan for the whole project.
 
