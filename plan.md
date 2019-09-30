@@ -17,7 +17,10 @@ Week-by-week plan for the whole project.
 * Read into autoencoders
 
 * **Week 2**
-* Get a plan for the rest of term
+* Setup training data
+* Setup an autoencoder
+* Run images through autoencoder
+* Examine compressed, decompressed products 
 
 * **Week 3**
 * **Week 4**

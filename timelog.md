@@ -5,7 +5,7 @@
 * 2264897v
 * Carol Webster
 
-## Week 1 c/ 23 Sept 2019
+## Week 1 c/ 23 Sept 2019 (19/40 hours)
 
 ### 23 Sept 2019
 
@@ -33,3 +33,5 @@
 * *2.5 hours* Following a tutorial on autoencoders with keras
 * *1 hour* Reading examples of UNet code with keras
 * *1 hour* Preparing questions and meeting
+
+## Week 2 c/ 30 Sept 2019 (0/15 hours)
