@@ -12,26 +12,38 @@
 * *0.5 hour* Kick-off meeting with supervisor
 * *0.5 hour* Downloaded ImageJ Fiji for visualising cell images
 
-## 24 Sept 2019
+### 24 Sept 2019
 * *4 hours* Reading up on project guidance notes
 * *1 hour* Project repository setup
 * *1 hour* Wrote down week 1 minutes and summer report
 
-## 25 Sept 2019
+### 25 Sept 2019
 * *1 hour* Reading up on autoencoders
 
-## 26 Sept 2019
+### 26 Sept 2019
 * *2 hours* Trying to download the cell images
 * *0.5 hour* Downloading Zotero for reference management and getting to grips with it
 
-## 27 Sept 2019
+### 27 Sept 2019
 * *2 hours* Reading about convolutional neural networks
 * *1 hour* Reading about UNet
 * *1 hour* Looking at cell pictures
 
-## 28 Sept 2019
+### 28 Sept 2019
 * *2.5 hours* Following a tutorial on autoencoders with keras
 * *1 hour* Reading examples of UNet code with keras
 * *1 hour* Preparing questions and meeting
 
-## Week 2 c/ 30 Sept 2019 (0/15 hours)
+## Week 2 c/ 30 Sept 2019 (8.5/15 hours)
+
+### 30 Sept 2019
+* *0.5 hours* Uploading post-meeting details
+* *2 hour* Looking at how to use dataset with autoencoders
+* *1 hour* Spent reading tutorials on adding clustering layer in autoencoder models
+
+### 1 Oct 2019
+* *4 hour* Working on processing raw TIF images to JPEG
+
+### 6 Oct 2019
+* *1 hour* Cleaning up code to read images into dataset
+* *0.5 hour* Building (very low-res) basic encoder 
