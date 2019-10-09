@@ -34,7 +34,7 @@
 * *1 hour* Reading examples of UNet code with keras
 * *1 hour* Preparing questions and meeting
 
-## Week 2 c/ 30 Sept 2019 (8.5/15 hours)
+## Week 2 c/ 30 Sept 2019 (9/15 hours)
 
 ### 30 Sept 2019
 * *0.5 hours* Uploading post-meeting details
@@ -46,4 +46,14 @@
 
 ### 6 Oct 2019
 * *1 hour* Cleaning up code to read images into dataset
-* *0.5 hour* Building (very low-res) basic encoder 
+* *0.5 hour* Building (very low-res) basic encoder
+
+## Week 3 c/ 7 October 2019 (2.5/15 hours)
+
+### 8 Oct 2019
+* *0.5 hour* Setting up Trello and writing post meeting details
+* *0.5 hour* Trying to write out plan for the rest of the semester
+
+### 9 Oct 2019
+* *1 hour* Compiling dissertation, importing to Latex, familiarising with the format
+* *0.5 hour* Reading all fluorescent images into raw dataset folder
