@@ -48,7 +48,7 @@
 * *1 hour* Cleaning up code to read images into dataset
 * *0.5 hour* Building (very low-res) basic encoder
 
-## Week 3 c/ 7 October 2019 (2.5/15 hours)
+## Week 3 c/ 7 October 2019 (8/15 hours)
 
 ### 8 Oct 2019
 * *0.5 hour* Setting up Trello and writing post meeting details
@@ -57,3 +57,12 @@
 ### 9 Oct 2019
 * *1 hour* Compiling dissertation, importing to Latex, familiarising with the format
 * *0.5 hour* Reading all fluorescent images into raw dataset folder
+* *0.5 hour* Writing code to display fluorescent images side to side for better visualisation of work
+
+### 11 Oct 2019
+* *1 hour* Working on autoencoding the fluorescent images
+
+### 12 Oct 2019
+* *2 hours* Working on getting the three different representations of the fluorescent images
+* *1 hour* Summarising progress and writing a plan for the rest of the semester
+* *1 hour* Looking at changing image size to see if it improves autoencoder performance

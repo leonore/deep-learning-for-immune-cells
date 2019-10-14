@@ -1,3 +1,6 @@
+# COPY ONEDRIVE DATA
+# TO LOCAL DATA FOR LOCAL USE
+
 import os
 from shutil import copyfile, rmtree
 
@@ -17,22 +20,12 @@ def copy_to(dataset_folder):
 def clean(dataset_folder):
     rmtree(dataset_folder)
 
-clean('../data/raw/')
-copy_to('../data/raw/')
+#clean('/Users/Leonore/Documents/Workspace/l4proj/data/raw/')
+copy_to('/Users/Leonore/Documents/Workspace/l4proj/data/raw/')
+
 
 # import shutil
 # from PIL import Image
-#
-# def duplicate_directory(src, dst):
-#     try:
-#         shutil.copytree(src, dst)
-#     except Exception as e:
-#         if e.errno == 17:
-#             print("Found existing data/processed directory, overwriting")
-#             shutil.rmtree(dst)
-#             duplicate_directory(src, dst)
-#         else:
-#             print('Could not copy directory structure. Error: %s' % e)
 #
 # def convert(dataset_path):
 #     for _, _, files in os.walk(dataset_path):
