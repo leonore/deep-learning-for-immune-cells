@@ -66,3 +66,13 @@
 * *2 hours* Working on getting the three different representations of the fluorescent images
 * *1 hour* Summarising progress and writing a plan for the rest of the semester
 * *1 hour* Looking at changing image size to see if it improves autoencoder performance
+
+## Week 4 c/ 14 October 2019 (6.5/15 hours)
+
+### 14 Oct 2019
+* *3 hours* Tuning model and CNN layers parameters to get better output
+
+### 15 Oct 2019
+* *1 hour* Reading about why my autoencoder might be failing
+* *0.5 hour* Setting up access to university's computer cluster
+* *2 hour* Following a tutorial to visualise my model's filters

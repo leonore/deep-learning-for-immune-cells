@@ -11,3 +11,6 @@
 ## Week 3 meeting - Tue 07/10
 * What resolution should I aim for?
 * What exactly are we trying to predict? Do we want to apply clustering algorithm to both red and green images and then see how they overlap, or do we want to do it on the brightfield images?
+
+## Week 4 meeting - by email
+- Should I keep a copy of the outputs whenever I change a parameter?
