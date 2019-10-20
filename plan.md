@@ -36,6 +36,7 @@ Week-by-week plan for the whole project.
 
 * **Week 5**
 * Reworking autoencoder to make sure it works
+* Make function to plot input/output next to each other
 
 * **Week 6**
 * HPC training cluster
