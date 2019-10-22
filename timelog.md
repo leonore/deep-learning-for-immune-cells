@@ -89,9 +89,11 @@
 ### 20 Oct 2019
 * *1 hour* Tuning autoencoder; looking at different representations to assess progress
 
-## Week 5 c/ 21 October 2019 (1/15 hours)
+## Week 5 c/ 21 October 2019 (4/15 hours)
 
 ### 22 October 2019
 - *1 hour* Writing function to plot input/output of autoencoder to visualise progress
 - *1.5 hours* Tuning autoencoder, visualising results and keeping records of parameters
 - *0.5 hour* Deciding on a model, cropping images to a 200x200 center image and applying the model to it
+- *0.5 hour* Writing a function to split a dataset into train, test without shuffling it to keep filenames for pairwise overlap calculations
+- *0.5 hour* Trying out different ways of calculating overlap between pairs of images
