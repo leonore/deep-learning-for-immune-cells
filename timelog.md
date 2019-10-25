@@ -89,7 +89,7 @@
 ### 20 Oct 2019
 * *1 hour* Tuning autoencoder; looking at different representations to assess progress
 
-## Week 5 c/ 21 October 2019 (5/15 hours)
+## Week 5 c/ 21 October 2019 (7.5/15 hours)
 
 ### 22 October 2019
 - *1 hour* Writing function to plot input/output of autoencoder to visualise progress
@@ -100,3 +100,9 @@
 
 ### 23 October 2019
 - *1 hour* Working on calculating overlap; struggling to find right method
+- *0.5 hour* Watching video on t-cell/dendritic cells interaction for dissertation motivation
+
+### 25 October 2019
+- *0.5 hour* Trying out calculations with TSNE and overlapped images
+- *0.5 hour* Fixing dataset split function
+- *1 hour* Writing function to get coloured labels
