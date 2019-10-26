@@ -109,3 +109,4 @@
 
 ### 26 October 2019
 - *0.5 hour* Cleaning up jupyter notebook; adding headings for better structure
+- *1.5 hour* Working on tsne clustering
