@@ -89,7 +89,7 @@
 ### 20 Oct 2019
 * *1 hour* Tuning autoencoder; looking at different representations to assess progress
 
-## Week 5 c/ 21 October 2019 (7.5/15 hours)
+## Week 5 c/ 21 October 2019 (8/15 hours)
 
 ### 22 October 2019
 - *1 hour* Writing function to plot input/output of autoencoder to visualise progress
@@ -106,3 +106,6 @@
 - *0.5 hour* Trying out calculations with TSNE and overlapped images
 - *0.5 hour* Fixing dataset split function
 - *1 hour* Writing function to get coloured labels
+
+### 26 October 2019
+- *0.5 hour* Cleaning up jupyter notebook; adding headings for better structure
