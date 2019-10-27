@@ -89,7 +89,7 @@
 ### 20 Oct 2019
 * *1 hour* Tuning autoencoder; looking at different representations to assess progress
 
-## Week 5 c/ 21 October 2019 (8/15 hours)
+## Week 5 c/ 21 October 2019 (12/15 hours)
 
 ### 22 October 2019
 - *1 hour* Writing function to plot input/output of autoencoder to visualise progress
@@ -110,3 +110,8 @@
 ### 26 October 2019
 - *0.5 hour* Cleaning up jupyter notebook; adding headings for better structure
 - *1.5 hour* Working on tsne clustering
+
+### 27 October 2019
+- *1 hour* Getting coloured labels on a plot and seeing if tnse results make sense (they don't)
+- *1 hour* Trying to save resized images locally without loss of information for GPU access/Colab access
+- *0.5 hour* Plotting overlap results with labels to see if labels make sense
