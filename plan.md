@@ -43,14 +43,15 @@ Week-by-week plan for the whole project.
 * Calculate overlap of images
 
 * **Week 7**
-* Start working on clustering algorithm for image overlaps
+* Read on PCA/tsne - follow tutorial with MNIST dataset
+* Select only DMSO images from dataset
+* Apply clustering algorithm to that dataset
 
 * **Week 8**
 * Tune clustering algorithm
 
 * **Week 9**
-* Label fluorescent images
-* Evaluate clustering performance
+* Tune clustering algorithm
 
 * **Week 10**
 * **Week 11 [PROJECT WEEK]**
