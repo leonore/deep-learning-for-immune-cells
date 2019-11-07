@@ -117,7 +117,7 @@
 - *0.5 hour* Plotting overlap results with labels to see if labels make sense
 - *1 hour* Experimenting with PCA decomposition
 
-## Week 6 c/ 28 October 2019 (7/15 hours)
+## Week 6 c/ 28 October 2019 (8.5/15 hours)
 
 ### 28 October 2019
 - *5.5 hours* Computer cluster training
@@ -126,4 +126,12 @@
 - *0.5 hour* Recapping current work done for meeting
 
 ### 31 October 2019
-- *1 hour* Working on writing resized images to disk
+- *1.5 hours* Working on writing resized images to disk
+
+### 2 November 2019
+- *1 hour* Refactoring and testing read/write functions
+
+## Week 7 c/ 4 November 2019 (0.5/15 hours)
+
+### 6 November 2019
+- *0.5 hour* Reading an article comparing UMAP performance to tsne
