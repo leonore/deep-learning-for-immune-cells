@@ -131,7 +131,11 @@
 ### 2 November 2019
 - *1 hour* Refactoring and testing read/write functions
 
-## Week 7 c/ 4 November 2019 (0.5/15 hours)
+## Week 7 c/ 4 November 2019 (2.5/15 hours)
 
 ### 6 November 2019
 - *0.5 hour* Reading an article comparing UMAP performance to tsne
+
+### 7 November 2019
+- *1 hour* Reading about t-sne
+- *1 hour* Following tutorials on PCA, t-sne, UMAP to get baseline performance with digit dataset
