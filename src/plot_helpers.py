@@ -2,6 +2,8 @@ import matplotlib.pyplot as plt
 import matplotlib.patheffects as PathEffects
 import matplotlib
 
+from dataset_helpers import reshape
+
 import seaborn as sns
 sns.set_style('darkgrid')
 sns.set_palette('muted')
