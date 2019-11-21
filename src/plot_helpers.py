@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import matplotlib.patheffects as PathEffects
 import matplotlib
+import numpy as np
 
 from dataset_helpers import reshape
 
@@ -49,7 +50,7 @@ def scatter(x, colors):
 
     # We add the labels for each digit.
     txts = []
-    for i in range(4):
+    for i in range(len(colors)):
         # Position of each label.
         xtext, ytext = np.median(x[colors == i, :], axis=0)
         txt = ax.text(xtext, ytext, str(i), fontsize=24)
