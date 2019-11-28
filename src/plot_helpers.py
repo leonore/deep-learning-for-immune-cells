@@ -13,7 +13,7 @@ sns.set_context("notebook", font_scale=1.5,
 
 def show_image(img, title="untitled", cmap="gray", **kwargs):
     plt.figure()
-    plt.imshow(img, cmap=cmap, interpolation="nearest", **kwargs)
+    plt.imshow(img, cmap=cmap, **kwargs)
     plt.axis("off")
     plt.title(title)
 
@@ -50,7 +50,7 @@ def scatter(x, colors):
 
     # We add the labels for each digit.
     txts = []
-    for i in range(len(colors)):
+    for i in range(len(set(colors))):
         # Position of each label.
         xtext, ytext = np.median(x[colors == i, :], axis=0)
         txt = ax.text(xtext, ytext, str(i), fontsize=24)
