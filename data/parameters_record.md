@@ -143,9 +143,40 @@ decoded = Conv2D(1, (3, 3), padding='same')(x)
 
 ### Next up
 
-* Add an image plot to see if the prediction changes before and after training the model.
+* Add an image plot to see if the prediction changes before and after training the model. *--> UPDATE: no it doesn't for the models above.*
 * Test the structure on a different dataset to see if the length of the data is the problem.
 * If so, need to do data augmentation.
+
+#### Model 5: CIFAR + model 4
+
+### Parameters
+
+* Optimiser = adam
+* Loss function = binary_crossentropy
+* n epochs = 30
+* batch size = 48
+
+### Images
+
+![Image results](results/model5_output.png)
+![Loss function](results/model5_loss.png)
+
+### Results
+
+* The network architecture was definitely not adapted for this, but this shows us that there might be a problem with the cell dataset as it still does something and loss does stagnate (even though badly).
+* Visualising the activations for this does show that the architecture is not adapted for this at all.
+
+### Next up
+
+* Need to augment the dataset to actually get something substantial out the model.
+* Possibly: first combine the image pairs into one
+  * Do proper testing to see if anything is learned
+* Then do image augmentation on this to build a bigger dataset (at least 10,000?)
+  * Scaling
+  * Horizontal movement
+  * Vertical movement
+  * Rotation 
+
 
 ---------------- old records --------------------
 
