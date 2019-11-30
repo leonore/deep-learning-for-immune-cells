@@ -1,3 +1,64 @@
+# Evaluating different autoencoder models
+
+Please give:
+* Structure (layers)
+* Optimiser (incl. parameters if applicable)
+* Loss function
+* Epochs, other parameters
+* Photos of reconstruction
+* Does the loss value move?
+* Do the weights of the layers change? (We want our encoder model to have learnt something)
+
+## Model 1
+
+### Structure
+
+```python
+x =  Conv2D(32, (3, 3), activation='relu', padding='same')(input_img)
+x = MaxPooling2D((2, 2), padding='same')(x)
+x = Conv2D(16, (3, 3), activation='relu', padding='same')(x)
+x = MaxPooling2D((2, 2), padding='same')(x)
+x = Conv2D(16, (3, 3), activation='relu', padding='same')(x)
+x = MaxPooling2D((2, 2), padding='same')(x)
+encoded = Flatten()(x)
+
+x =  Conv2D(16, (3, 3), activation='relu', padding='same')(x)
+x = UpSampling2D((2, 2))(x)
+x =  Conv2D(16, (3, 3), activation='relu', padding='same')(x)
+x = UpSampling2D((2, 2))(x)
+x =  Conv2D(32, (3, 3), activation='relu', padding='same')(x)
+x = UpSampling2D((2, 2))(x)
+decoded = Conv2D(1, (3, 3), padding='same')(x)
+```
+
+### Parameters
+
+* Optimiser = adam
+* Loss function = binary_crossentropy
+* n epochs = 30
+* batch size = 48
+
+### Images
+
+![Image results](results/model1_output.png)
+![Loss function](results/model1_loss.png)
+
+### Results
+
+* Loss does not seem to reach a plateau; need longer epoch
+* Weights do not change; need more training data?
+
+### Next up
+
+* Augment dataset; see if it makes any changes with this basic model
+
+
+
+
+
+
+---------------- old records --------------------
+
 - add an extra convolutional layer, following each other: more lined, pixelly
 - reduce filter for half the conv2d: more boxed
 - more convolutional filters at beginning works better than less
