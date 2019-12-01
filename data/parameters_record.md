@@ -147,7 +147,7 @@ decoded = Conv2D(1, (3, 3), padding='same')(x)
 * Test the structure on a different dataset to see if the length of the data is the problem.
 * If so, need to do data augmentation.
 
-#### Model 5: CIFAR + model 4
+## Model 5: CIFAR + model 4
 
 ### Parameters
 
@@ -175,7 +175,181 @@ decoded = Conv2D(1, (3, 3), padding='same')(x)
   * Scaling
   * Horizontal movement
   * Vertical movement
-  * Rotation 
+  * Rotation
+
+## Model 4.1: DMSO + model 4
+
+After finding another small dataset (~1200 images) I thought I would try again, but with the DMSO dataset, as it yielded better results with the clustering. It didn't work.
+
+### Next up
+
+* Trying the structure that was applied to the smaller dataset I found. If unsuccessful, back to data augmentation.
+
+## Model 6
+
+### Structure
+
+```python
+## model from knot classifier
+input_img = Input(shape=(imw, imh, c))
+
+x = Conv2D(16, (3, 3), activation='relu', padding='same')(input_img)
+x = MaxPooling2D((2, 2), padding='same')(x)
+x = Conv2D(8, (3, 3), activation='relu', padding='same')(x)
+x = MaxPooling2D((2, 2), padding='same')(x)
+x = Conv2D(8, (3, 3), activation='relu', padding='same')(x)
+encoded = MaxPooling2D((2, 2), padding='same')(x)
+
+x = Conv2D(8, (3, 3), activation='relu', padding='same')(encoded)
+x = UpSampling2D((2, 2))(x)
+x = Conv2D(8, (3, 3), activation='relu', padding='same')(x)
+x = UpSampling2D((2, 2))(x)
+x = Conv2D(16, (3, 3), activation='relu', padding="same")(x)
+x = UpSampling2D((2, 2))(x)
+decoded = Conv2D(1, (3, 3), activation='sigmoid', padding='same')(x)
+```
+
+### Parameters
+
+* Optimiser = adam
+* Loss function = binary_crossentropy
+* n epochs = 30
+* batch size = 48
+
+### Images
+
+![Image results](results/model6_output.png)
+![Loss function](results/model6_loss.png)
+
+### Results
+
+* The loss functions start stagnating!
+* The weights change!
+* Main difference: activation=sigmoid.
+* On the other hand nothing is being reconstructed.
+
+### Next up
+
+* Tuning previous models but with sigmoid activation function to see if any progress.
+
+## Model 7 - model 4 + sigmoid in last layer
+
+### Structure
+
+```python
+x = Conv2D(64, (5, 5), padding='same')(input_img)
+x = LeakyReLU()(x)
+x = MaxPooling2D((2, 2), padding='same')(x)
+x = Conv2D(32, (5, 5), padding='same')(x)
+x = LeakyReLU()(x)
+x = MaxPooling2D((2, 2), padding='same')(x)
+x = Conv2D(16, (2, 2), padding='same')(x)
+x = LeakyReLU()(x)
+x = MaxPooling2D((2, 2), padding='same')(x)
+encoded = Flatten()(x)
+
+x = Conv2D(16, (2, 2), padding='same')(x)
+x = LeakyReLU()(x)
+x = UpSampling2D((2, 2))(x)
+x = Conv2D(32, (5, 5), padding='same')(x)
+x = LeakyReLU()(x)
+x = UpSampling2D((2, 2))(x)
+x =  Conv2D(64, (5, 5), padding='same')(x)
+x = LeakyReLU()(x)
+x = UpSampling2D((2, 2))(x)
+
+decoded = Conv2D(1, (3, 3), activation='sigmoid', padding='same')(x)
+```
+
+### Parameters
+
+* Optimiser = adam
+* Loss function = binary_crossentropy
+* n epochs = 30
+* batch size = 48
+
+### Images
+
+![Image results](results/model7_output.png)
+![Loss function](results/model7_loss.png)
+![Last layer before sigmoid](results/model7_activations.png)
+
+### Results
+
+* The loss functions start stagnating!
+* The weights change!
+* But no output still --> sigmoid just doesn't output anything.
+
+### Next up
+
+* Visualise a simple architecture with sigmoid activation to see what's going on. Do more research.
+
+## Observations: visualising layers
+
+* Sigmoid -> MaxPooling does not translate well.
+* Try: use strided convolutional layers instead of maxpooling?
+
+![sigmoid -> maxpooling](results/activations1.png)
+
+* Result: same issue changing to strides.
+* Trying to visualise with old model again, but adding a separate sigmoid activation layer.
+* Sigmoid produces grey.
+* Try with softmax.
+* (No activation returns stagnating loss and nothing learned --> that's what we learned from previous architectures)
+* Softmax produces grey too.
+* Using relu as the output activation function seems to get an inverted looking reconstructed image
+* Finally let's try no activation to see if this goes with the results I have been having with the other models.
+* Result --> normal looking image. Huh.
+* Will run training again but with relu as activation function.
+* Running into same loss problems etc. again.
+* Running CIFAR dataset through autoencoder with sigmoid output function.
+
+## Model 8 - CIFAR + model 7
+
+### Structure
+
+```python
+## model from knot classifier
+input_img = Input(shape=(imw, imh, c))
+
+x = Conv2D(16, (3, 3), activation='relu', padding='same')(input_img)
+x = MaxPooling2D((2, 2), padding='same')(x)
+x = Conv2D(8, (3, 3), activation='relu', padding='same')(x)
+x = MaxPooling2D((2, 2), padding='same')(x)
+x = Conv2D(8, (3, 3), activation='relu', padding='same')(x)
+encoded = MaxPooling2D((2, 2), padding='same')(x)
+
+x = Conv2D(8, (3, 3), activation='relu', padding='same')(encoded)
+x = UpSampling2D((2, 2))(x)
+x = Conv2D(8, (3, 3), activation='relu', padding='same')(x)
+x = UpSampling2D((2, 2))(x)
+x = Conv2D(16, (3, 3), activation='relu', padding="same")(x)
+x = UpSampling2D((2, 2))(x)
+decoded = Conv2D(1, (3, 3), activation='sigmoid', padding='same')(x)
+```
+
+### Parameters
+
+* Optimiser = adam
+* Loss function = binary_crossentropy
+* n epochs = 30
+* batch size = 48
+
+### Images
+
+![Image results](results/model8_output.png)
+![Loss function](results/model8_loss.png)
+
+### Results
+
+* Loss changes and stagnates, weights change,
+* Main difference: activation=sigmoid.
+* Image is being reconstructed.
+* Is the cell dataset simply not good enough?
+
+### Next up
+
+* Might have to go back to data augmentation with this one.
 
 
 ---------------- old records --------------------
