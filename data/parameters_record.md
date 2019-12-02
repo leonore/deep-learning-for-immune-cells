@@ -373,6 +373,70 @@ For all of these the result is the same:
 - Try data augmentation to make sure we can rule lack of data as the cause of the problem.
 - Try brightfield images? would the network learn better from that? (however: much overhead from getting the images from OneDrive again)
 
+## Observations - post doing data augmentation
+
+```python
+train_datagen = ImageDataGenerator(
+    rotation_range=360,
+    zoom_range=0.3,
+    width_shift_range=0.2,
+    height_shift_range=0.2,
+    horizontal_flip=True,
+    vertical_flip=True
+    )
+```
+
+* Doubled the dataset by contatenating the dataset transformed with that to the base one.
+* No improvement, still get black output with sigmoid function and other same problems.
+
+
+## Model 9 - MNIST + smaller model 7
+
+### Structure
+
+```python
+## model from knot classifier
+input_img = Input(shape=(imw, imh, c))
+
+x = Conv2D(16, (3, 3), activation='relu', padding='same')(input_img)
+x = MaxPooling2D((2, 2), padding='same')(x)
+x = Conv2D(8, (3, 3), activation='relu', padding='same')(x)
+x = MaxPooling2D((2, 2), padding='same')(x)
+encoded = Flatten()(x)
+
+x = Conv2D(8, (3, 3), activation='relu', padding='same')(x)
+x = UpSampling2D((2, 2))(x)
+x = Conv2D(16, (3, 3), activation='relu', padding="same")(x)
+x = UpSampling2D((2, 2))(x)
+decoded = Conv2D(c, (3, 3), activation='sigmoid', padding='same')(x)
+```
+### Parameters
+
+* Optimiser = adam
+* Loss function = binary_crossentropy
+* n epochs = 25
+* batch size = 64
+
+### Images
+
+![Sigmoid](results/model9_sigmoid.png)
+![Relu](results/model9_relu.png)
+![Sigmoid+predictions on test set after full training](results/model9_testouput.png)
+
+### Results
+
+* Loss changes
+* There is a good output
+* Changes drastically after training 
+* Even relu gets something
+
+### Next up
+
+* Why is the model not learning from this?
+* Relook at how data is being processed -- maybe that's where the issue is coming from
+* Is it worth looking into Brightfield images? even just one, two, to overfit them
+* This isn't even the prediction task -- just a reconstruction task, so the learning from labels is not the problem
+
 
 ---------------- old records --------------------
 
