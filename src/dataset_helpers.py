@@ -4,6 +4,7 @@ import os
 from skimage.io import imread, imsave, imread
 from skimage.transform import rescale, resize, downscale_local_mean
 from skimage import filters
+import skimage 
 from PIL import Image
 
 # IMAGE FORMATTING OPERATIONS
@@ -27,7 +28,7 @@ def center_crop(img, size=200):
 
 def normalise(img):
     # normalise 16-bit TIF image
-    return img / 65535.0
+    return img / 255.0
 
 ## DATASET OPERATIONS
 
