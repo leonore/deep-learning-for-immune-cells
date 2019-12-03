@@ -208,17 +208,21 @@
 - *1.5 hour* Pairing up tcells/dcells into one image before training, testing code on that
 - *0.5 hour* Playing with dataset
 
-## Week 11 c/ 2 December (2.5/15 hours)
+## Week 11 c/ 2 December (5/15 hours)
 
 ### 2 December 2019
 - *1 hour* Playing with dataset (cropping, shuffling) to see if it impacts learning
 - *1 hour* Doing image augmentation
 - *0.5 hour* Researching sigmoid function and testing model with different activation functions + MNIST
 
+### 3 December
+- *2 hour* Looking at pre-processing steps for debugging
+- *1.5 hour* Seeing if output is better with new pre-processing + old models
+
 Plan:
 * try adding the overlap as the third channel? -> nope
 * play with dataset to see if can get more learning -> nope
 * try data augmentation -> nope
 * figure out why sigmoid function coming out black -> not sure?
-* look at dataset processing functions to see if something is going wrong there: maybe start with a sample 2 images
+* look at dataset processing functions to see if something is going wrong there: maybe start with a sample 2 images -> possibly something there?
 * if no progress before meeting: prepare live t-sne visualisation
