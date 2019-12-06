@@ -476,36 +476,29 @@ show_image(reshape(decoded_imgs[0], imw, imh))
 This was then ran on a bigger chunk of the full dataset processed with the new preprocessing steps.
 It's not as clear (other colourmap had to be used) but promising?
 
-![preprocessing output on more data](results/preprocessed_output_full)
+![preprocessing output on more data](results/preprocessed_output_full.png)
 
 ### Problem:
 
 * More data gets it more confused. Doesn't print anything anymore.
 * MNIST does a lot better overall... is the structure not adapted?
 
-`
-input_img = Input(shape=(imw, imh, c))
+## Solution: changing preprocessing (skew of pixel values)
 
-x = Conv2D(16, (3, 3), padding='same')(input_img)
-x = LeakyReLU()(x)
-x = MaxPooling2D((2, 2), padding='same')(x)
-x = Conv2D(8, (3, 3), padding='same')(x)
-x = LeakyReLU()(x)
-x = MaxPooling2D((2, 2), padding='same')(x)
-x = Conv2D(8, (3, 3), padding='same')(x)
-x = LeakyReLU()(x)
-x = MaxPooling2D((2, 2), padding='same')(x)
-encoded = Flatten()(x)
+```python
 
-x = Conv2D(8, (3, 3), padding='same')(x)
-x = LeakyReLU()(x)
-x = UpSampling2D((2, 2))(x)
-x = Conv2D(16, (3, 3), padding='same')(x)
-x = LeakyReLU()(x)
-x = UpSampling2D((2, 2))(x)
-x =  Conv2D(16, (3, 3), padding='same')(x)
-x = LeakyReLU()(x)
-x = UpSampling2D((2, 2))(x)
+# the pictures look more like 8-bit images --> this can always be changed to something like 10 bit
+def clip(x):
+    mean = np.mean(x)
+    return np.clip(x, mean-126, mean+127)
 
-decoded = Conv2D(1, (3, 3), activation='sigmoid', padding='same')(x)
-`
+def minmax(x):
+    return (x-np.min(x))/(np.max(x)-np.min(x))
+```
+
+Here is what we get:
+
+![original image](results/old_image.png)
+![original histogram](results/old_histogram.png)
+![new histogram](results/new_histogram.png)
+![results](results/post_preprocess_results.png)

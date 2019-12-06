@@ -15,7 +15,7 @@ def show_image(img, title="untitled", cmap="gray", **kwargs):
     try:
         plt.imshow(img, cmap=cmap, **kwargs)
     except:
-        plt.imshow(reshape(img), cmap=cmap, **kwargs)
+        plt.imshow(img[:, :, 0], cmap=cmap, **kwargs)
     plt.axis("off")
     plt.title(title)
 

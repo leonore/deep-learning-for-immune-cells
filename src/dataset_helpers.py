@@ -1,6 +1,7 @@
 ## Standard imports
 import numpy as np
 import os
+import skimage
 from skimage.io import imread, imsave, imread
 from skimage.transform import rescale, resize, downscale_local_mean
 from skimage import filters
@@ -20,7 +21,7 @@ def reformat(img):
     formatted = (img).astype('uint16')
     return Image.fromarray(formatted)
 
-def center_crop(img, size=200):
+def center_crop(img, size=imw):
     to_crop = (img.shape[0]-size)/2
     image_resized = skimage.util.crop(img, (to_crop, to_crop))
     return image_resized
@@ -28,6 +29,13 @@ def center_crop(img, size=200):
 def normalise(img):
     # normalise 16-bit TIF image
     return img / 65535.0
+
+def clip(x):
+    mean = np.mean(x)
+    return np.clip(x, mean-126, mean+127)
+
+def minmax(x):
+    return (x-np.min(x))/(np.max(x)-np.min(x))
 
 ## DATASET OPERATIONS
 
@@ -83,6 +91,7 @@ def filenames_to_labels(filenames, folder="/Users/Leonore/Documents/Workspace/l4
 def read_folder_filenames(folder):
     return [os.path.join(folder, f)for f in os.listdir(folder) if os.path.isfile(os.path.join(folder, f)) and f[0] != '.']
 
+
 def resize_images(folder='/Users/Leonore/Documents/Workspace/l4proj/data/raw/',
                   dst="/Users/Leonore/Documents/Workspace/l4proj/data/processed/CK22/", w=200, h=200):
     filenames = [os.path.join(folder, f) for f in os.listdir(folder) if os.path.isfile(os.path.join(folder, f))]
@@ -97,6 +106,7 @@ def resize_images(folder='/Users/Leonore/Documents/Workspace/l4proj/data/raw/',
                 print(e)
                 print("{} is causing issues".format(file))
 
+
 def images_to_dataset(folder="/Users/Leonore/Documents/Workspace/l4proj/data/processed/", w=192, h=192):
     filenames = []
     for ck in ["CK19", "CK21", "CK22"]:
@@ -106,8 +116,8 @@ def images_to_dataset(folder="/Users/Leonore/Documents/Workspace/l4proj/data/pro
     i = 0
     for file in filenames:
         image = imread(file)
-        image_resized = resize(image, (w, h), anti_aliasing=True)
-        dataset[i] = normalise(filters.sobel(image_resized))
+        image_resized = center_crop(image, size=w)
+        dataset[i] = minmax(clip(image_resized))
         i += 1
     print("All files formatted into dataset.")
     return dataset, filenames
