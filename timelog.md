@@ -208,7 +208,7 @@
 - *1.5 hour* Pairing up tcells/dcells into one image before training, testing code on that
 - *0.5 hour* Playing with dataset
 
-## Week 11 c/ 2 December (14.5/15 hours)
+## Week 11 c/ 2 December (18.5/15 hours)
 
 ### 2 December 2019
 - *1 hour* Playing with dataset (cropping, shuffling) to see if it impacts learning
@@ -232,7 +232,12 @@
 ### 7 December
 - *4 hours* Transferring OneDrive cell images to hard drive for easier access
 
-* change data transfer to take from hard drive
-* have sliding window over all images
-* have all in one folder, but have all filenames have their CK name in the name
+### 8 December
+- *1.5 hour* Getting full DMSO dataset with sliding window function
+- *2.5 hour* Using NPZ files to save compressed versions of the dataset
+
+* compress dataset into compressed file to be able to use on colab effectively...
+if any waiting:
 * look at how shuffling function is done
+* work on t-sne visualisation
+* need more reduction of dimensionality: right now at 18,432. t-sne too slow, cannot learn
