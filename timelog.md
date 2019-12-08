@@ -236,8 +236,6 @@
 - *1.5 hour* Getting full DMSO dataset with sliding window function
 - *2.5 hour* Using NPZ files to save compressed versions of the dataset
 
-* compress dataset into compressed file to be able to use on colab effectively...
-if any waiting:
+* need more reduction of dimensionality: right now at 18,432. t-sne too slow, cannot learn
 * look at how shuffling function is done
 * work on t-sne visualisation
-* need more reduction of dimensionality: right now at 18,432. t-sne too slow, cannot learn
