@@ -17,8 +17,8 @@ def reshape(img, w=imw, h=imh, c=c):
     else:
       return np.reshape(img, (w, h))
 
-def reformat(img):
-    formatted = (img).astype('uint16')
+def reformat(img, type):
+    formatted = (img).astype(type)
     return Image.fromarray(formatted)
 
 def center_crop(img, size=imw):
@@ -90,8 +90,7 @@ def filenames_to_labels(filenames, folder="/Users/Leonore/Documents/Workspace/l4
     return labels, DMSO
 
 def read_folder_filenames(folder):
-    return [os.path.join(folder, f)for f in os.listdir(folder) if os.path.isfile(os.path.join(folder, f)) and f[0] != '.']
-
+    return [os.path.join(folder, f)for f in os.listdir(folder) if os.path.isfile(os.path.join(folder, f)) and f[0] != '.' and "Brightfield" not in f]
 
 def resize_images(folder='/Users/Leonore/Documents/Workspace/l4proj/data/raw/',
                   dst="/Users/Leonore/Documents/Workspace/l4proj/data/processed/CK22/", w=200, h=200):
