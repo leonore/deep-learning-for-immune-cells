@@ -137,7 +137,7 @@ def resize_images(folder='/Users/Leonore/Documents/Workspace/l4proj/data/raw/',
                 print("{} is causing issues".format(file))
 
 
-def images_to_dataset(folder="/Users/Leonore/Documents/Workspace/l4proj/data/processed/", w=192, h=192):
+def images_to_dataset(folder="/Users/Leonore/Documents/Workspace/l4proj/data/processed/", w=192, h=192, process=True):
     filenames = []
     for ck in ["CK19", "CK21", "CK22"]:
         filenames.extend(read_folder_filenames(folder+ck))
@@ -147,7 +147,9 @@ def images_to_dataset(folder="/Users/Leonore/Documents/Workspace/l4proj/data/pro
     for file in filenames:
         image = imread(file)
         image_resized = center_crop(image, size=w)
-        dataset[i] = minmax(clip(image_resized))
+        if process:
+            image_resized = preprocess(image_resized)
+        dataset[i] = image_resized
         i += 1
     print("All files formatted into dataset.")
     return dataset, filenames
