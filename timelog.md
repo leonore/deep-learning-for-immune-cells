@@ -236,9 +236,16 @@
 - *1.5 hour* Getting full DMSO dataset with sliding window function
 - *2.5 hour* Using NPZ files to save compressed versions of the dataset
 
-## Week 12 c/ 9 December (0.5/15 hours)
+## Week 12 c/ 9 December (2.5/40 hours)
 
+### 9 December
 * *0.5 hour* Analysing cell histograms more in-depth
+* *0.5 hour* Re-transferring DMSO dataset, but sorted
+* *0.5 hour* Double checking files correspond to labels, sorting is right
+
+### 10 December
+* *1 hour* Meeting about cell images, double-checking the data afterwards
 
 * need more reduction of dimensionality: right now at 18,432. t-sne too slow, cannot learn
 * work on t-sne visualisation
+* check dmso compressed gives correct data
