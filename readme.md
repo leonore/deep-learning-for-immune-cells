@@ -2,22 +2,23 @@
 
 ### Project aims
 
-* Using an autoencoder to learn a compressed representation of cell images in order to evaluate whether that helps a clustering algorithm with clustering cells according to different drug conditions
-* ...
+* Using an autoencoder to learn a compressed representation of cell images in order to evaluate whether this helps with dimensionality reduction and clustering the cell images according to different drug stimulates
+* Exploring different image segmentation techniques in order to find binary masks of cells and calculate the overlap in order to analyse whether cells do or do not interact together under different conditions
 
 ### Project structure
 
 * `timelog.md` The time log for the project.
 * `plan.md` A skeleton week-by-week plan for the project.
 * `data/` data acquired during the project
-  * `parameters_record.md` in particular is a step-by-step analysis of why autoencoder models might have not been working
+  * `*_logs.md` Step-by-step logs of results obtained with different autoencoder and clustering parameters
+  * `results/` contains the images of the different results obtained as above.
   * `raw/` is for the pre-processing cell images (locally)
   * `processed/` is for the post-processing cell images (locally)
 * `src/` all the source code for the project:
   * the working code, in Python notebooks
-  * helper functions, in separate python files
+  * helper functions, in separate Python files
 * `status_report/` includes the summer report and the status report to be submitted in December
-* `meetings/` records of the meetings had during the project, include PowerPoint presentations made
+* `meetings/` records of the meetings had during the project, including PowerPoint presentations made
 * `dissertation/` source for project dissertation
 * `presentation/` future presentation
 
