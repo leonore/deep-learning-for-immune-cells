@@ -37,10 +37,12 @@ def plot_tsne(X, y, labels=["Unstimulated", "OVA", "ConA"]):
     targets = range(len(labels))
     palette = np.array(sns.color_palette("hls", len(labels)))
 
+    y = np.array(y)
+
     fig = plt.figure(figsize=(8, 8))
     ax = plt.subplot()
     for target, color, label in zip(targets, palette, labels):
-        sc = plt.scatter(X[y==target, 0], X[y==target, 1], c=[color], label=label)
+        ax = plt.scatter(X[y==target, 0], X[y==target, 1], c=[color], label=label)
     ax.axis('off')
     ax.grid(False)
     plt.legend()
