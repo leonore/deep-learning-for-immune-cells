@@ -508,3 +508,24 @@ Here is what we get:
 ![Final tuned test](results/autoencoder/final_test.png)
 
 Weight difference: [ 0.10083839 -0.0824943 ]
+
+## Solution alternative: clipping values below 255
+
+```python
+def low_clip(x):
+    return np.clip(x, 255, 65535)
+
+def max_normalise(x):
+    max = np.max(x)
+    return x / max
+```
+
+This should make more sense as the values below 255 represent cells that are added in to the plate, which are not of interest. However the results are poorer, so it might be worth trying both alternatives.   
+
+NB: This was ran on a subset of the dataset and not the full 19k as I did not have access to Colab.
+
+![Clipped tuned loss](results/autoencoder/clipped255_loss.png)
+![Clipped tuned train](results/autoencoder/clipped255_train.png)
+![Clipped tuned test](results/autoencoder/clipped255_test.png)
+
+Weight difference: [ 0.01695046 -0.01167461]
