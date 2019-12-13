@@ -83,7 +83,7 @@ def is_dmso(file):
         if label in ["5", "8", "11", "15", "18", "21"] and letter in ["N", "O", "P"]:
             return True
     elif ck == "CK21" or ck == "CK22":
-        if label not in [1, 12, 13, 24] and letter in ["H", "P"]:
+        if label not in ["01", "12", "13", "24"] and letter in ["H", "P"]:
             return True
     else:
         print("No CK found")
