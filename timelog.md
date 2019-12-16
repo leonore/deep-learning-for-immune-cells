@@ -236,7 +236,7 @@
 - *1.5 hour* Getting full DMSO dataset with sliding window function
 - *2.5 hour* Using NPZ files to save compressed versions of the dataset
 
-## Week 12 c/ 9 December (13.5/40 hours)
+## Week 12 c/ 9 December (15.5/40 hours)
 
 ### 9 December
 - *0.5 hour* Analysing cell histograms more in-depth
@@ -260,5 +260,12 @@
 - *1 hour* Bugfixing, adding baseline performance of DMSO processed
 - *2.5 hours* Working on visualising step by step t-sne clustering
 - *0.5 hour* File cleanup
+- *1.5 hours* Comparing performance on autoencoder between 2 preprocessings, tuning autoencoder with leakyrelu
+- *0.5 hour* Running t-sne visualisation on DMSO dataset
+
+## Week 13 c/ 16 December (0/40 hours)
+
+### 16 December
+
 
 * need more reduction of dimensionality: right now at 18,432. t-sne too slow, cannot learn

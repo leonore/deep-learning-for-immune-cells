@@ -529,3 +529,36 @@ NB: This was ran on a subset of the dataset and not the full 19k as I did not ha
 ![Clipped tuned test](results/autoencoder/clipped255_test.png)
 
 Weight difference: [ 0.01695046 -0.01167461]
+
+### Same model and dataset, but with leakyrelu
+
+```python
+
+input_img = Input(shape=(imw, imh, c))
+
+x = Conv2D(16, (3, 3), padding='same')(input_img)
+x = LeakyReLU()(x)
+x = MaxPooling2D((2, 2), padding='same')(x)
+x = Conv2D(8, (3, 3), padding='same')(x)
+x = LeakyReLU()(x)
+x = MaxPooling2D((2, 2), padding='same')(x)
+x = Conv2D(8, (3, 3), padding='same')(x)
+x = LeakyReLU()(x)
+x = MaxPooling2D((2, 2), padding='same')(x)
+encoded = Flatten()(x)
+
+x = Conv2D(8, (3, 3), padding='same')(x)
+x = LeakyReLU()(x)
+x = UpSampling2D((2, 2))(x)
+x = Conv2D(8, (3, 3), padding='same')(x)
+x = LeakyReLU()(x)
+x = UpSampling2D((2, 2))(x)
+x = Conv2D(16, (3, 3), padding="same")(x)
+x = LeakyReLU()(x)
+x = UpSampling2D((2, 2))(x)
+decoded = Conv2D(c, (3, 3), activation='sigmoid', padding='same')(x)
+```
+
+![Clipped leakyrelu](results/autoencoder/clipped255_leaky.png)
+
+Weight difference: [ 0.02239831 -0.00090417]
