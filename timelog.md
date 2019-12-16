@@ -263,9 +263,14 @@
 - *1.5 hours* Comparing performance on autoencoder between 2 preprocessings, tuning autoencoder with leakyrelu
 - *0.5 hour* Running t-sne visualisation on DMSO dataset
 
-## Week 13 c/ 16 December (0/40 hours)
+## Week 13 c/ 16 December (6/40 hours)
 
 ### 16 December
+- *1.5 hours* Tuning model and clustering results
+- *1 hour* Reading about image segmentation with K-means
+- *0.5 hour* Experimenting to calculate overlaps/means/etc from mask of images
+- *1 hour* Reading and trying out intersection over union  
+- *2 hours* Image segmentation with K-means
 
 
 * need more reduction of dimensionality: right now at 18,432. t-sne too slow, cannot learn
