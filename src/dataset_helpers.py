@@ -142,7 +142,7 @@ def images_to_dataset(folder="/Users/Leonore/Documents/Workspace/l4proj/data/pro
     return dataset, filenames
 
 
-def sliding_window(img, dest_size):
+def sliding_window(img, dest_size, rgb=False):
     new_img = np.full_like(img, img)
 
     size = img.shape[0]
@@ -155,7 +155,10 @@ def sliding_window(img, dest_size):
         crop = size-dest_size*qty
         new_img = new_img[crop:, :-crop]
 
-    windows = np.ndarray(shape=(qty**2, dest_size, dest_size), dtype=np.float32)
+    if rgb:
+        windows = np.ndarray(shape=(qty**2, dest_size, dest_size, 3), dtype=np.float32)
+    else:
+        windows = np.ndarray(shape=(qty**2, dest_size, dest_size), dtype=np.float32)
 
     i = 0
     for row in range(qty):
