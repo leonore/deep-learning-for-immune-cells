@@ -84,3 +84,7 @@ Does not seem to differentiate between the conditions.
 
 -> try again with different parameters.
 -> look into combining the two images first?
+
+## Attempt 3 - model 12 (2-channel image)
+
+![Clustering model 12](results/clustering/model12,png)
