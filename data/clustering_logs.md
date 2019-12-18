@@ -133,7 +133,12 @@ tsne = TSNE(random_state=RS, perplexity=5, learning_rate=200, n_iter=2500).fit_t
 
 ![Clustering model 10 tuned 6](results/clustering/model10_tuned_5.png)
 
+### With 500 subsample size, but with the original dataset (no autoencoding)
+
+![Clustering model 10 original data](results/clustering/model10_original_data.png)
+
 ## Conclusions on parameter tuning
 
 * Clusters, if obtained, are not consistent
-* Images are still to confusing, both to naked eye and model? 
+* Images are still to confusing, both to naked eye and model?
+* Autencoder is yielding at least *some* improvement 

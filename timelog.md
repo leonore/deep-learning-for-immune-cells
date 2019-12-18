@@ -280,6 +280,5 @@
 - *1.5 hours* Working on combining DMSO images into 2-channel image in Google Colab, re-using previous overlap code
 
 ### 18 December
-- *1.5 hours* Tuning T-SNE with different parameters to see if clustering of 2-channel DMSO changes
+- *2 hours* Tuning T-SNE with different parameters to see if clustering of 2-channel DMSO changes
 - *0.5 hours* Evaluating K-means overlaps with matplotlib
--
