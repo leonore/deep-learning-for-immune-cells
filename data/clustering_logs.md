@@ -88,3 +88,11 @@ Does not seem to differentiate between the conditions.
 ## Attempt 3 - model 12 (2-channel image)
 
 ![Clustering model 12](results/clustering/model12.png)
+
+## Attempt 4 - model 12, but tuned
+
+![Clustering model 12 tuned](results/clustering/model12_tuned.png)
+
+* This one in particular is with perplexity 5, learning rate 200.
+* Different changes in parameters yields the same: shape changes but the different conditions overlap.
+* So problem is coming from data.
