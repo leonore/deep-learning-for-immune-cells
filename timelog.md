@@ -249,7 +249,7 @@
 
 ### 11 December
 - *1 hour* Loading unmodified DMSO files into Google Drive
-- *1 hour* Looking at clippi  ng pixel values below 255
+- *1 hour* Looking at clipping pixel values below 255
 
 ### 12 December
 - *1 hour* Evaluating performance with values below 255 clipped and cleaning up
@@ -263,7 +263,7 @@
 - *1.5 hours* Comparing performance on autoencoder between 2 preprocessings, tuning autoencoder with leakyrelu
 - *0.5 hour* Running t-sne visualisation on DMSO dataset
 
-## Week 13 c/ 16 December (12/40 hours)
+## Week 13 c/ 16 December (13.5/40 hours)
 
 ### 16 December
 - *1.5 hours* Tuning model and clustering results
@@ -274,7 +274,12 @@
 - *0.5 hours* Writing function to combining to overlap windows from dataset
 
 ### 17 December
-- *2.5 hours* Trying to compress combined DMSO images
-- *1 hour* Writing pseudo-code for overlapping images
-- *1.5 hour* Analysing overlap of images
-- *1.5 hour* Working on combining DMSO images into 2-channel image in Google Colab
+- *2.5 hours* Trying to compress combined DMSO images: not very successful, computer lacks RAM
+- *1 hour* Writing pseudo-code for overlapping images: combining will be done via arrays rather than files
+- *1.5 hours* Analysing K-means overlap of images
+- *1.5 hours* Working on combining DMSO images into 2-channel image in Google Colab, re-using previous overlap code
+
+### 18 December
+- *1.5 hours* Tuning T-SNE with different parameters to see if clustering of 2-channel DMSO changes
+- *0.5 hours* Evaluating K-means overlaps with matplotlib
+-
