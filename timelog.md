@@ -290,3 +290,17 @@
 - *1 hour* Looking at structural similarity index for exploring effects of drugs
 - *1.5 hour* Running autoencoder on cell images with not-cell pixels masked out (obtained from K-Means)
 - *2.5 hours* Writing status report
+
+## Christmas break (3.5 hours)
+
+### 26 December
+- *1 hour* Reading about image normalisation and which technique is best suited ([0,1], [-1,1], etc.)
+
+### 27 December
+- *1 hour* Reading about UNet and following a tutorial to build a simple model
+
+### 30 December
+- *1 hour* Trying to run UNet model with own dataset, struggling with speed of getting mask
+
+### 2 January
+- *0.5 hours* Training UNet model with own dataset, getting good results
