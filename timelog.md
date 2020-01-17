@@ -291,10 +291,11 @@
 - *1.5 hour* Running autoencoder on cell images with not-cell pixels masked out (obtained from K-Means)
 - *2.5 hours* Writing status report
 
-## Christmas break (3.5 hours)
+## Christmas break (4.5 hours)
 
-### 26 December
-- *1 hour* Reading about image normalisation and which technique is best suited ([0,1], [-1,1], etc.)
+
+### 26 December   
+- *1 hour* Reading about image preprocessing and which technique is best suited ([0,1], [-1,1], etc.)
 
 ### 27 December
 - *1 hour* Reading about UNet and following a tutorial to build a simple model
@@ -304,3 +305,13 @@
 
 ### 2 January
 - *0.5 hours* Training UNet model with own dataset, getting good results
+- *1 hour* Reading about image preprocessing and which technique is best suited
+
+## Semester 2
+## Week 1 (14) c/ 13 January (3/15 hours)
+
+### 14 January
+- *2.5 hours* Testing image processing methods
+
+### 17 January
+- *0.5 hours* Writing down some resources for the dissertation and writing down meeting minutes for week 13
