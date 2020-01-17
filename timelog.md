@@ -314,4 +314,4 @@
 - *2.5 hours* Testing image processing methods
 
 ### 17 January
-- *0.5 hours* Writing down some resources for the dissertation and writing down meeting minutes for week 13
+- *0.5 hours* Writing down some resources for the dissertation and writing down meeting minutes for week 14
