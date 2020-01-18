@@ -17,7 +17,14 @@ def show_image(img, title="untitled", cmap="gray", **kwargs):
     plt.axis("off")
     plt.title(title)
 
-def plot_tsne(X, y, labels=["Unstimulated", "OVA", "ConA"]):
+def plot_range(imgs, rn=8):
+  fig = plt.figure(figsize=(15, 15))
+  for i in range(1, 6):
+    ax = fig.add_subplot(1, 5, i)
+    plt.imshow(imgs[i+rn])
+    ax.axis('off')
+
+def plot_clusters(X, y, labels=["Unstimulated", "OVA", "ConA"]):
     targets = range(len(labels))
     palette = np.array(sns.color_palette("hls", len(labels)))
 
