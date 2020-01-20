@@ -308,10 +308,21 @@
 - *1 hour* Reading about image preprocessing and which technique is best suited
 
 ## Semester 2
-## Week 1 (14) c/ 13 January (3/15 hours)
+## Week 1 (14) c/ 13 January (5.5/15 hours)
 
 ### 14 January
 - *2.5 hours* Testing image processing methods
 
 ### 17 January
 - *0.5 hours* Writing down some resources for the dissertation and writing down meeting minutes for week 14
+
+### 18 January
+- *1 hour* Working on thresholding as an image segmentation technique, potentially much faster than K-Means
+- *1 hour* Testing autoencoder with batch normalisation, average pooling, removing bias
+- *0.5 hours* Reading about why upsampling (resize) + Conv2D is preferred to Conv2DTranspose
+
+## Week 2 (15) c/ 20 January (1/15 hours)
+
+### 20 January 
+- *0.5 hours* Looking at outlier images to best code image pre-processing
+- *0.5 hours* Reading about autoencoder structures to find best parameters to tune
