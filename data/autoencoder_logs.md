@@ -664,3 +664,7 @@ Weight difference: [ 0.04601523 -0.01926789]
 
 * Lower loss!
 * Weight difference: [ 0.04236275 -0.03961913]
+
+## Final tunings
+
+- Activity regularisers complicate things, blur things out
