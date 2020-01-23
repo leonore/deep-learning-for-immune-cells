@@ -291,6 +291,8 @@
 - *1.5 hour* Running autoencoder on cell images with not-cell pixels masked out (obtained from K-Means)
 - *2.5 hours* Writing status report
 
+-------------
+
 ## Christmas break (4.5 hours)
 
 
@@ -307,6 +309,8 @@
 - *0.5 hours* Training UNet model with own dataset, getting good results
 - *1 hour* Reading about image preprocessing and which technique is best suited
 
+------------
+
 ## Semester 2
 ## Week 1 (14) c/ 13 January (5.5/15 hours)
 
@@ -321,7 +325,7 @@
 - *1 hour* Testing autoencoder with batch normalisation, average pooling, removing bias
 - *0.5 hours* Reading about why upsampling (resize) + Conv2D is preferred to Conv2DTranspose
 
-## Week 2 (15) c/ 20 January (8/15 hours)
+## Week 2 (15) c/ 20 January (15/15 hours)
 
 ### 20 January
 - *0.5 hours* Looking at outlier images to best code image pre-processing
@@ -331,4 +335,13 @@
 - *0.5 hours* Discarding outlier images to see if clustering improves for distinguishing OVA and ConA
 
 ### 21 January
-- *1 hour* Working on removing faulty images from dataset
+- *1 hour* Working on removing faulty images from the dataset
+
+### 22 January
+- *2.5 hours* Working on removing faulty images from the dataset, lots of debugging
+- *1.5 hours* Debugging processing code, low_clip returns absurd values... or is it minmax?
+- *0.5 hours* Writing main preprocessing function
+
+### 23 January
+- *1 hour* Failing to preprocess images with K-means masking out the background, takes too long
+- *1.5 hours* Working on plotting the indices of image outliers in clusters to see if the outliers make sense
