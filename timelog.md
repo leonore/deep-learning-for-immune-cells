@@ -357,7 +357,7 @@
 - *1 hour* Having fun with autoencoder structures
 - *0.5 hours* Polishing processing deliverable
 
-## Week 3 (16) c/ 27 January (1/15 hours)
+## Week 3 (16) c/ 27 January (1.5/15 hours)
 
 ### 27 January
-- *1 hour* Collating research metrics for DMSO dataset
+- *1.5 hours* Collating research metrics for DMSO dataset
