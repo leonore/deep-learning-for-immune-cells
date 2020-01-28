@@ -1,4 +1,4 @@
-# Week 13 meeting minutes - Wed 15th January 2019
+# Week 14 meeting minutes - Wed 15th January 2020
 
 - First I explained that it seems that most of my troubles with the autoencoder not working came from performing the same division operations on the dataset multiple times inadvertently because of pass-in arrays and unclear documentation in Numpy. I have been taking care now for this not to happen again.
 
@@ -18,4 +18,4 @@
 
 - Moreover, the researchers do not know how to get the mask images out of the propriety software, so I could provide it to them with this.
 
-- For the rest of the semester, I should hopefully be able to stay on track with the planned schedule from my status report. 
+- For the rest of the semester, I should hopefully be able to stay on track with the planned schedule from my status report.
