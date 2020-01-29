@@ -357,7 +357,7 @@
 - *1 hour* Having fun with autoencoder structures
 - *0.5 hours* Polishing processing deliverable
 
-## Week 3 (16) c/ 27 January (5/15 hours)
+## Week 3 (16) c/ 27 January (6.5/15 hours)
 
 ### 27 January
 - *2 hours* Collating research metrics for all datasets in data/target from data/raw
@@ -368,3 +368,6 @@
 
 ### 28 January
 - *0.5 hours* Writing up meeting minutes for two weeks (forgot to do last week's somehow)
+
+### 29 January
+- *1.5 hours* Compressing files (using np.int16) and cleaning up Drive to make space for large files
