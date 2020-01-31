@@ -357,7 +357,7 @@
 - *1 hour* Having fun with autoencoder structures
 - *0.5 hours* Polishing processing deliverable
 
-## Week 3 (16) c/ 27 January (12/15 hours)
+## Week 3 (16) c/ 27 January (14/15 hours)
 
 ### 27 January
 - *2 hours* Collating research metrics for all datasets in data/target from data/raw
@@ -381,3 +381,5 @@
 
 ### 31 January
 - *1.5 hours* Visiting immunology building to look at current software being used for cell image analysis and writing up notes
+- *1.5 hours* Bulletpoint dissertation writing, additional background research on previous uses of image segmentation
+- *0.5 hours* Writing out (on paper) a restructured dissertation plan; using materials and methods instead of analysis and design
