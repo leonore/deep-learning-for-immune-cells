@@ -383,3 +383,8 @@
 - *1.5 hours* Visiting immunology building to look at current software being used for cell image analysis and writing up notes
 - *1.5 hours* Bulletpoint dissertation writing, additional background research on previous uses of image segmentation
 - *0.5 hours* Writing out (on paper) a restructured dissertation plan; using materials and methods instead of analysis and design
+
+## Week 4 (17) c/ 3 February (4/15 hours)
+
+### 3 February
+- *4 hours* Working on live visualisation outliers with hover annotations in matplotlib, struggling with getting all scatter points included
