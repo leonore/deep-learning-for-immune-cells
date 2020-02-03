@@ -1,13 +1,6 @@
 import matplotlib.pyplot as plt
-import matplotlib.patheffects as PathEffects
-import matplotlib
-import numpy as np
-
 import seaborn as sns
-sns.set_style('darkgrid')
-sns.set_palette('muted')
-sns.set_context("notebook", font_scale=1.5,
-                rc={"lines.linewidth": 2.5})
+import numpy as np
 
 def show_image(img, title="untitled", cmap="gray", **kwargs):
     try:
@@ -17,12 +10,14 @@ def show_image(img, title="untitled", cmap="gray", **kwargs):
     plt.axis("off")
     plt.title(title)
 
+
 def plot_range(imgs, rn=8):
   fig = plt.figure(figsize=(15, 15))
   for i in range(1, 6):
     ax = fig.add_subplot(1, 5, i)
     plt.imshow(imgs[i+rn])
     ax.axis('off')
+
 
 def plot_clusters(X, y, labels=["Unstimulated", "OVA", "ConA"]):
     targets = range(len(labels))
@@ -44,33 +39,61 @@ def plot_clusters(X, y, labels=["Unstimulated", "OVA", "ConA"]):
 
     ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
 
-# ## scatter() credit: https://github.com/oreillymedia/t-SNE-tutorial
-# def scatter(x, colors):
-#     # We choose a color palette with seaborn.
-#     palette = np.array(sns.color_palette("hls", 10))
-#
-#     colors = np.array(colors)
-#
-#     # We create a scatter plot.
-#     f = plt.figure(figsize=(8, 8))
-#     ax = plt.subplot(aspect='equal')
-#     sc = ax.scatter(x[:,0], x[:,1], lw=0, s=40,
-#                     c=palette[colors.astype(np.int)])
-#     plt.xlim(-25, 25)
-#     plt.ylim(-25, 25)
-#     ax.axis('off')
-#     ax.axis('tight')
-#
-#     # We add the labels for each digit.
-#     txts = []
-#     for i in range(len(set(colors))):
-#         # Position of each label.
-#         xtext, ytext = np.median(x[colors == i, :], axis=0)
-#         txt = ax.text(xtext, ytext, str(i), fontsize=24)
-#         txt.set_path_effects([
-#             PathEffects.Stroke(linewidth=5, foreground="w"),
-#             PathEffects.Normal()])
-#         txts.append(txt)
-#
-#
-#     return f, ax, sc, txts
+
+def plot_live(X, y, labels=["Unstimulated", "OVA", "ConA"]):
+    targets = range(len(labels))
+    palette = np.array(sns.color_palette("hls", len(labels)))
+
+    annots = []
+    axes = []
+    scatters = []
+
+    fig = plt.figure(figsize=(10,10))
+    ax1 = plt.subplot()
+    plt.axis('off')
+
+    for target, colour, label in zip(targets, palette, labels):
+        ax2 = ax1.twinx()
+        scatter2 = plt.scatter(X[y==target,0], X[y==target, 1], c=[colour], s=10, label=label)
+        ax2.grid(False)
+        annot = ax2.annotate("", xy=(0,0), xytext=(-20,20),textcoords="offset points",
+                            bbox=dict(boxstyle="round", fc="w", alpha=0.4),
+                            arrowprops=dict(arrowstyle="->"))
+        annot.set_visible(False)
+        annots.append(annot)
+        axes.append(ax2)
+        scatters.append(scatter2)
+
+        ax2.axis('off')
+        ax2.grid(False)
+
+        box = ax1.get_position()
+        ax1.set_position([box.x0, box.y0, box.width * 0.8, box.height])
+        ax1.legend(handles=scatters, loc='center left', bbox_to_anchor=(1, 0.5), labels=[str(x) for x in labels])
+
+        annot_dic = dict(zip(axes, annots))
+        line_dic = dict(zip(axes, scatters))
+
+    def update_annot(point, annot, ind):
+        pos = point.get_offsets()[ind["ind"][0]]
+        annot.xy = pos
+        text = "{}".format(" ".join(list(map(str,ind["ind"]))))
+        annot.set_text(text)
+
+    def hover(event):
+
+        if event.inaxes in axes:
+            for ax in axes:
+                cont, ind = line_dic[ax].contains(event)
+                annot = annot_dic[ax]
+                if cont:
+                    update_annot(line_dic[ax], annot, ind)
+                    annot.set_visible(True)
+                    fig.canvas.draw_idle()
+                else:
+                    if annot.get_visible():
+                        annot.set_visible(False)
+                        fig.canvas.draw_idle()
+
+    fig.canvas.mpl_connect("motion_notify_event", hover)
+    plt.show()
