@@ -142,3 +142,21 @@ def sliding_window(img, dest_size, rgb=False):
             i += 1
 
     return windows
+
+# reverses sliding window
+def reconstruct_from(images, size=192):
+    # work on reconstruction
+    new_img = np.ndarray(shape=(size*10, size*10), dtype=np.float32)
+
+    col = 0
+    y = 0
+    x = 0
+    for i in range(100):
+        new_img[x:x+size, y:y+size] = images[i]
+        x = size*col
+        col += 1
+        if col == 10:
+            col = 0
+            y += size
+
+    return new_img 
