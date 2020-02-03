@@ -28,3 +28,9 @@ def threshold(x):
     mask[above_threshold] = 1
     mask[under_threshold] = 0
     return mask.reshape((x.shape))
+
+# intersection over union (evaluation function)
+def iou(a,b):
+    i = a & b
+    u = a | b
+    return (np.sum(i==1)/np.sum(u==1))*100
