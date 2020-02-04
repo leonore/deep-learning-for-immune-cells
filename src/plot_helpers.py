@@ -10,6 +10,11 @@ def show_image(img, title="untitled", cmap="gray", **kwargs):
     plt.axis("off")
     plt.title(title)
 
+def reshape(img, w=192, h=192, c=3):
+    if c > 1:
+      return np.reshape(img, (w, h, c))
+    else:
+      return np.reshape(img, (w, h))
 
 def plot_range(imgs, RS=8):
   fig = plt.figure(figsize=(15, 15))
