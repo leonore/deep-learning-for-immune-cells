@@ -384,7 +384,7 @@
 - *1.5 hours* Bulletpoint dissertation writing, additional background research on previous uses of image segmentation
 - *0.5 hours* Writing out (on paper) a restructured dissertation plan; using materials and methods instead of analysis and design
 
-## Week 4 (17) c/ 3 February (13/15 hours)
+## Week 4 (17) c/ 3 February (13.5/15 hours)
 
 ### 3 February
 - *4 hours* Working on live visualisation outliers with hover annotations in matplotlib, struggling with getting all scatter points included
@@ -396,3 +396,6 @@
 - *1 hour* Research about benefits of deep networks with classification for high dimensional data
 - *2.5 hours* Looking into background subtraction instead of flat field correction
 - *1 hour* Working on visualising outlier images alongside the plot for the outlier plotting
+
+### 5 February
+- *0.5 hours* Finishing up cell_autoencoder functions
