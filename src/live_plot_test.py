@@ -1,14 +1,18 @@
 import matplotlib.pyplot as plt
+from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 import seaborn as sns
-import numpy as np; np.random.seed(11)
+import numpy as np
 
 from keras.datasets import mnist
 from sklearn.manifold import TSNE
 
 (_, _), (x_test, y_test) = mnist.load_data()
 
-tsne = TSNE().fit_transform(x_test[:1000].reshape(1000, 28*28))
-y = y_test[:1000]
+size = 20
+
+x_test = x_test[:size]
+tsne = TSNE().fit_transform(x_test.reshape(size, 28*28))
+y = np.array(y_test[:size])
 
 annots = []
 axes = []
@@ -44,10 +48,28 @@ annot_dic = dict(zip(axes, annots))
 line_dic = dict(zip(axes, scatters))
 
 def update_annot(point, annot, ind):
+
+    label = int(point.get_label())
     pos = point.get_offsets()[ind["ind"][0]]
     annot.xy = pos
-    text = "{}".format(" ".join(list(map(str,ind["ind"]))))
+    text = "{}".format(label)
     annot.set_text(text)
+
+
+    arr_img = x_test[y==label][ind["ind"][0]]
+    imagebox = OffsetImage(arr_img)
+    imagebox.image.axes = ax1
+    box = ax1.get_position()
+
+    ab = AnnotationBbox(imagebox, xy=(1, 0),
+                        xybox=(25, 10),
+                        xycoords='axes fraction',
+                        boxcoords="offset points",
+                        bboxprops=dict(alpha=0.2, linewidth=0.5, boxstyle="round"),
+                        frameon=True)
+
+    ax1.add_artist(ab)
+
 
 def hover(event):
 
