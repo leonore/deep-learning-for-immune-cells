@@ -384,7 +384,7 @@
 - *1.5 hours* Bulletpoint dissertation writing, additional background research on previous uses of image segmentation
 - *0.5 hours* Writing out (on paper) a restructured dissertation plan; using materials and methods instead of analysis and design
 
-## Week 4 (17) c/ 3 February (15.5/15 hours)
+## Week 4 (17) c/ 3 February (19/15 hours)
 
 ### 3 February
 - *4 hours* Working on live visualisation outliers with hover annotations in matplotlib, struggling with getting all scatter points included
@@ -400,3 +400,8 @@
 ### 5 February
 - *1.5 hours* Finishing up cell_autoencoder functions, creating main file
 - *1 hour* Adding an image visualisation to the live cluster plotting function, works with MNIST
+
+### 9 February
+- *0.5 hour* Working on main interface to launch evaluations in main.py, running into local memory troubles so adapting preprocessing function a bit
+- *2.5 hours* Debugging main.py + associated files and writing bullet points in materials & methods for dissertation
+- *0.5 hours* Final tweaks to live visualisation plot

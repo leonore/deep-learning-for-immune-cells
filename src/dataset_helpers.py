@@ -10,7 +10,7 @@ from PIL import Image
 def reformat(img, type):
     formatted = (img).astype(type)
     return Image.fromarray(formatted)
-    
+
 def low_clip(x):
     return np.clip(x, 255, 4095)
 
@@ -28,12 +28,10 @@ def is_faulty(x):
 
 ## DATASET OPERATIONS
 
-RS = 2211
-
 # train_test_split simplified
-def unishuffle(a, b, random_state=None):
+def unishuffle(a, b, RS=None):
     assert len(a) == len(b)
-    if random_state:
+    if RS:
         np.random.seed(RS)
     p = np.random.permutation(len(a))
     return a[p], b[p]
@@ -156,3 +154,50 @@ def reconstruct_from(images, size=192):
             y += size
 
     return new_img
+
+def preprocess(data, labels, mask=False):
+    # avoid changing the dataset directly
+    data = np.copy(data)
+
+    # initialise arrays for filling in
+    x_data = np.ndarray(shape=(len(data) // 2, 192, 192, 3))
+    y_data = np.ndarray(shape=(len(data) // 2))
+
+    # initialise index values
+    idx = 0
+    i = 0
+
+    # loop through images and process
+    while idx < (len(data)):
+        # ignore 100, 300, etc. values as they will already have been processed
+        if (idx % 100 == 0) and (idx % 200 != 0):
+            idx += 100
+        else:
+            # if the image is "faulty" we cannot low_clip and apply minmax -> NaN
+            if is_faulty(data[idx]) or is_faulty(data[idx + 100]):
+                tcell = minmax(data[idx])
+                dcell = minmax(data[idx + 100])
+                y_data[i] = 3
+            else:
+                tcell = minmax(low_clip(data[idx]))
+                dcell = minmax(low_clip(data[idx + 100]))
+                y_data[i] = labels[idx]
+            data[idx] = None
+            data[idx+100] = None
+
+            # mask out the background
+            if mask:
+                x_data[i, ..., 0] = dcell * get_mask(dcell)  # red-coloured
+                x_data[i, ..., 1] = tcell * get_mask(tcell)  # green-coloured
+            else:
+                x_data[i, :, :, 0] = dcell
+                x_data[i, :, :, 1] = tcell
+            idx += 1
+            i += 1
+
+            # try and save memory
+            tcell = None
+            dcell = None
+
+    print('Images preprocessed. Size of dataset: {}'.format(len(x_data)))
+    return x_data, y_data

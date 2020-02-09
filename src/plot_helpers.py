@@ -1,5 +1,8 @@
 import matplotlib.pyplot as plt
+from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 import seaborn as sns
+
+import cv2
 import numpy as np
 
 def show_image(img, title="untitled", cmap="gray", **kwargs):
@@ -24,7 +27,7 @@ def plot_range(imgs, RS=8):
     ax.axis('off')
 
 
-def plot_clusters(X, y, labels=["Unstimulated", "OVA", "ConA"]):
+def plot_clusters(X, y, labels=["Unstimulated", "OVA", "ConA", "Faulty"]):
     targets = range(len(labels))
     palette = np.array(sns.color_palette("hls", len(labels)))
 
@@ -34,7 +37,7 @@ def plot_clusters(X, y, labels=["Unstimulated", "OVA", "ConA"]):
     ax = plt.subplot()
 
     for target, color, label in zip(targets, palette, labels):
-        plt.scatter(X[y==target, 0], X[y==target, 1], c=[color], label=label)
+        plt.scatter(X[y==target, 0], X[y==target, 1], c=[color], label=label, alpha=0.75, s=10)
 
     ax.axis('off')
     ax.grid(False)
@@ -44,8 +47,10 @@ def plot_clusters(X, y, labels=["Unstimulated", "OVA", "ConA"]):
 
     ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
 
+    plt.show()
 
-def plot_live(X, y, labels=["Unstimulated", "OVA", "ConA"]):
+
+def plot_live(X, y, data,labels=["Unstimulated", "OVA", "ConA", "Faulty"]):
     targets = range(len(labels))
     palette = np.array(sns.color_palette("hls", len(labels)))
 
@@ -53,24 +58,28 @@ def plot_live(X, y, labels=["Unstimulated", "OVA", "ConA"]):
     axes = []
     scatters = []
 
-    fig = plt.figure(figsize=(10,10))
+    labels_dict = {}
+    for idx, label in enumerate(labels):
+        labels_dict[str(label)] = idx
+
+    fig = plt.figure(figsize=(5,5))
     ax1 = plt.subplot()
     plt.axis('off')
 
-for target, colour, label in zip(labels, palette, labels):
-    ax2 = ax1.twinx()
-    scatter2 = plt.scatter(tsne[y==target,0], tsne[y==target, 1], c=[colour], s=10, label=label)
-    ax2.grid(False)
-    annot = ax2.annotate("", xy=(0,0), xytext=(-20,20),textcoords="offset points",
-                        bbox=dict(boxstyle="round", fc="w", alpha=0.4),
-                        arrowprops=dict(arrowstyle="->"))
-    annot.set_visible(False)
-    annots.append(annot)
-    axes.append(ax2)
-    scatters.append(scatter2)
+    for target, colour, label in zip(targets, palette, labels):
+        ax2 = ax1.twinx()
+        scatter2 = plt.scatter(X[y==target,0], X[y==target, 1], c=[colour], s=10, label=label, alpha=0.75)
+        ax2.grid(False)
+        annot = ax2.annotate("", xy=(0,0), xytext=(-20,20),textcoords="offset points",
+                            bbox=dict(boxstyle="round", fc="w", alpha=0.4),
+                            arrowprops=dict(arrowstyle="->"))
+        annot.set_visible(False)
+        annots.append(annot)
+        axes.append(ax2)
+        scatters.append(scatter2)
 
-    ax2.axis('off')
-    ax2.grid(False)
+        ax2.axis('off')
+        ax2.grid(False)
 
     box = ax1.get_position()
     ax1.set_position([box.x0, box.y0, box.width * 0.8, box.height])
@@ -81,15 +90,15 @@ for target, colour, label in zip(labels, palette, labels):
 
     def update_annot(point, annot, ind):
 
-        label = int(point.get_label())
+        label = labels_dict[point.get_label()]
         pos = point.get_offsets()[ind["ind"][0]]
         annot.xy = pos
         text = "{}".format(label)
         annot.set_text(text)
 
 
-        arr_img = x_test[y==label][ind["ind"][0]]
-        imagebox = OffsetImage(arr_img)
+        arr_img = data[y==label][ind["ind"][0]]
+        imagebox = OffsetImage(cv2.resize(arr_img, dsize=(48,48), interpolation=cv2.INTER_CUBIC))
         imagebox.image.axes = ax1
         box = ax1.get_position()
 
