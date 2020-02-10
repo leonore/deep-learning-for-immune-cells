@@ -7,6 +7,8 @@ from skimage.transform import rescale, resize, downscale_local_mean
 from skimage import filters
 from PIL import Image
 
+from segmentation import get_mask
+
 def reformat(img, type):
     formatted = (img).astype(type)
     return Image.fromarray(formatted)
