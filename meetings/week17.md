@@ -1,4 +1,4 @@
-# Week 17 (4) meeting minutes - Wed 5th February 2019
+# Week 17 (4) meeting minutes - Wed 5th February 2020
 
 - I outlined the progress I made on assembling all needed datasets together, looking at the dissertation, and starting to convert jupyter notebooks to Python files
 
