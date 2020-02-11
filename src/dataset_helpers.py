@@ -1,7 +1,6 @@
 ## Standard imports
 import numpy as np
 import os
-import xlrd
 import skimage
 from skimage.io import imread, imsave, imread
 from skimage.transform import rescale, resize, downscale_local_mean
@@ -66,33 +65,47 @@ def is_dmso(file):
         print("No CK found")
     return False
 
-def get_labels(filenames, xls):
+def get_label(filename):
     # 0: unstimulated
     # 1: OVA
     # 2: ConA
     # 3: empty
-    names = {
-        "Unstimulated": 0,
-        "OVA": 1,
-        "ConA": 2,
-    }
 
-    book = xlrd.open_workbook(xls)
-    sheet = book.sheet_by_index(0)
+    # filename format: folder/CKX - L - 00(...)
+    file = filename.split("/")[-1].split("(")[0]
 
-    name_to_label = {}
-    for i in range(1, sheet.nrows):
-        name_to_label[sheet.row_values(i)[0]] = names.get(sheet.row_values(i)[2])
+    # get letter for DMSO indices
+    letter = file.split('-')[1].strip()
 
-    print(len(filenames))
-    print(sheet.row_values(1)[0])
-    print(set(filenames))
-    labels = np.ndarray(shape=(len(filenames)), dtype=np.uint8)
-    for filename in filenames:
-        file = filename.split("/")[-1].split("(")[0]
-        labels[i] = name_to_label.get(file)
+    # get number
+    number = file[-2:].strip()
 
-    return labels
+    # get plate layout number
+    ck = file[:4]
+
+    # DMSO = []
+
+    if ck == "CK19":
+        if number in ["3", "4", "5", "6", "7", "8", "24"]:
+            label = 0
+        elif number in ["9", "10", "11", "13", "14", "15", "23"]:
+            label = 1
+        elif number in ["16", "17", "18", "19", "20", "21", "22"]:
+            label = 2
+        else:
+            label = 3
+    elif ck == "CK21" or ck == "CK22":
+        if number in ["02", "03", "04", "05", "06", "07", "08", "09", "10", "11"]:
+            label = 0
+        elif int(number) in range(14, 24):
+            label = 2
+        else:
+            label = 3
+    else:
+        print("No CK found")
+        return False
+
+    return label
 
 def read_folder_filenames(folder):
     return [os.path.join(folder, f)for f in os.listdir(folder) if os.path.isfile(os.path.join(folder, f)) and f[0] != '.' and "Brightfield" not in f]
