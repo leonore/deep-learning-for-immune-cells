@@ -406,8 +406,16 @@
 - *2.5 hours* Debugging main.py + associated files and writing bullet points in materials & methods for dissertation
 - *0.5 hours* Final tweaks to live visualisation plot
 
-## Week 5 (18) c/ 10 February (1.5/15 hours)
+## Week 5 (18) c/ 10 February (7.5/15 hours)
 
-### 10 February (no wifi)
+### 10 February
 - *0.5 hours* Cleaning up notebooks and adding baseline performance for combined dataset
 - *1 hour* Finishing up presentation, preparing Colab notebook for obtaining weight, testing demo for meeting tomorrow
+- *1 hour* Working on get_labels function for all 3 datasets, running into troubles with filenames formatting (01 instead of 1)
+
+### 11 February
+- *1 hour* Researching uses of t-sne, looking into building a classifier as clusters are formed
+- *1 hour* Getting masked autoencoder weights from Colab and building a classifier from the encoder model
+- *1 hour* Training model, getting results - plotting confusion matrix
+- *2 hours* Training on full CK19 to try mitigate unbalance in classes, have to fix preprocessing function (%200 check doesn't work)
+- *0.5 hours* Fixing an additional bug with minmax when min=max
