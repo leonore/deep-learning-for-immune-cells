@@ -406,7 +406,7 @@
 - *2.5 hours* Debugging main.py + associated files and writing bullet points in materials & methods for dissertation
 - *0.5 hours* Final tweaks to live visualisation plot
 
-## Week 5 (18) c/ 10 February (7.5/15 hours)
+## Week 5 (18) c/ 10 February (19.5/15 hours)
 
 ### 10 February
 - *0.5 hours* Cleaning up notebooks and adding baseline performance for combined dataset
@@ -419,3 +419,19 @@
 - *1 hour* Training model, getting results - plotting confusion matrix
 - *2 hours* Training on full CK19 to try mitigate unbalance in classes, have to fix preprocessing function (%200 check doesn't work)
 - *0.5 hours* Fixing an additional bug with minmax when min=max
+- *0.5 hours* Training autoencoder on balanced dataset, looking at tensorboard visualisation
+- *0.5 hours* Writing code to compare overlaps computed by GE software vs. K-means segmentation with IoU
+- *0.5 hours* Working out kinks between CK19 filenames and CK19 metrics, noticed missing files
+
+### 13 February
+- *0.5 hours* Having to modify NPZ file because of errors in copied missing file, differences are now resolved
+- *1 hour* Debugging overlap calculations code, now accounting for black images
+- *2.5 hours* Running calculations, making adjustments – scores seems way off
+- *1 hour* Trying new overlap metrics, not IoU --> e.g. Dice. Asking Hannah about interaction measure- area % or count where there is overlap?
+
+### 14 February
+- *1.5 hours* Working on image reconstruction; checking everything is OK.
+- *1.5 hours* Deciding on metric = IoU/total area of overlap to account for subimages which might be 0; running calculations
+- *0.5 hours* Comparing results with target results; histograms show promise
+- *0.5 hours* Adapting plot; thinking about removing faulty images for classification for accuracy
+- *1 hour* Running final code and saving metrics and labels
