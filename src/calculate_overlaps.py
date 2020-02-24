@@ -77,7 +77,7 @@ while idx < len(x)-100:
         targets[i] = target_dict.get(file)
         labels[i] = get_label(y[idx])
         calculated[i] = overlap
-        
+
         i += 1
         idx += 1
         count += 1
@@ -130,7 +130,7 @@ cona = calculated[labels==2]
 
 
 plt.figure(figsize=(10,5))
-plt.hist([unstimulated.flatten(), ova.flatten(), cona.flatten()], bins=64, histtype="barstacked", 
+plt.hist([unstimulated.flatten(), ova.flatten(), cona.flatten()], bins=64, histtype="barstacked",
          label=["Unstimulated", "OVA", "ConA"],
          color=palette)
 plt.title("Histogram for calculated overlaps")
@@ -151,7 +151,7 @@ cona = [np.sum(cona[current: current+100]) for current in range(0, len(cona), 10
 
 
 plt.figure(figsize=(10,5))
-plt.hist([unstimulated, ova, cona], bins=64, histtype="barstacked", 
+plt.hist([unstimulated, ova, cona], bins=64, histtype="barstacked",
          label=["Unstimulated", "OVA", "ConA"],
         color=palette)
 plt.title("Histogram for calculated overlaps (summed over same images)")
@@ -160,33 +160,4 @@ plt.xlabel("Level of interaction (Sum area of overlap per image)")
 plt.show()
 
 
-# In[374]:
-
-
-# initialise index values
-idx = 0
-i = 0
-count = 0
-
-print("Looping through images to put faulty labels in...")
-while idx < len(x)-100:
-    # ignore 100, 300, etc. values as they will already have been processed
-    if count == 100:
-        count = 0
-        idx += 100
-    else:
-        if is_faulty(x[idx]) or is_faulty(x[idx+100]):
-            overlap = 0
-            labels[i] = 3
-        i += 1
-        idx += 1
-        count += 1
-
-print('Faulty labels entered into array.')
-
-
-# In[379]:
-
-
 np.savez("../data/processed/CK19_calculated_metrics.npz", targets=targets, calculated=calculated, labels=labels)
-
