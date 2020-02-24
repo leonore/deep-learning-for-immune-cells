@@ -406,7 +406,7 @@
 - *2.5 hours* Debugging main.py + associated files and writing bullet points in materials & methods for dissertation
 - *0.5 hours* Final tweaks to live visualisation plot
 
-## Week 5 (18) c/ 10 February (19.5/15 hours)
+## Week 5 (18) c/ 10 February (23.5/15 hours)
 
 ### 10 February
 - *0.5 hours* Cleaning up notebooks and adding baseline performance for combined dataset
@@ -435,3 +435,30 @@
 - *0.5 hours* Comparing results with target results; histograms show promise
 - *0.5 hours* Adapting plot; thinking about removing faulty images for classification for accuracy
 - *1 hour* Running final code and saving metrics and labels
+- *2 hours* Adapting classifier to predict an interaction value
+- *1 hour* Using a non-negative kernel constraint to prevent negative prediction; getting better results
+
+### 16 February
+- *1 hour* Tuning classifier
+
+## Week 6 (19) c/ 17 February (11/15 hours)
+
+### 19 February
+- *0.5 hours* Meeting
+
+### 22 February
+- *1.5 hours* Fixing labels and improving shuffle function to handle larger datasets, see efficient_shuffle()
+- *0.5 hours* Training model with shuffling, getting good results
+- *1 hour* Working on visualisation with varying size scatter points + colour maps
+
+### 23 February
+- *0.5 hours* Going over meeting and writing down meeting minutes
+- *1 hour* Running regression code, seems to be really good results but thinking of best way to plot performance.
+- *1 hour* Looking at tools to evaluate regression performance. Lots of 0 values might create a skew. Looking at past research
+- *0.5 hours* Looking at how UNet performs in term of overlap calculations; however it adds multiple extra steps
+- *1 hour* Reviewing past research on combining bottleneck autoencoder layer with regression models
+- *0.5 hours* Trying to remove values <0 for predictions for plotting
+- *1 hour* Realising big mistake in code: UMAP has been running the clustering supervised. running visualisation tests again to check if clusters are still somewhat discernible
+- *2 hours* Getting new weights with well-shuffled CK19 dataset; t-sne/UMAP indeed doesn't find clear clusters
+
+## Week 7 (20) c/ 24 February (0/15 hours)
