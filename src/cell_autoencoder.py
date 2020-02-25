@@ -101,7 +101,7 @@ def train(model, data, batch_size=32, epochs=20):
     else:
         print("Model was trained successfully.")
 
-def evaluate(model, data, test):
+def evaluate(model, data, test, label=None):
     plt.rcParams.update({'axes.titlesize': 'medium'})
     train_nb = np.random.randint(0, len(data)-1)
     test_nb = np.random.randint(0, len(test)-1)
@@ -124,3 +124,7 @@ def evaluate(model, data, test):
     show_image(reshape(untrained_decoded[0], w=imw, h=imh, c=c), "reconstructed test image")
 
     plt.show()
+
+    if label:
+        new_label = "../data/evaluation/autoencoder/" + label + ".png"
+        plt.save(new_label)
