@@ -461,9 +461,24 @@
 - *1 hour* Realising big mistake in code: UMAP has been running the clustering supervised. running visualisation tests again to check if clusters are still somewhat discernible
 - *2 hours* Getting new weights with well-shuffled CK19 dataset; t-sne/UMAP indeed doesn't find clear clusters
 
-## Week 7 (20) c/ 24 February (8/15 hours)
+## Week 7 (20) c/ 24 February (20.5/15 hours)
 
 ### 24 February
 - *5 hours* Fixing big loss stagnation issues when trying to obtain weights from regression model; was because of MAE metric and probably overwhelming 0s in dataset
 - *1 hour* Running training now that stagnating loss is fixed; starting a bash script for evaluation
 - *2 hours* Making functions to evaluate regression performance
+- *1 hour* Writing bits for 'materials & methods' in dissertation
+
+### 25 February
+- *1 hour* Summarising for tomorrow's presentation
+- *2 hours* Waiting for trained models with final attempts at tuning: regression dropout, smaller autoencoder. callbacks with both.
+- *1 hours* Obtained final weights with smaller model and tuned layers, but had to stop evaluating because Colab restricted accelerated usage
+- *0.5 hours* Finishing up evaluation script
+- *1.5 hours* Refactoring main.py file and associated components
+- *1 hour* Making regression model file, waiting for autoencoder to train for masked balanced dataset
+
+### 26 February
+- *0.5 hours* Refactoring calculate_overlaps file
+- *1 hour* Meeting and writing meeting artifacts
+- *2 hours* Refactoring code. Not sure whether to make it all Python or keep Jupyter notebooks
+- *1 hour* Seeing if I can put all processed images in one file, but it's too big for Colab
