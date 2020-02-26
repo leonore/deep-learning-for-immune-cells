@@ -5,7 +5,7 @@ from tensorflow.keras.layers import Input, Conv2D, MaxPooling2D, UpSampling2D, F
 from tensorflow.keras.models import Model
 from tensorflow.keras import callbacks
 
-from plot_helpers import reshape, show_image
+from evaluation_helpers import reshape, show_image
 
 """
 API for cell_autoencoder

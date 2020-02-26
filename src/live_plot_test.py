@@ -5,7 +5,7 @@ import numpy as np
 from keras.datasets import mnist
 import umap.umap_ as umap
 
-from plot_helpers import plot_live
+from evaluation_helpers import plot_live
 
 (_, _), (x_test, y_test) = mnist.load_data()
 

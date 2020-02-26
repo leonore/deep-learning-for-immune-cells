@@ -2,7 +2,7 @@ import umap.umap_ as UMAP
 from sklearn.manifold import TSNE
 from datetime import datetime
 
-RS = 2211
+from config import RS
 
 def tsne(x, y=None, random_state=RS):
     start = datetime.now().strftime("%H:%M:%S")
@@ -13,7 +13,7 @@ def tsne(x, y=None, random_state=RS):
 
 def umap(x, y=None, random_state=RS):
     # WARNING: y shouldn't actually be passed in unless
-    # for supervised clustering purposes 
+    # for supervised clustering purposes
     start = datetime.now().strftime("%H:%M:%S")
     print("UMAP dimensionality reduction started at {}".format(start))
     x_umap = UMAP(random_state=RS).fit_transform(x, y)
