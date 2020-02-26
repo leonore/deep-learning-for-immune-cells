@@ -1,27 +1,44 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-from tensorflow.keras.layers import Input, Conv2D, MaxPooling2D, UpSampling2D, Flatten, Reshape, PReLU
-from tensorflow.keras.models import Model
-from tensorflow.keras import callbacks
+from tensorflow.keras.layers import Input, Conv2D, MaxPooling2D, UpSampling2D, Dense, Dropout, Flatten, Reshape, PReLU
+from tensorflow.keras.models import Model, Sequential
+from tensorflow.keras import callbacks, constraints
 
 from evaluation_helpers import reshape, show_image
+from evaluation_helpers import plot_lines_of_best_fit, plot_predictions_histogram
+from evaluation_helpers import plot_error_distribution, metrics_report
 
 """
-API for cell_autoencoder
+API for cell_autoencoder and regression
 
 * make_autoencoder()
 @returns:
 - decoder: model to evaluate reconstruction capabilities
 - encoder: model with flattened deepest, middle layer to feed into clustering algorithms
 
+* make_regression()
+@returns:
+- model: model that will attempt to predict an overlap value for the given image
+
 * train(model, data, batch_size, epochs)
 - fits @model with @data
 - WARNING: this can be lengthy on a non-GPU local computer
 
-* evaluate(model, data, test)
+* evaluate_autoencoder(model, data, test)
 - returns visualisations on model reconstruction performance
 - assumes model has been trained on @data and is being validated on @test
+
+* evaluate(model, x_test, y_true, y_labels, label=None)
+args:
+@model: regression model previously trained
+@x_test: input data to do predictions on
+@y_true: truth values for x_test
+@y_labels: categorical labels for nicer visualisations (not used in training, just informational)
+@label: filename to save figures to
+
+@returns:
+- visualisations and text on model regression performance
 
 """
 
@@ -68,8 +85,19 @@ def make_autoencoder():
 
     return decoder, encoder
 
+def make_regression(encoder):
+    model = Sequential()
+    model.add(encoder)
+    model.add(Dense(128, activation='relu'))
+    model.add(Dropout(0.15))
+    model.add(Dense(64, activation='relu'))
+    model.add(Dense(1, activation='linear', kernel_constraint=constraints.NonNeg()))
 
-def train(model, data, batch_size=32, epochs=20):
+    model.compile(loss='mean_squared_error',
+                  optimizer='adam')
+    return model
+
+def train(model, data, batch_size=64, epochs=20):
     # get before/after weights (make sure there is a change)
     untrained_weights = np.array(model.get_layer(index=1).get_weights()[1])
 
@@ -99,7 +127,7 @@ def train(model, data, batch_size=32, epochs=20):
     else:
         print("Model was trained successfully.")
 
-def evaluate(model, data, tag=None):
+def evaluate_autoencoder(model, data, tag=None):
     plt.rcParams.update({'axes.titlesize': 'medium'})
     test_nb = np.random.randint(0, len(test)-1)
 
@@ -117,4 +145,10 @@ def evaluate(model, data, tag=None):
     plt.show()
 
     if tag:
-        plt.save("../data/evaluation/autoencoder/" + tag + ".png")
+        plt.save("../data/evaluation/autoencoder/" + tag + "_reconstruction.png")
+
+def evaluate_regression(y_true, y_pred, y_labels, tag=None):
+    plot_lines_of_best_fit(y_true, y_pred, y_labels, tag)
+    plot_predictions_histogram(y_true, y_pred, y_labels, tag)
+    plot_error_distribution(y_true, y_pred, tag)
+    metrics_report(y_true, y_pred, tag)
