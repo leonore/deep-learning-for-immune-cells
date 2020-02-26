@@ -1,17 +1,11 @@
 ## Standard imports
 import numpy as np
 import os
-import skimage
-from skimage.io import imread, imsave, imread
-from skimage.transform import rescale, resize, downscale_local_mean
-from skimage import filters
-from PIL import Image
 
 from segmentation import get_mask
+from config import RS, imw
 
-def reformat(img, type):
-    formatted = (img).astype(type)
-    return Image.fromarray(formatted)
+## IMAGE OPERATIONS
 
 def low_clip(x):
     return np.clip(x, 255, 4095)
@@ -32,7 +26,7 @@ def is_faulty(x):
 # WARNING this does modifications in place --> otherwise running out of mem errors
 def efficient_shuffle(*arrays, random_state=None):
     if not random_state:
-        random_state = np.random.randint(0, 2211)
+        random_state = np.random.randint(0, RS)
     for arr in arrays:
         np.random.seed(random_state)
         np.random.shuffle(arr)
@@ -149,7 +143,7 @@ def sliding_window(img, dest_size, rgb=False):
     return windows
 
 # reverses sliding window
-def reconstruct_from(images, size=192):
+def reconstruct_from(images, size=imw):
     # work on reconstruction
     new_img = np.ndarray(shape=(size*10, size*10), dtype=np.float32)
     y = 0
@@ -162,8 +156,9 @@ def reconstruct_from(images, size=192):
             y += size
     return new_img
 
+
 # show sliding window as a plot
-def show_reconstruct(images, size=192):
+def show_reconstruct(images, size=imw):
     # work on reconstruction
     new_img = np.ndarray(shape=(size*10, size*10), dtype=np.float32)
     fig = plt.figure(figsize=(10,10))
@@ -181,13 +176,12 @@ def show_reconstruct(images, size=192):
     plt.tight_layout()
     return new_img
 
-def preprocess(data, labels, mask=False):
+def combine_images(data, mask=False):
     data = np.copy(data)
     l = len(data)
 
     # initialise arrays for filling in
     x_data = np.ndarray(shape=(l // 2, 192, 192, 3), dtype=np.float32)
-    y_data = np.ndarray(shape=(l // 2), dtype=np.uint8)
 
     # initialise index values
     idx = 0
@@ -205,11 +199,9 @@ def preprocess(data, labels, mask=False):
             if is_faulty(data[idx]) or is_faulty(data[idx + 100]):
                 x_data[i, ..., 1] = minmax(data[idx])
                 x_data[i, ..., 0] = minmax(data[idx + 100])
-                y_data[i] = 3
             else:
                 x_data[i, ..., 1] = minmax(low_clip(data[idx]))
                 x_data[i, ..., 0] = minmax(low_clip(data[idx + 100]))
-                y_data[i] = labels[idx]
 
             # mask out the background
             if mask:
@@ -225,4 +217,4 @@ def preprocess(data, labels, mask=False):
             count += 1
 
     print('Images preprocessed. Size of dataset: {}'.format(len(x_data)))
-    return x_data, y_data
+    return x_data
