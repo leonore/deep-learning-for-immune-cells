@@ -42,7 +42,7 @@ args:
 
 """
 
-from config import imw, imh, c, RS
+from config import imw, imh, c, RS, evaluation_path
 
 
 def make_autoencoder():
@@ -97,7 +97,7 @@ def make_regression(encoder):
                   optimizer='adam')
     return model
 
-def train(model, data, batch_size=64, epochs=20):
+def train(model, data, batch_size=64, epochs=20, tag=None):
     # get before/after weights (make sure there is a change)
     untrained_weights = np.array(model.get_layer(index=1).get_weights()[1])
 
@@ -120,6 +120,8 @@ def train(model, data, batch_size=64, epochs=20):
     plt.grid(True)
     plt.legend()
     plt.show()
+    if tag:
+        plt.save(evaluation_path + "autoencoder/" + tag + "_loss.png")
 
     weight_diff = trained_weights - untrained_weights
     if np.all(weight_diff) == 0:
@@ -129,7 +131,7 @@ def train(model, data, batch_size=64, epochs=20):
 
 def evaluate_autoencoder(model, data, tag=None):
     plt.rcParams.update({'axes.titlesize': 'medium'})
-    test_nb = np.random.randint(0, len(test)-1)
+    test_nb = np.random.randint(0, len(data)-1)
 
     # show the difference in reconstruction
     decoded_imgs = model.predict(data[test_nb:test_nb+1])
@@ -138,14 +140,14 @@ def evaluate_autoencoder(model, data, tag=None):
 
     fig = plt.figure(figsize=(s,s))
     fig.add_subplot(1, 2, 1)
-    show_image(reshape(test[test_nb:test_nb+1], w=imw, h=imh, c=c), "original image")
+    show_image(reshape(data[test_nb:test_nb+1], w=imw, h=imh, c=c), "original image")
     fig.add_subplot(1, 2, 2)
-    show_image(reshape(untrained_decoded[0], w=imw, h=imh, c=c), "reconstructed image")
+    show_image(reshape(decoded_imgs[0], w=imw, h=imh, c=c), "reconstructed image")
 
     plt.show()
 
     if tag:
-        plt.save("../data/evaluation/autoencoder/" + tag + "_reconstruction.png")
+        plt.save(evaluation_path + "autoencoder/" + tag + "_reconstruction.png")
 
 def evaluate_regression(y_true, y_pred, y_labels, tag=None):
     plot_lines_of_best_fit(y_true, y_pred, y_labels, tag)

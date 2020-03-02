@@ -6,7 +6,7 @@ import cv2
 import numpy as np
 from sklearn.metrics import mean_squared_error
 
-from config import RS, imw, imh, c, repo_path
+from config import RS, imw, imh, c, evaluation_path
 
 ## QUICK VIS
 
@@ -78,7 +78,7 @@ def plot_clusters(X, y, labels=["Unstimulated", "OVA", "ConA", "Faulty"], tag=No
     plt.show()
 
     if tag:
-        plt.savefig(repo_path + "data/evaluation/clustering/" + tag + ".png")
+        plt.savefig(evaluation_path + "clustering/" + tag + ".png")
 
 
 def plot_predictions_histogram(x_true, x_pred, y, tag=None):
@@ -116,7 +116,7 @@ def plot_predictions_histogram(x_true, x_pred, y, tag=None):
     plt.show()
 
     if tag:
-        plt.savefig(repo_path + "data/evaluation/regression/" + tag + "_histogram.png")
+        plt.savefig(evaluation_path + "/regression/" + tag + "_histogram.png")
 
 def plot_lines_of_best_fit(x_true, x_pred, y, tag=None):
     t_u = x_true[y==0].flatten() # true unstimulated
@@ -155,7 +155,7 @@ def plot_lines_of_best_fit(x_true, x_pred, y, tag=None):
     plt.show()
 
     if tag:
-        plt.savefig(repo_path + "data/evaluation/regression/" + tag + "_scatter.png")
+        plt.savefig(evaluation_path + "regression/" + tag + "_scatter.png")
 
 
 def plot_error_distribution(y_true, y_pred, tag=None):
@@ -167,7 +167,7 @@ def plot_error_distribution(y_true, y_pred, tag=None):
     plt.show()
 
     if tag:
-        plt.savefig(repo_path + "data/evaluation/regression/" + tag + "_error.png")
+        plt.savefig(evaluation_path + "regression/" + tag + "_error.png")
 
 
 def plot_live(X, y, data, labels=["Unstimulated", "OVA", "ConA", "Faulty"]):

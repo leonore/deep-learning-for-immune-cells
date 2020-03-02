@@ -11,7 +11,7 @@ parser = argparse.ArgumentParser(description='Evaluate a model by training with 
 parser.add_argument('--input', '-i', action='store', type=str, help='Compressed NPZ file to process images from', required=True)
 parser.add_argument('--metrics', '-m', action='store', type=str, help='Compressed NPZ file containing metrics captured from the images', required=True)
 parser.add_argument('--weights', '-w', action='store', nargs=3, type=str, help='Three h5 files for decoder, encoder, regression trained models', required=False)
-parser.add_argument('--mask', action='store_false', help="Mask out the background of images using K-means")
+parser.add_argument('--mask', action='store_true', help="Mask out the background of images using K-means")
 parser.add_argument('--live', '-l', action='store_true', help='Make clustering visualisation live')
 parser.add_argument('--tag', action='store', help="Tag for saving figures. If not specified the files won't be saved.")
 
@@ -54,6 +54,8 @@ efficient_shuffle(x_combined, y_combined, y_overlaps)
 x_combined = x_combined[-10000:]
 y_combined = y_combined[-10000:]
 y_overlaps = y_overlaps[-10000:]
+
+assert len(x_combined) == len(y_combined)
 
 # make autoencoder
 if weights:
