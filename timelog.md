@@ -487,7 +487,7 @@
 ### 28 February
 - *0.5 hours* Going over collected research to develop a structure for "background" dissertation
 
-## Week 8 (21) c/ 2 March (4.5/15 hours)
+## Week 8 (21) c/ 2 March (15.5/15 hours)
 
 ### 2 March
 - *1 hour* Moving evaluation to a Colab notebook, running it locally was taking its toll on my laptop.
@@ -496,4 +496,10 @@
 
 ### 3 March
 - *0.5 hours* Meeting and writing down artifacts
-- *2 hours* Writing down first draft for material & methods to send to Carol 
+- *2 hours* Writing down first draft for material & methods to send to Carol
+
+### 4 March
+- *5 hours* Running evaluation; debugging matplotlib; having trouble with models predicting different results in different sessions?
+
+### 5 March
+- *6 hours* Looking through Keras github issues to try and fix model.predict() getting massively different results across different sessions
