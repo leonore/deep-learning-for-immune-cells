@@ -513,8 +513,9 @@
 - *4 hours* Working on reprocessing of overlaps, cleaning up files
 - *1 hour* Re-training regression, trying to re-train decoder but have ran out of Colab GPU allocation
 
-## Week 9 (22) c/ 9 March (2/15 hours)
+## Week 9 (22) c/ 9 March (8/15 hours)
 
 ### 9 March
 - *1.5 hours* Writing dissertation; drawing system diagram
-- *0.5 hours* Can finally run notebooks on Google Colab, was disconnected from GPU for usage limit
+- *4.5 hours* Finally model training and running evaluations after getting access to GPU again: got CK19, DMSO evaluated before being disconnected
+- *2 hours* Writing everything I know in dissertation to structure later: all sections but eval, conclusion now have draft underway
