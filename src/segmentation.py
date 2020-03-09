@@ -17,7 +17,7 @@ def get_mask(img):
     if not img.any():
         return img.astype(np.uint8)
     criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 10, 1.0)
-    _,label,center = cv2.kmeans(img.reshape(np.prod(img.shape), 1), 2, None, criteria, 10, cv2.KMEANS_RANDOM_CENTERS)
+    _,label,center = cv2.kmeans(img.reshape(np.prod(img.shape), 1), 2, None, criteria, 10, cv2.KMEANS_PP_CENTERS)
     return convert_to_binary(center[label])
 
 # For 500 images
