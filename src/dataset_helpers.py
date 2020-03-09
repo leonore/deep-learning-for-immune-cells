@@ -176,12 +176,12 @@ def show_reconstruct(images, size=imw):
     plt.tight_layout()
     return new_img
 
-def combine_images(data, mask=False):
-    data = np.copy(data)
+def combine_images(data, filenames, mask=False):
     l = len(data)
 
     # initialise arrays for filling in
     x_data = np.ndarray(shape=(l // 2, 192, 192, 3), dtype=np.float32)
+    y_data = np.ndarray(shape=(l // 2, ), dtype=np.uint8)
 
     # initialise index values
     idx = 0
@@ -199,9 +199,11 @@ def combine_images(data, mask=False):
             if is_faulty(data[idx]) or is_faulty(data[idx + 100]):
                 x_data[i, ..., 1] = minmax(data[idx])
                 x_data[i, ..., 0] = minmax(data[idx + 100])
+                y_data[i] = 3
             else:
                 x_data[i, ..., 1] = minmax(low_clip(data[idx]))
                 x_data[i, ..., 0] = minmax(low_clip(data[idx + 100]))
+                y_data[i] = get_label(filenames[idx])
 
             # mask out the background
             if mask:
@@ -217,4 +219,24 @@ def combine_images(data, mask=False):
             count += 1
 
     print('Images preprocessed. Size of dataset: {}'.format(len(x_data)))
-    return x_data
+    return x_data, y_data
+
+def remove_faulty(filenames):
+    l = len(filenames)
+    y = np.ndarray(shape=(l//2, ), dtype=np.uint8)
+
+    # loop through images and process
+    while idx < l-100:
+        # ignore 100, 300, etc. values as they will already have been processed
+        if count == 100:
+            count = 0
+            idx += 100
+        else:
+            y[i] = get_label(filenames[idx])
+
+            idx += 1
+            i += 1
+            count += 1
+
+    print('Labels preprocessed. Size of labels: {}'.format(l))
+    return y
