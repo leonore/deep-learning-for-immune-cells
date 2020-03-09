@@ -39,24 +39,20 @@ def r2_score(y_true, y_pred):
     sstot = np.sum(np.square(y_true - np.mean(y_true)))
     return 1 - ssres / sstot
 
-def standard_deviation(y_pred):
-    mean = y_pred.mean()
-
-
 def metrics_report(y_true, y_pred, tag=None):
     mse = mean_squared_error(y_true, y_pred)
     rmse = np.sqrt(mse)
-    r2 = r2_score(y_true, y_pred)
+    #r2 = r2_score(y_true, y_pred)
 
     if tag:
         with open(evaluation_path + "regression/" + tag + "_metrics.txt", "w") as file:
             file.write("MSE score: {}\n".format(mse))
             file.write("RMSE score: {}\n".format(rmse))
-            file.write("R2 score: {}\n".format(r2))
+            #file.write("R2 score: {}\n".format(r2))
 
     print("MSE score: {} -- this is the average square difference between true and predicted".format(mse))
     print("RMSE score: {} -- difference between T and P in DV unit".format(rmse))
-    print("R2 score: {} -- explains variance. closest to 1 is better".format(r2))
+    #print("R2 score: {} -- explains variance. closest to 1 is better".format(r2))
 
 
 def plot_clusters(X, y, labels=["Unstimulated", "OVA", "ConA", "Faulty"], tag=None):
