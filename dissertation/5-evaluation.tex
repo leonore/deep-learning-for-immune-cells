@@ -1,0 +1,20 @@
+
+\chapter{Evaluation} 
+
+\section{Train-test dataset split}
+
+A large amount of data was available to us. In order to best evaluate the performance of our trained autoencoder and regression models, part of the data was picked for training, and the rest was left out for testing. Part of the training data was used while training for validation and model checkpoints.
+
+As explained in Section \ref{}, three datasets were picked out for research. Training was done on the balanced dataset. The balanced dataset was not prone to class imbalance issues, and contained an equal mix of images from each class: unstimulated immune cells, immune cells stimulated with OVA, and immune cells stimulated with ConA.  
+
+Part of this balanced dataset was kept untouched for testing. Two other datasets were used for testing: the DMSO dataset, and the two-category dataset. 
+
+The two-category dataset had two purposes: evaluating if the model performed better with differentiating between two classes instead of 3. Moreover the two-category dataset contained both labels of drug stimulation and drug concentration. It was hypothesised that maybe we could gather more information of interaction based on drug concentration rather than type of drug. 
+
+The DMSO dataset had issues because it was built from the balanced and two-category dataset and parts of the DMSO images were possibly used to train the balanced dataset. However, DMSO represents the conditions in which difference in interaction should be most visibile, thus it was still valuable to evaluate for results. However, it is considered "tainted". 
+
+
+%\section{Autoencoder}
+%\subsection{Reconstruction}
+%\subsection{2D Visualisation with t-sne and UMAP}
+%\subsubsection{Matplotlib tool for outlier exploration}
