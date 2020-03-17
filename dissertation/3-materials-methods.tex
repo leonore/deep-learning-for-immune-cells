@@ -7,7 +7,7 @@ This chapter covers the image materials that were available to analyse, how they
 
 \subsection{Setup}
 
-The images that were used for the purpose of this research were provided by researchers in immunology at the University of Glasgow. The images were captured from multi-well plates with a commercial INCell Analyzer Machine (\cite{https://www.gelifesciences.com/en/us/shop/cell-imaging-and-analysis/high-content-analysis-systems/instruments/in-cell-analyzer-2500-hs-high-content-analysis-hca-imaging-system-p-04586}). As established in Section \ref{bg:immunesystem}, the type of immune cells we are studying are T-cells and dendritic cells (DCs). Each plate to be imaged in the INCell Analyzer Machine contains a grid of wells. Each well is assigned and label and experimental conditions. T-cells, dendritic cells, and compounds related to the experimental conditions are injected in the well. For distinction, the cells are loaded with fluorescent dyes: the T-cells are dyed with a green dye, and the dendritic cells are dyed with a red dye. After imaging, we obtain three field-of-view images per well: 
+The images that were used for the purpose of this research were provided by a researcher in Immunology at the University of Glasgow. The images were captured from multi-well plates with a commercial INCell Analyzer Machine\footnote{https://www.gelifesciences.com/en/us/shop/cell-imaging-and-analysis/high-content-analysis-systems/instruments/in-cell-analyzer-2500-hs-high-content-analysis-hca-imaging-system-p-04586}. As established in Section \ref{bg:immunesystem}, the type of immune cells we are studying are T-cells and dendritic cells (DCs). Each plate to be imaged in the INCell Analyzer Machine contains a grid of wells. Each well is assigned a label and an experimental condition. T-cells, dendritic cells, and compounds related to the experimental conditions are injected in the well. For distinction, the cells are loaded with fluorescent dyes: the T-cells are dyed with a green dye (FITC dye), and the dendritic cells are dyed with a red dye (TexasRed dye). After imaging, we obtain three field-of-view images per well:
 
 \begin{itemize}
     \item a Brightfield image, which shows both T-cells and dendritic cells (Figure \ref{fig:fov_brightfield})
@@ -45,25 +45,25 @@ The images that were used for the purpose of this research were provided by rese
 There was a large amount of images available from different well plates with different experimental conditions. However, each set of images represents about 8GB of data on average. Moving images through disks or cloud filing system represented substantial time and was vulnerable to transfer errors. Hence, a limited number of plates were picked out for training and evaluation to make sure their consistency could be validated. The plates chosen had to be picked keeping in mind the experimental conditions they represented.
 
 \begin{itemize}
-    \item The ``DMSO" dataset: [TODO to be read over by Hannah] DMSO is a solvent that helps solubilise the drug compounds in a well as most compounds are not initially water soluble. The drug compounds being more soluble, they should then be able to have more of an impact. 
-    \item The ``balanced” dataset: this dataset contains an equal number of images in the three categories of stimulation: no drug simulation, stimulation with OVA peptide, and stimulation with ConA. This is to fight issues of class imbalance when training the model. 
-    \item The simpler dataset, with two categories: this  dataset contains an equal number of images in two categories: no drug simulation, and simulation with OVA peptide. This was picked in the hope that if no results are obtained with 3 categories, a model might be able to perform better with two. 
+    \item The ``DMSO" dataset: [TODO to be read over by Hannah] DMSO is a solvent that helps solubilise the drug compounds in a well as most compounds are not initially water soluble. The drug compounds being more soluble, they should then be able to have more of an impact.
+    \item The ``balanced” dataset: this dataset contains an equal number of images in the three categories of stimulation: no drug simulation, stimulation with OVA peptide, and stimulation with ConA. This is to fight issues of class imbalance when training the model.
+    \item The simpler dataset, with two categories: this  dataset contains an equal number of images in two categories: no drug simulation, and simulation with OVA peptide. This was picked in the hope that if no results are obtained with 3 categories, a model might be able to perform better with two.
 \end{itemize}
 
 \subsection{Pre-processing}
-The datasets obtained from this setup consisted of 2048x2048 12-bit images in TIFF format. As mentioned above, each ``image” consists in fact of a set of three field-of-view images: the T-cells, the dendritic cells, and the Brightfield image. The Brightfield images were used to gain an overview of what the well might look like, but were discarded and not used for analysis. 
+The datasets obtained from this setup consisted of 2048x2048 12-bit images in TIFF format. As mentioned above, each ``image” consists in fact of a set of three field-of-view images: the T-cells, the dendritic cells, and the Brightfield image. The Brightfield images were used to gain an overview of what the well might look like, but were discarded and not used for analysis.
 
 %Fiji (ImageJ) was used to explore the images as the particular 12-bit format of the image in a TIFF file meant that standard image previewers reproduced the image as all black. Fiji also offered useful tools for testing image pre-processing methods, such as binary filters, thresholding, and background correction.
-Each of the images sized about 8MB, and represented 4,194,304 pixels. Each plate had about 400 wells, which corresponds to 800 images when counting both the T-cell image and the DC image. This represented an issue of very high dimensions to deal with, and little images to feed into any kind of model. 
+Each of the images sized about 8MB, and represented 4,194,304 pixels. Each plate had about 400 wells, which corresponds to 800 images when counting both the T-cell image and the DC image. This represented an issue of very high dimensions to deal with, and little images to feed into any kind of model.
 
-Moreover, Figures \ref{fig:fov_fitc} and \ref{fig:fov_tr} shows that even to the naked eye, the smaller white dots could easily be confused for dust on the screen, and could be as confusing for a deep learning model trying to learn features from an image as they are for us. Furthermore, they remained of very high dimensions. A basic autoencoder with three 2x2 Pooling operations would yield around 500,000 pixel points, which is a very high number for a visualisation technique like t-SNE or UMAP. 
+Moreover, Figures \ref{fig:fov_fitc} and \ref{fig:fov_tr} shows that even to the naked eye, the smaller white dots could easily be confused for dust on the screen, and could be as confusing for a deep learning model trying to learn features from an image as they are for us. Furthermore, they remained of very high dimensions. A basic autoencoder with three 2x2 Pooling operations would yield around 500,000 pixel points, which is a very high number for a visualisation technique like t-SNE or UMAP.
 
 \bigskip
-\subsubsection{Sliding window}    
+\subsubsection{Sliding window}
 
 \hfill\\
 \hfill\\
-To resolve this issue, the first idea was to make the images more palatable by a neural network by cutting up a set square subsection of the image of smaller dimensions, e.g. 250x250. However, this would still leave an issue of having limited input to train a neural network. Instead, images were pre-processed by passing a sliding window over the image, creating a patches of images per file. This quickly expanded the size of the dataset, making it as big as 58,000 samples in some cases. Smaller images also made more sense to the naked eye, hence the assumption was made that a trained neural network would perform better on this gridded dataset than on a full-image dataset. 
+To resolve this issue, the first idea was to make the images more palatable by a neural network by cutting up a set square subsection of the image of smaller dimensions, e.g. 250x250. However, this would still leave an issue of having limited input to train a neural network. Instead, images were pre-processed by passing a sliding window over the image, creating a patches of images per file. This quickly expanded the size of the dataset, making it as big as 58,000 samples in some cases. Smaller images also made more sense to the naked eye, hence the assumption was made that a trained neural network would perform better on this gridded dataset than on a full-image dataset.
 
 \bigskip
 \subsubsection{Noise detection and normalisation}
@@ -79,24 +79,24 @@ From analysing the images, it was also found that some images contained a lot of
         \caption{Histogram and image analysis for a sub-image with noisy cells in the background}
         \label{fig:bgnoisetrue}
     \end{subfigure}
-    
+
     \begin{subfigure}[h!]{0.99\textwidth}
         \includegraphics[width=\textwidth]{dissertation/figures/background_noise_false.png}
         \caption{Histogram and image analysis for a sub-image with no noisy cells in the background}
         \label{fig:bgnoisefalse}
     \end{subfigure}
-    
+
     \caption{Histogram and image analysis for background noise detection}
     \label{fig:bgnoise}
-    
+
 \end{figure}
 
-Each sub-image was then normalised with min-max normalisation (\autoref{equation:minmax}) to get a [0,1] range of pixel values. 
+Each sub-image was then normalised with min-max normalisation (\autoref{equation:minmax}) to get a [0,1] range of pixel values.
 
 \begin{equation}
     minmax(x) = \frac{x - min(x)}{max(x) - min(x)}
 \label{equation:minmax}
-\end{equation} 
+\end{equation}
 
 \bigskip
 \subsubsection{Outlier detection}
@@ -122,21 +122,22 @@ Each sub-image was then normalised with min-max normalisation (\autoref{equation
     \caption{Different views of an image which contains ``Faulty" patches. \protect\subref{subfig:tcell}, \protect\subref{subfig:dc} have been brightness-adjusted for visualisation.}
     \label{fig:noisyimage}
 \end{figure}
-As described above, the provided images sometimes contained some background noise. Furthermore, some images contained larger amounts of noise coming from defects in the well such as water droplets. This is illustrated in Figure \ref{fig:noisyimage}. Their pixel value distribution followed the [0, 255] range as described above but these values covered the whole sub-image and no cells of interest were present in those patches. Removing them entirely from the dataset made it more difficult to reason about whole images, as a full image is represented by 100 sub-images, and removing them would create inconsistencies in the amount of sub-images per image file. Instead of removing them, it was decided to keep them in to see if a neural network could make sense of them as a category. These were labelled as ``Faulty". 
+As described above, the provided images sometimes contained some background noise. Furthermore, some images contained larger amounts of noise coming from defects in the well such as water droplets. This is illustrated in Figure \ref{fig:noisyimage}. Their pixel value distribution followed the [0, 255] range as described above but these values covered the whole sub-image and no cells of interest were present in those patches. Removing them entirely from the dataset made it more difficult to reason about whole images, as a full image is represented by 100 sub-images, and removing them would create inconsistencies in the amount of sub-images per image file. Instead of removing them, it was decided to keep them in to see if a neural network could make sense of them as a category. These were labelled as ``Faulty".
 
 \bigskip
 \subsubsection{Labelling}
 
 \hfill\\
 \hfill\\
-Each plate came with an Excel sheet giving information about the plate layout. Each image was given a letter and a name, and the Excel sheet gave information about drug stimulation, compound ID number, or compound concentration. These Excel sheets were not automatically parsable as types of drugs or location in the sheet might vary from one to the next, hence labelling had to be hardcoded and handchecked. 
+Each plate came with an Excel sheet giving information about the plate layout. Each image was given a letter and a name, and the Excel sheet gave information about drug stimulation, compound ID number, or compound concentration. These Excel sheets were not automatically parsable as types of drugs or location in the sheet might vary from one to the next, hence labelling had to be hardcoded and handchecked.
 
 \subsection{Combining images to qualify interaction} \label{subsec:combining}
-\bigskip
 
-To summarise, we have established that for each well representing an experimental condition, we obtain two images of interest: an image of T-cells, and an image of dendritic cells. While these are obtained separately with the help of fluorescent dyes, they are still captured from the same well in which they are placed together in. Hence, for us to gain any understanding of cell interaction from these images, we need to combine them together. 
+To summarise, we have established that for each well representing an experimental condition, we obtain two images of interest: an image of T-cells, and an image of dendritic cells. While these are obtained separately with the help of fluorescent dyes, they are still captured from the same well in which they are placed together in. Hence, for us to gain any understanding of cell interaction from these images, we need to combine them one way or another.
 
 We decided to combine each black-and-white T-cell and DC image in one RGB image. Computationally speaking, a RGB image corresponds to a multi-dimensional array of three arrays. Each of these arrays corresponds to a colour channel: red, green, and blue. The dendritic cell image has been obtained through fluorescent red dye screening, so the red channel of the image is set to this image. Similarly, the T-cell image has been obtained through fluorescent green dye screening, so the green channel of the image is set to this image. The blue channel of the RGB image is left blank. This RGB image allows us to visualise T-cells in green, DCs in red, and any close overlap between those cells will be in orange hues. Figure \ref{fig:combined} illustrates a sample of combined sub-images after this operation is completed.
+
+This combination allows us to visualise areas of proximity in cells as well as areas of overlap. This visualisation is a means of qualifying interaction between the different types of immune cells.
 
 \begin{figure}[h]
     \centering
@@ -147,33 +148,47 @@ We decided to combine each black-and-white T-cell and DC image in one RGB image.
 
 \section{Image segmentation}
 
-Image segmentation refers to the process of separating out different parts of interest of an image for different purposes. The purpose of image segmentation applied to this dataset of immune cells was both to attempt to correct any noisy background from the supplied images as well as use image segmentation to obtain numerical data about cells in the images. 
+Image segmentation refers to the process of separating out the parts of interest of an image into different `segments' or objects. In our context, applying image segmentation to our dataset had two purposes. The first was to use image segmentation as a method to separate the background from the cell objects for background correction. The second was to use it to obtain binary objects of the cells in order to compute numerical data about cells in the images.
 
-\subsection{Background correction}
+\subsection{Background correction} \label{subsec:correction}
 
-A common issue for microscopic images obtained systemically through different screening systems is that of a noisy background [ref]. This can usually be corrected through different methods, such as flat field correction or the rolling ball algorithm [ref]. Flat field correction takes a ``neutral” image without anything (i.e. cells) added to it to later use it as a reference image to perform background correction on any other images. However, the provided dataset did not come with a flat field image. As such, alternatives had to be explored. 
+A common issue for microscopic images obtained systemically through different screening systems is that of a noisy background [ref]. This can usually be corrected through different methods, such as flat field correction [ref]. Flat field correction removes image noise by using a ``neutral” background image without any additional objects (i.e. cells) as a reference image. However, the provided dataset did not come with a flat field image. As such, alternatives had to be explored.
 
-\bigskip
-All the images in the original, uncombined dataset are black and white, with the details of interest (the cells) in bright white spots. However there might be some gray details in the image that the naked eye cannot see immediately, but that could influence how a machine learns. Hence we need a method that will separate out the cell pixels from the background. We can do this by obtaining a binary mask of the image. The white pixels will correspond to the cells, and the dark cells will be the background. We can remove the background of the original image by multiplying it with the mask. Only the cells will remain in the image. 
+All the images in the original, uncombined dataset are black and white, with the details of interest (the cells) in bright white spots. However, as discussed in Section \ref{subsec:preproc}, the image can contain noise coming from gray details in the image that the naked eye cannot see immediately, but that could influence how a model learns. Hence, we need a method that will separate out the cell pixels from the background. We can achieve this by obtaining a binary mask of the image, such that the white pixels of the binary image correspond to the cells, and the dark pixels correspond to the background. There are two ways of doing this which we will describe further in Section \ref{sec:implementation}: K-means segmentation, and thresholding.
+
+Once a binary mask is obtained through these methods, we can remove the background of the original image by multiplying it with the mask, a procedure known as \textit{masking}. If the binary mask is satisfactory, the output of this image should only contain the cells, who will have kept their detail, while the background will have been blacked out.
 
 \subsection{Quantifying interaction}
 
-The process used in \autoref{subsec:combining} describes a way of visually qualifying interaction. However, we are also interested in quantifying interaction and obtaining a numeric value for immune cell interaction observed in an image.
+The process used in \autoref{subsec:combining} describes a way of visually qualifying interaction between immune cells. However, we are also interested in quantifying interaction and obtaining a numeric value for immune cell interaction observed in an image.
 
-By using the above described method, we also obtain a binary mask of the image. This binary mask can be used for further calculations. A common metric for evaluating image segmentation quality is intersection over union [ref]. In our case, we can use this metric to calculate an area of overlap between the two separate images for a t-cell and a dendritic cell, corresponding to the same experimental condition. We can use the concept of overlap to quantify the level of interaction between cells. This number could then be used attached to an image as an input to a regression model in order to evaluate whether we can try a model to recognise a value of interaction from an image.
+We can reuse the method described in subsection \ref{subsec:correction} for obtaining the mask of the cell objects. This mask can be used for further calculations. A common metric for evaluating image segmentation quality is Intersection over Union (IoU), also known as the Jaccard index [ref].
 
-\section{Autoencoders}
+\begin{equation}
+    IoU(X,Y) = \frac{X \& Y}{X | Y}
+\end{equation}
 
-[TODO: this might be covered in background a bit]
-Autoencoders are a particular type of neural network that have a symmetrical layer structured around an encoded representation. The aim of an autoencoder is to map an input to its output as close as possible while reducing its dimensions. The hope is that if an image is reduced to a certain number of dimensions, and a neural network is able to reconstruct the original image very closely just based on that compressed representation, then that compressed bottleneck representation of the image should be a good enough, reduced input we can then feed into other models. 
+In this case, we can use the IoU as a metric for area of overlap between two separate cell objects: the T-cell objects and the dendritic cell object obtained from the same image in the same experimental conditions. We can use the concept of overlap to quantify the level of interaction between cells. This number will then be used as a label input to a deep regression model. The aim will be to evaluate whether we can train a model to recognise a numeric value of interaction from an image.
 
-\bigskip
-[autoencoder figure here]
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{dissertation/figures/mask_overlap_operation.png}
+    \caption{Example of visual and numerical overlap between two sets of immune cells}
+    \label{fig:mask_overlap}
+\end{figure}
+
+\section{Autoencoder}
+
+As described in Section \ref{sec:research}, autoencoders are a particular type of neural network built with symmetrical layers around a bottleneck. The aim of an autoencoder is to map an input to its output as close as possible while reducing its dimensions. The hope is that if an image is reduced to a certain number of dimensions, and a neural network is able to reconstruct the original image very closely just based on that compressed representation, then that smaller code representing image is a good enough representation of the original input that can be fed into other models or algorithms.
+
+[autoencoder figure here?]
+
+The following two sections highlight the purposes of developing an autoencoder in the context of our research.
 
 \subsection{Visualising high dimensional data}
 
-One use for autoencoders and their capacity to reduce dimensions is that it could help the performance of high-dimensional visualisation techniques. High dimensionality visualisation techniques such as t-sne and UMAP can help visualise if there is an inherent structure to the data. This can be used in the context of analysing immune cell interactions by observing whether or not different clusters are found, and whether or not they correspond to different drug conditions. In this case, we would be able to differentiate different levels of interaction from the images. 
+The first use for our autoencoder is to reduce the dimensions of our image input, as the size of the data points will not only make it slow for data visualisation techniques to process, but also harder for them to distinguish any structure in the data. High dimensionality visualisation techniques such as t-sne and UMAP can help visualise if there is an inherent structure to the data. We want to use this as a tool for analysis of immune cells interactions. We want to evaluate whether or not a technique such as t-SNE or UMAP can cluster different images around similar experimental conditions. If such successful groupings were found, it would allow us to show that different drug compounds yield structurally similar cell interactions. The aim is to be able to qualify interaction from an image.
 
-\subsection{Regression}
+\subsection{Quantifying interaction in unseen images}
 
-We can also use the encoding part of the autoencoder to build a regression model and evaluate whether the model is capable of predicting interaction values from an image. 
+The second user of our autoencoder will be as a building block for a deep regression model. If our full autoencoder shows a satisfactory reconstruction performance, then we can use the encoder block of the model and extend it in a regression structure. This autoencoder-based regression model will take images and associated overlap values as input for training. We will then use the model to make predictions for overlap values on unseen images and assess whether or not it does so successfully. The aim is for our regression model to be able to quantify interaction from an image.
