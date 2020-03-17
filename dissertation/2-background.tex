@@ -53,10 +53,10 @@ Concepts and research described in Sections \ref{bg:immunesystem} and \ref{bg:in
 
 The following sections collate selected research that show how deep learning techniques could be applied in our context of study.
 
-\subsection{Convolutional Neural Networks for image feature extraction}
+\subsection{Convolutional operations for image feature extraction}
 
 %A number of approaches already use deep neural networks for classification from textual genome sequences, particularly for cancer type detection (\cite{https://www.biorxiv.org/content/10.1101/612762v1}, \cite{https://www.nature.com/articles/s41598-019-53989-3}).
-Convolutional operations in neural networks were first introduced by Fukushima at the start of the 1980s for pattern recognition. They were later popularised by LeCun as a method for object recognition, once back-propagation was put to use as a learning procedure for networks. LeCun applied his convolutional neural network to digit recognition and classification. Since then, convolutional operations in neural networks have proven to be successful to extract features from images. In a recent medical example, Shen et al. trained a convolutional neural network structure to detect breast cancer from mammography screenings and which showed competitive results compared to commercial systems (\cite{https://www.nature.com/articles/s41598-019-48995-4}.
+Convolutional operations in neural networks were first introduced by Fukushima at the start of the 1980s for pattern recognition. They were later popularised by LeCun as a method for object recognition, once back-propagation was put to use as a learning procedure for networks. LeCun applied his convolutional neural network to digit recognition and classification. Since then, convolutional operations in neural networks have proven to be successful to extract features from more complicated images. In a recent medical example, Shen et al. trained a convolutional neural network structure to detect breast cancer from mammography screenings and which showed competitive results compared to commercial systems (\cite{https://www.nature.com/articles/s41598-019-48995-4}.
 [how much research to cite in this context? there is a lot available]
 
 \subsection{Autoencoders for dimensionality reduction}
@@ -66,7 +66,7 @@ An autoencoder is a type of neural network trained to map its input to its outpu
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.45\textwidth]{dissertation/figures/autoencoder_schema.png}
-    \caption{Autoencoder representation. To be recreated in Photoshop?. Current source: Wikipedia}
+    \caption{Autoencoder representation. To be adapted in Photoshop?. Current source: Wikipedia}
     \label{fig:autoencoder}
 \end{figure}
 
@@ -77,27 +77,46 @@ Nonetheless, autoencoders have been successfully used for reducing the dimension
 
 \subsection{Deep regression models}
 
-Deep neural networks can also be used to make real-valued prediction, rather than categorised. Moussavi-Khalkhali and Jamshidi used autoencoders trained with Stochastic Gradient Descent to predict timeseries data \cite{https://ieeexplore.ieee.org/document/7838202}.
+Neural networks are only limited by logic and can be constructed for regression tasks such that the model is trained with a pair of data and labels and outputs a real-value from a range. In the context of imaging data, this could be used to extract numerical features from an image. Xie et al. and Xue and Ray show promising results for using convolutional neural networks to extract numerical features from images of cell by using neural networks as a regression model that count the number of cells in an image (\cite{https://arxiv.org/pdf/1708.03307.pdf, https://www.robots.ox.ac.uk/~vgg/publications/2015/Xie15/weidi15.pdf}).
 
 \section{Finding structure in high-dimensional data}
 
-The data we are studying consists of images of cells obtained through high content screening (HCS). HCS is a method for capturing images of cells in multi-well plates, using high-resolution microscopy \cite{https://www.ncbi.nlm.nih.gov/pubmed/23035272}. A plate captured with high content screening can yield a large number of images in very high-resolution, e.g. 2048x2048 pixels. This makes the analysis of the physical characteristics of a cell possible at a granular level. However, it could be of interest to us to gain an understanding of the overall structure of the data, in which case the high dimensionality of each data point (each image) will be harder.
+The data we will be studying consists of images of cells obtained through high content screening (HCS). HCS is a method for capturing images of cells in multi-well plates, using high-resolution microscopy (\cite{https://www.ncbi.nlm.nih.gov/pubmed/23035272}). A plate captured with high content screening can yield a large number of images in very high-resolution, e.g. 2000x2000 pixels. This makes the analysis of the physical characteristics of a cell possible at a granular level. However, this also makes the dataset high-dimensional which requires the use of high-dimensional visualisation techniques if visualisation is required.
 
-The following sections highlight available techniques that can be used to look for structure in a group of high-dimensional data points.
+The following section highlight two commonly used techniques for high-dimensional data visualisation.
 
 %High content screening (HCS) is a method for capturing images of cells in multi-well plates, using high-resolution microscopy. It can be used to analyse physical characteristics of the cells captured on images. HCS is a choice method for analysing how compounds can alter cells from images, i.e. drug discovery \cite{https://www.ncbi.nlm.nih.gov/pubmed/23035272}.
 
-\subsection{t-SNE}
-t-distributed stochastic neighbor embedding (t-SNE) was developed in 2008 by van der Maaten and Hinton as a technique to map high-dimensional data to a two- or three-dimensional space. t-SNE can find structure in high-dimensional data points by using the local relationships between data points and optimising results using gradient descent. [how much detail to go into? don't want to go off tangent]%These local relationships are defined using a Gaussian probability distribution in high dimensional space, and then recreated using the Studnet t-distribution. 
+\subsection{t-SNE and UMAP}
+t-distributed stochastic neighbor embedding (t-SNE) was developed in 2008 by van der Maaten and Hinton as a technique to map high-dimensional data to two- or three-dimensional space. t-SNE can find structure in high-dimensional data points by using the local relationships between data points and optimising results using gradient descent. [how much detail to go into? don't want to go off tangent]%These local relationships are defined using a Gaussian probability distribution in high dimensional space, and then recreated using the Studnet t-distribution.
 
-\subsection{UMAP}
-Uniform Manifold Approximation and Projection for Dimension Reduction (UMAP) is a dimensionality reduction technique which was published in 2018 and has shown competitive results compared to t-SNE.
+Uniform Manifold Approximation and Projection for Dimension Reduction (UMAP) is a dimensionality reduction technique which was published in 2018 and has shown competitive results compared to t-SNE. UMAP works by constructing a high-dimensional weighted graph representation of the data. Each edge between points in the graph is weighted according to how likely the points are to be connected. UMAP transforms the high-dimensional graph representation into a low-dimensional representation that is as similar as possible optimising results like t-SNE does (\cite{https://pair-code.github.io/understanding-umap/}).
 
-\section{The place of Deep Learning in immunology}
+[how much of the paragraphs below to include?]
 
-There is a number of existing research that use broader machine learning techniques in the field of immunology. Muh et al (\cite{https://www.ncbi.nlm.nih.gov/pubmed/19516900/} applied Support Vector Machines (SVMs) to the study of allerginicity. Allergic reactions are triggered when a immune system wrongly triggers an immune response and produces antibodies to attack a normally harmless substance, such as dust (\cite{https://www.immunology.org/policy-and-public-affairs/briefings-and-position-statements/allergy}). The SVMs were used to analyse the DNA sequences of known allergens and known non-allergens. The aim was to try and make accurate predictions on unseen sequences and classify them as either allergenic or non-allergenic. The model achieved 95.3\% accuracy. %Similarly, MP et al. \cite{https://www.ncbi.nlm.nih.gov/pubmed/20144194/} used a Bayesian classifier and a decision tree to predict the likelihood of degenerative disorders from the sequencing of antibodies.
+The main differences between t-SNE and UMAP are of speed and parameters. The original UMAP paper compares UMAP's performance with t-SNE's on the full MNIST digit dataset which consists of 70,000 images of 784 pixels. On a 2017 Macbook Pro with i7 Core and 8GB of RAM, UMAP takes 87 seconds to run, while t-SNE takes 1,450 seconds (\cite{https://arxiv.org/pdf/1802.03426.pdf}).
 
-[other example here]
+t-SNE's main parameter to be tweaked is `perplexity', which loosely corresponds to a guess of the number of neighbours a data point has (\cite{https://distill.pub/2016/misread-tsne/}). UMAP's main parameters are number of neighbours and minimum distance. The former corresponds to the number of approximate neighbours a data point has, similar to t-SNE's perplexity. The latter corresponds to the minimum distance between points in low-dimensional space, meaning that it will tell UMAP how tightly to cluster points together, making visualisation more flexible.
 
-\bigskip
-This section has demonstrated that immunology-related fields such as cancer detection have successfully applied deep learning methods in their research to obtain promising results, and that immunology researchers have also successfully made use of machine learning techniques. [CONFIRM: Furthermore, deep learning has been applied in immunology for sequencing based analysis, (as well as cell segmentation?).] The research cited here highlights that there is an array of methods available to process high-dimensional, visual data and analyse it with the help of deep learning. However, there seems to be a lack of research into the qualitative and quantitative analysis of immune cell interactions from imaging data through these techniques. This paper will thus focus on filling this gap by using deep learning to extract features from images of cells in order to uncover qualitative or quantitative data about the interactions between types of immune cells. [INTRODUCTION?: Subsequently, the results of this research could show whether this shows promise and should be explored further in the future.]
+\subsection{Example visualisations}
+
+[unsure about keeping this section]
+
+The capabilities of t-SNE and UMAP are best illustrated through examples.
+
+[mammoth 3D to 2d example]
+[fashion mnist data]
+
+In the case of our research, applying t-SNE and UMAP to a dataset of microscopic image could allow us to uncover whether or not immune cells behave in recognisable ways under different experimental conditions and whether or not this can be recognised from the structure of the images.
+
+\section{The place of Deep Learning in Immunology}
+
+There is a number of existing research that uses broader Machine Learning techniques in the field of immunology. Muh et al. (\cite{https://www.ncbi.nlm.nih.gov/pubmed/19516900/}) applied Support Vector Machines (SVMs) to the study of allerginicity. Allergic reactions are triggered when a immune system wrongly assumes a harmless substance to be dangerous, such as dust, and produces antibodies to attack it  (\cite{https://www.immunology.org/policy-and-public-affairs/briefings-and-position-statements/allergy}). The SVMs were used to analyse the DNA sequences of known allergens and known non-allergens. The aim was to try and make accurate predictions on unseen sequences and classify them as either allergenic or non-allergenic. The model achieved 95.3\% accuracy.  In another classification example, MP et al (\cite{https://www.ncbi.nlm.nih.gov/pubmed/20144194/}) used a Bayesian classifier and a decision tree to predict the likelihood of degenerative disorders from the sequencing of antibodies and achieved a best accuracy score of 89\%.
+
+The above examples highlight a sample of immunology research carried out using traditional Machine Learning techniques. In the specialised field of deep learning, research using immune cell data is mostly focused on cell counting (Turkki et al., 2016 \cite{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5027738/}; Aprupe et al., 2019 \cite{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6462181/}). Broader deep learning research on cell imaging data also includes cell segmentation (Al Kohafi et al., 2018). On the other hand, in cancer research, deep neural networks are increasingly being used for feature extraction from images to accurately detect cancer (Litjens et al., 2016 \cite{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4876324/}; Bychkov et al., 2018; \cite{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5821847/}).
+
+\section{Summary}
+
+The research cited here highlights that there is an array of methods available to process high-dimensional, visual data through deep learning and visualisation techniques. This section has also shown that immunology-related fields such as cancer research have successfully applied deep learning methods in their research to obtain promising results, and that immunology researchers have also successfully made use of machine learning techniques. There is an increasing interest in the applications of Deep Learning in medical fields, but the use of deep neural networks has not been fully explored in the context of studying immune cells interaction. There seems to be a lack of research into the qualitative and quantitative analysis of immune cell interactions from imaging data through deep learning. However, we have shown that immune cell interactions are of particular interest in drug research as they are key in understanding how an immune system operates. %Indeed, deep neural networks have been used in immunology for the purposes of cell segmentation and cell counting.
+
+This dissertation will thus focus on filling this gap by using deep learning to extract features from images of cells in order to uncover qualitative or quantitative data about the interactions between types of immune cells under different experimental conditions. Subsequently, the results of this research could show whether this shows promise and should be explored further in the future.
