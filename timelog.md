@@ -549,3 +549,7 @@
 - *1 hour* Finishing Materials & methods figure and first draft
 - *0.5 hours* Final checkups on introduction + biology part of background
 - *4 hours* Working on background -- struggling to best verbalise t-SNE and UMAP concepts, as well as medical research using deep learning
+
+### 18 March
+- *0.5 hours* Meeting
+- *0.5 hours* Writing meeting minutes for week 22 and week 23
