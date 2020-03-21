@@ -540,7 +540,7 @@
 - *1 hour* Re-running UMAP with new parameters for better visualisation
 - *2 hours* Attempting to finish writing background
 
-## Week 10 (23) c/ 16 March (11.5/15 hours)
+## Week 10 (23) c/ 16 March (25.5/15 hours)
 
 ### 16 March
 - *5 hours* Going over Materials & Methods, making figures as necessary  
@@ -553,3 +553,14 @@
 ### 18 March
 - *0.5 hours* Meeting
 - *0.5 hours* Writing meeting minutes for week 22 and week 23
+- *1 hour* Going over Carol's proposed changes
+
+### 19 March
+- *2 hours* Working on implementation
+
+### 20 March
+- *5 hours* Working on implementation and making figures
+
+### 21 March
+- *1 hour* Making a general autoencoder structure figure (conv -> activation -> pooling)
+- *5 hours* Writing implementation; making changes to structure
