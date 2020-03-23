@@ -11,9 +11,22 @@ Figure \ref{fig:system} can help the reader to gain understanding how each of th
     \label{fig:system}
 \end{figure}
 
-\section{Image segmentation}
+\section{Pre-processing}
 
-% To obtain an interaction measure from the images, multiple methods were explored. First, we looked at the Structural Similarity Index (SSIM) of images. was computed, however because the images were so similar in general i.e. white blobs spread across a black background, the results were extremely similar across all cells in different experiment conditions.
+Pre-processing steps are best illustrated through a diagram as shown in Figure \ref{fig:preprocessing}.
+
+\begin{figure}[h]
+    \centering
+    \missingfigure[]{Figure showing pre-processing steps: raw images -> gridded images: 1. remove noise and normalise 2. obtain overlaps 3. combine images}
+    \caption{Caption}
+    \label{fig:preprocessing}
+\end{figure}
+
+Images were processed with a sliding window of size 192x192 as we wanted a window that was large enough to contain a few cells but also wanted to make it smaller to be able to reduce individual image dimensions further. A sliding window of 192x192 yielded 100 patches as our images were originally of size 2048x2048.
+
+[further explanations?]
+
+\section{Image segmentation}
 
 Performing cell segmentation from grayscale microscope images of cells has been researched and is necessary when the cells to be studied in an image have not been separately labelled in one way or another. In our case, cell segmentation does not need to be applied as the images of T-cells and dendritic cells have been captured separately through fluorescent dyes. Instead, we are interested in using segmentation techniques to obtain the mask of each type of immune cell for the purposes of background correction and interaction quantisation, as explained in Section \ref{sec:segmentation}.
 
@@ -23,7 +36,7 @@ As our dataset pre-separated the type of immune cells and the cells were bright 
 
 k-means has been shown to perform well on image segmentation by quantising the number of colours in an image into \textit{k} clusters. Formally, k-means aims to partition data points in an array into \textit{k} sets such that the variance between points within clusters is minimised. In our case we wanted to use k-means to transform our black-and-white images of immune cells into bichrome images that we could use as masks. [The following pseudocode details the process of K-means.]
 
-\begin{algorithm}
+\begin{algorithm}[h]
     \DontPrintSemicolon
     \KwData{$I$, an array of pixel values making an image.\;
     $k$, the number of colours to partition the image's colour palette to.\;}
@@ -41,11 +54,9 @@ k-means has been shown to perform well on image segmentation by quantising the n
 \label{alg:kmeans}
 \end{algorithm}
 
-k-means clustering is conveniently offered by multiple libraries in Python. We looked at both scikit-learn's and OpenCV's k-means. scikit-learn is a general library  for machine learning tools, while OpenCV is a more specialised library built for Computer Vision purposes. Both their k-means functions are straightforward to initialise and use. Their performance was benchmarked in order to select the best one. The table below reports times for k-means initialised with k=2, random initialisation of centroids and 10 iterations. The test was ran on a 2015 MacBook Pro with 2.7 GHz i5 core and 8 GB memory.
+k-means clustering is conveniently offered by multiple libraries in Python. We looked at both scikit-learn's and OpenCV's k-means. scikit-learn is a general library  for machine learning tools, while OpenCV is a more specialised library built for Computer Vision purposes. Both their k-means functions are straightforward to initialise and use. Their performance was benchmarked in order to select the best one. The table below reports times for k-means initialised with k=2, random initialisation of centroids and 10 iterations.
 
-% Please add the following required packages to your document preamble:
-% \usepackage{multirow}
-\begin{table}[]
+\begin{table}[h]
 \centering
 \begin{tabular}{|l|l|l|}
 \hline
@@ -54,7 +65,7 @@ Random                                   & \multicolumn{1}{r|}{18.9s}       & \m
 k-means++                                & \multicolumn{1}{r|}{29.3s}       & \multicolumn{1}{r|}{139s}              \\ \hline
 \end{tabular}
 
-\caption{CPU times for OpenCV's and scikit-learn's k-means tool ran on 1,000 samples of 192x192 pixels with different methods of initialising centroids.}
+\caption{CPU times for OpenCV's and scikit-learn's k-means tool ran on 1,000 samples of 192x192 pixels with different methods of initialising centroids.  The computation was ran on a 2015 MacBook Pro with 2.7 GHz i5 core and 8 GB memory.}
 \end{table}
 
 As we can see OpenCV outperforms scikit-learn in all cases. OpenCV for Python is a wrapper library around the original OpenCV code built in C++, which gives it a boost in performance. OpenCV's k-means was thus selected. Initially, k-means centers were initialised randomly. However, during training and validation it was found that this method of initialisation was yielding highly different results for the intersection over union metric at every run. Hence, some speed was traded for consistency and the kmeans++ center initialisation method was picked instead.
@@ -63,7 +74,7 @@ As we can see OpenCV outperforms scikit-learn in all cases. OpenCV for Python is
 
 An alternative to k-means in the case of black-and-white images is thresholding. We decided to explore this option as it could have performance improvements compared to K-means.
 
-Thresholding refers to the process of converting a grayscale image to a binary image of pixels. Pixels above a set threshold are set to 1, and the rest of the pixels below that threshold are set to 0. Thresholding depends on pixel distribution analysis. Usually, thresholding works well for images which have different peaks of pixel values in their distribution. However, in the case of our images we had one peak of pixel values. Figure \ref{fig:thresholdhist} illustrates this.
+Thresholding refers to the process of converting a grayscale image to a binary image of pixels. Pixels above a set threshold are set to 1, and the rest of the pixels below that threshold are set to 0. Thresholding depends on pixel distribution analysis. Usually, thresholding works well for images which have different peaks of pixel values in their distribution. We can then pick the value which seems to separate out the two peaks as our threshold. However, in the case of our images we had one visible peak of pixel values. Figure \ref{fig:thresholdhist} illustrates this.
 
 \begin{figure}[h]
     \centering
@@ -86,7 +97,7 @@ Thresholding refers to the process of converting a grayscale image to a binary i
     \caption{Example images and their histogram. As we can see the grayscale image of lillies has two peaks of frequency.}
     \label{fig:thresholdhist}
 \end{figure}
-As such, we had to identify an alternative for a threshold. First, we selected the mean pixel value as the threshold. This yielded acceptable results, however some noisy pixels still came through the mask (see Figure \ref{fig:thresholdmean}). To fix that problem, the threshold value was set as the sum of the mean pixel value and the standard deviation. This decision was based on the hypothesis that the noise level of an image with a flat structure can be estimated from its variation. Results were satisfactory, as shown in Figure \ref{fig:thresholdstd}.
+As such, we had to find an alternative for finding a suitable threshold. First, we selected the mean pixel value as the threshold. This yielded acceptable results, however some noisy pixels still came through the mask (see Figure \ref{fig:thresholdmean}). To fix that problem, the threshold value was set as the sum of the mean pixel value and the standard deviation. This decision was based on the hypothesis that the noise level of an image with a flat structure can be estimated from its variation. Results were satisfactory, as shown in Figure \ref{fig:thresholdstd}.
 
 \begin{figure}[h]
     \centering
@@ -103,15 +114,18 @@ As such, we had to identify an alternative for a threshold. First, we selected t
     \caption{Segmented images according to different threshold values.}
 \end{figure}
 
-[add a final comparison with k-means in terms of difference]
+Image segmentation through thresholding is also much faster than k-means, with 1,000 images being processed in [time] with the use of Numpy arrays. Nonetheless, masks yielded by k-means are more granular. Figure \ref{fig:maskdiff} shows the difference between the masks obtained through different methods.
+
+\begin{figure}[h]
+    \centering
+    \missingfigure[]{Binary image showing the absolute difference between a mask obtained with k-means and one obtained with thresholding.}
+    \caption{Binary image showing the absolute difference between a mask obtained with k-means and one obtained with thresholding.}
+    \label{fig:maskdiff}
+\end{figure}
 
 \subsection{UNet}
 
 [mention UNet findings here?]
-
-%\subsection{Image masks for background correction}
-
-%As mentioned in Section \ref{subsec:correction}, the microscope images of immune cells might have noise, especially in the background. Particularly in biomedical data, there has been research on background correction. Rather than fixing the background, we can evaluate whether removing the background entirely helps in this case by evaluating both masked and unmasked images.
 
 \section{Autoencoder and regression models}
 
@@ -199,4 +213,4 @@ The input to the regression model is 192x192x3 images accompanied with labels in
 
 [training with mean-squared-error]
 
-The final structure of the deep regression model is shown below. Keras code for building the model is available in Appendix \ref{apdx:regression}.
+The final structure of the deep regression model is shown below. Keras code for building the model is available in Appendix \ref{apdx:regression}. 
