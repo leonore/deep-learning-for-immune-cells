@@ -1,20 +1,47 @@
+\chapter{Evaluation}
 
-\chapter{Evaluation} 
+\section{Methodology}
 
-\section{Train-test dataset split}
+As explained in Section \ref{subsec:selecting_dataset}, three sets of images were selected for research:
 
-A large amount of data was available to us. In order to best evaluate the performance of our trained autoencoder and regression models, part of the data was picked for training, and the rest was left out for testing. Part of the training data was used while training for validation and model checkpoints.
+\begin{itemize}
+    \item A full dataset containing all categories, with no class imbalance issues
+    \item A dual dataset, with no class imbalance issues 
+    \item A `DMSO' dataset, which should show the most distinction between classes, but has class imbalance issues
+\end{itemize}
 
-As explained in Section \ref{}, three datasets were picked out for research. Training was done on the balanced dataset. The balanced dataset was not prone to class imbalance issues, and contained an equal mix of images from each class: unstimulated immune cells, immune cells stimulated with OVA, and immune cells stimulated with ConA.  
+Training and validating the autoencoder and regression models was done on the full dataset's 19,000 instances. We had 10,000 instances of this dataset left for testing, and 15,900 instances of the dual dataset, as well as 8,000 instances of the DMSO dataset. All datasets were consistently shuffled before training and testing with a random state parameter.
 
-Part of this balanced dataset was kept untouched for testing. Two other datasets were used for testing: the DMSO dataset, and the two-category dataset. 
+We are looking to evaluate the performence of our autoencoder and regression model.
 
-The two-category dataset had two purposes: evaluating if the model performed better with differentiating between two classes instead of 3. Moreover the two-category dataset contained both labels of drug stimulation and drug concentration. It was hypothesised that maybe we could gather more information of interaction based on drug concentration rather than type of drug. 
+\begin{itemize}
+    \item The success of the autoencoder model developed will be evaluated on its capacity at image reconstruction, as well as how well the coded images obtained from its bottleneck layer can be mapped onto a two-dimensional plane with t-SNE and UMAP.
+    \item The regression model will be evaluated on how well it predicts interaction values for unseen images of immune cells.
+\end{itemize}
 
-The DMSO dataset had issues because it was built from the balanced and two-category dataset and parts of the DMSO images were possibly used to train the balanced dataset. However, DMSO represents the conditions in which difference in interaction should be most visibile, thus it was still valuable to evaluate for results. However, it is considered "tainted". 
+\section{Autoencoder}
 
+\subsection{How well can we reconstruct an image?}
 
-%\section{Autoencoder}
-%\subsection{Reconstruction}
-%\subsection{2D Visualisation with t-sne and UMAP}
-%\subsubsection{Matplotlib tool for outlier exploration}
+The task of an autoencoder is of the reconstruction of its input and how well the input is reconstructed. As such, we are looking to minimise the difference between the input to the model and its reconstruction. For a real-valued input, the difference would be calculated using the Mean-Squared-Error (MSE) loss, but because we are working in a normalised range of [0, 1], we are using the binary cross-entropy loss. The loss computed can then be considered as a probability of how close the two images are to each other. [should this be here or in implementation? repeated myself]
+
+The following images show how the autoencoder performed on image reconstruction. [what to show: one image in each category + both masked and unmasked?]
+
+The autoencoder received an input of 110,592 pixels. These pixels were reduced to a coded vector of 1,152. From this coded vector, we can see that the autoencoder reconstructed the images in quite a satisfactory way. Its main drawback is the way it merges different cells together.
+
+\subsection{Can we find an underlying structure in the images of immune cells?}
+
+The hope for two-dimensional visualisation of the datasets was that the visualisations would uncover clusters of images around the same experimental conditions.
+
+\bigskip
+\subsubsection{Exploring outliers}
+
+\section{Regression}
+
+\subsection{Regression metrics}
+
+\subsection{Can we quantify interaction by looking at an image of immune cells?}
+
+\subsection{Can our visualisations be improved by adding interaction quantity meta-data?}
+
+[unsure of having this here or in autoencoder visualisation]
