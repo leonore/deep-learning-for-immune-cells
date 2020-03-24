@@ -1,4 +1,3 @@
-
 \chapter{Materials and Methods} \label{sec:mm}
 
 This chapter covers the images that were available for analysis, how they were processed, and which methods were applied to analyse them. Detailed results of the implementation of these methods are then presented and discussed in Section \ref{sec:implementation}.
@@ -7,7 +6,9 @@ This chapter covers the images that were available for analysis, how they were p
 
 \subsection{Setup}
 
-The images that were used for the purpose of this research were provided by a researcher [Hannah: do you want your name to be cited?] in Immunology at the Institute of Infection, Immunity \& Inflammation at the University of Glasgow. The images were captured from multi-well plates with a commercial INCell Analyzer Machine\footnote{https://www.gelifesciences.com/en/us/shop/cell-imaging-and-analysis/high-content-analysis-systems/instruments/}. As established in Section \ref{bg:immunesystem}, the type of immune cells we are studying are T-cells and dendritic cells (DCs). Each plate to be imaged in the INCell Analyzer Machine contains a grid of wells. Each well is assigned a label and an experimental condition. T-cells, dendritic cells, and compounds related to the experimental conditions are injected in the well. In order to be able to distinguish between them, cells are loaded with fluorescent dyes: the T-cells are dyed with a green dye (FITC dye), and the dendritic cells are dyed with a red dye (TexasRed dye). After imaging, we obtain three field-of-view images per well:
+The images that were used for the purpose of this research were provided by a researcher [Hannah: do you want your name to be cited?] in Immunology at the Institute of Infection, Immunity \& Inflammation at the University of Glasgow. The images were captured from 384-well plates with a commercial INCell Analyzer 2000. As established in Section \ref{bg:immunesystem}, the type of immune cells we are studying are T-cells and dendritic cells (DCs). Each plate to be imaged in the INCell Analyzer Machine contains a grid of wells. Each of those wells is assigned a label and an experimental condition. T-cells, dendritic cells, and compounds related to the experimental conditions are injected in the well. In order to be able to distinguish between them, cells are loaded with fluorescent dyes: the T-cells are dyed with a green dye (CSFE dye), and the dendritic cells are dyed with a red dye (CMTPX dye). After imaging, we obtain three field-of-view images per well:
+
+[should I add an image of a plate of wells for illustration if that is not clear to a casual reader?]
 
 \begin{itemize}
     \item a Brightfield image, which shows both T-cells and dendritic cells (Figure \ref{fig:fov_brightfield})
@@ -38,20 +39,50 @@ The images that were used for the purpose of this research were provided by a re
 
 \subsection{Experimental conditions}
 
-[need some explaining about labels and drugs here]
+8,000 dendritic cells and 8,000 T-cells were cultured in each of the 384 wells. The INCell Analyzer 2000 captured an image of around 25\% of each well. The dendritic cells were cultured from bone marrow cells obtained from mice. T-cells were obtained from mice's lymphoid tissues. 70 to 90\% of the T-cells in these mice's immune system expressed a receptor for the antigen Ovalbumin (OVA) peptide, which means they recognised it well.
+
+Each well in a plate was associated with an experimental condition:
+\begin{itemize}
+    \item The well are injected with one of 45 drug compounds, % aimed at inhibiting the strength of bonds between immune cells
+    \item These compounds could be injected at a bigger or lesser concentration,
+    \item Moreover, one of two types of antigens could be injected to further stimulate the cells.
+\end{itemize}
+
+We are interested in using the latter as a label for our images, as it gives us a smaller number of categories to look at. More specifically, there are three categories of stimulation:
+\begin{itemize}
+    \item No stimulation
+    \item Stimulation with Ovalbumin (OVA) peptide, which is the antigen that should be recognised by most T-cells in the well
+    \item Stimulation with Concanavalin A (ConA), an antigen which cross-links T-cells receptors with a molecule on DCs that would hold the OVA peptide antigen and show it to T-cells
+\end{itemize}
 
 \subsection{Selecting images}
 
-There was a large amount of images available from different well plates with different experimental conditions. However, each set of images represents about 8 GB of data on average. Moving images through disks or cloud filing system thus represented substantial time and was vulnerable to transfer errors. Hence, a limited number of plates were selected for training and evaluation to make sure their consistency could be validated. Chosen plates were picked taking into account the different experimental conditions that were relevant to address the biological question that was studied. [make this clearer]
+There was a large amount of images available from different well plates with the different experimental conditions described above. However, each set of images corresponding to a plate represented about 8 GB of data on average. Moving images through disks or cloud filing system thus represented substantial time and was vulnerable to transfer errors. Hence, a limited number of plates were selected for training and evaluation to make sure their consistency could be validated. Chosen plates were picked taking into account the different experimental conditions that were relevant to address the biological question that was studied.
 
 \begin{itemize}
-    \item The ``DMSO" dataset: [TODO to be read over by Hannah] Dimethyl sulfoxide (DMSO) is a solvent that helps solubilise the investigated drug compounds, as most compounds are not initially water soluble. When in solution, drug compounds should be more bioavailable and have more of a biological impact.
-    \item The ``balanced” dataset: this dataset contains an equal number of images in the three categories of stimulation: no drug stimulation, stimulation with OVA (ovalbumin) peptide, and stimulation with concavalin A (ConA). This is to fight issues of class imbalance when training the model.
-    \item The simpler dataset, with two categories: This dataset contains an equal number of images in two categories: no drug stimulation, and stimulation with OVA peptide. This was selected under the hypothesis that if useful results cannot be obtained with a 3 categories dataset, a deep learning model might be able to perform better with two.
+    \item The ``full" and ``balanced” dataset: this dataset contains an equal number of images in the three categories of stimulation: no stimulation, stimulation with OVA, and simulation with ConA. This is to fight issues of class imbalance when training the model.
+    \item The simpler ``dual" dataset, with two categories: this dataset contains an equal number of images in two categories: no stimulation, and stimulation with OVA peptide. This was selected under the hypothesis that if useful results cannot be obtained with a dataset containing images from all categories, a deep learning model might be able to perform better with two.
+    \item The ``DMSO" dataset: Dimethyl sulfoxide (DMSO) is a solvent that helps solubilise the investigated drug compounds, as most compounds are not initially water soluble. When in solution, drug compounds should be more bioavailable and have more of a biological impact. [what does this represent exactly in dataset? is it just DMSO, no drugs?]
 \end{itemize}
 
+These datasets are summarised in Table \ref{table:datasets}.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{l|l|l|l}
+\rowcolor[HTML]{EFEFEF}
+\hline
+\diagbox{Dataset}{Category} & Unstimulated & OVA & ConA \\ \hline
+Full    & x            & y   & z    \\
+Dual    & x            & y   & 0    \\
+DMSO    & x            & y   & z   \\ \hline
+\end{tabular}
+\caption{Number of images in each category by dataset. Both full and dual datasets should have no issues with class imbalance [TO BE COMPLETED].}
+\label{table:datasets}
+\end{table}
+
 \subsection{Pre-processing} \label{subsec:preproc}
-The datasets obtained from this setup consisted of 2048x2048 16-bit images in TIFF format, captured by a 12-bit camera. As mentioned above, each ``image” consists in fact of a set of three views: the green fluorescent image (T-cells), the red fluorescent image (dendritic cells), and the Brightfield image. The bright-field images show both cell types and can be used for diagnostic purposes when deciding on pre-processing methods, but were otherwise discarded and not used for further analysis.
+The datasets obtained from this setup consisted of 2048x2048 16-bit images in TIFF format, captured by a 12-bit camera. As mentioned above, each ``image” consists in fact of a set of three views: the green fluorescent image (T-cells), the red fluorescent image (dendritic cells), and the Brightfield image. The brightfield images show both cell types and can be used for diagnostic purposes when deciding on pre-processing methods, but were otherwise discarded and not used for further analysis.
 
 %Fiji (ImageJ) was used to explore the images as the particular 12-bit format of the image in a TIFF file meant that standard image previewers reproduced the image as all black. Fiji also offered useful tools for testing image pre-processing methods, such as binary filters, thresholding, and background correction.
 Each of the images sized about 8MB, and represented 4,194,304 pixels. This represented an issue of very high dimensions to handle for a model. Each plate also had about 400 wells, which corresponds to 800 images when counting both the T-cell image and the DC image. This meant that we had quite a limited amount of images to feed into any kind of model.
@@ -104,7 +135,9 @@ From analysing the images, it was also found that some images contained many pix
 
 \end{figure}
 
-\begin{figure}[h]
+As described above, the provided images sometimes contained some background noise. Furthermore, some images contained larger amounts of noise coming from defects in the wells, such as water droplets. This is illustrated in Figure \ref{fig:noisyimage}. Their pixel value distribution followed the [0, 255] range as described above but these values covered the whole sub-image and no cells of interest were present in those patches. Removing them entirely from the dataset would make it more difficult to reason about whole images, as a full image is represented by 100 sub-images, and would also create inconsistencies in the amount of sub-images per image file. Instead of removing them, it was decided to keep them in to see if a neural network could make sense of them as a category. Noisy sub-images were labelled as ``Faulty".
+
+\begin{figure}[h!]
     \centering
     \begin{subfigure}[h!]{0.3\textwidth}
         \includegraphics[width=\textwidth]{dissertation/figures/faulty_brightfield.jpg}
@@ -123,18 +156,17 @@ From analysing the images, it was also found that some images contained many pix
     \caption{Different views of an image which contains ``Faulty" patches. \protect\subref{subfig:tcell}, \protect\subref{subfig:dc} have been brightness-adjusted for visualisation.}
     \label{fig:noisyimage}
 \end{figure}
-As described above, the provided images sometimes contained some background noise. Furthermore, some images contained larger amounts of noise coming from defects in the wells, such as water droplets. This is illustrated in Figure \ref{fig:noisyimage}. Their pixel value distribution followed the [0, 255] range as described above but these values covered the whole sub-image and no cells of interest were present in those patches. Removing them entirely from the dataset would make it more difficult to reason about whole images, as a full image is represented by 100 sub-images, and would also create inconsistencies in the amount of sub-images per image file. Instead of removing them, it was decided to keep them in to see if a neural network could make sense of them as a category. Noisy sub-images were labelled as ``Faulty".
 
 \bigskip
 \subsubsection{Labelling}
 
 \hfill\\
 \hfill\\
-Each plate came with an Excel sheet giving information about the plate layout. Each image was given a letter and a name, and the Excel sheet gave information about drug stimulation, compound ID number, or compound concentration. These Excel sheets were not automatically parsable as types of drugs or location in the sheet might vary from one to the next, hence labelling had to be hardcoded and handchecked.
+Each plate came with an Excel sheet giving information about the plate layout. Each image was given a letter and a name, and the Excel sheet gave information about stimulation, drug compound ID number, and compound concentration. These Excel sheets were not automatically parsable as types of drugs or location in the sheet might vary from one to the next, hence labelling had to be hardcoded and handchecked.
 
 \subsection{Combining images to qualify interaction} \label{subsec:combining}
 
-To summarise, we made sure that for each well representing an experimental condition, we obtain two images of interest: an image of T-cells, and a counterpart image of dendritic cells. While these were obtained separately with the help of fluorescent dyes, they were still captured from the same well in which they were placed together. Hence, for us to gain any understanding of cell interaction from these images, we needed to combine them one way or another.
+To summarise, we made sure that for each well representing an experimental condition, we obtain two images of interest: an image of T-cells, and its counterpart dendritic cells image. While these were obtained separately with the help of fluorescent dyes, they were still captured from the same well in which they were placed together. Hence, for us to gain any understanding of cell interaction from these images, we needed to combine them one way or another.
 
 We decided to combine each black-and-white T-cell and DC image in one RGB image. Computationally speaking, an RGB image corresponds to a multi-dimensional array of three arrays. Each of these arrays corresponds to a colour channel: red, green, or blue. The dendritic cell images were obtained through fluorescent red dye screening, so the red channel of the image was set to this image. Similarly, the T-cell images were obtained through fluorescent green dye screening, so the green channel of the image was set to this image. The blue channel of the RGB image was left blank. The resulting RGB image thus allowed us to visualise T-cells in green, DCs in red, with close overlap between those cells will in orange hues. Figure \ref{fig:combined} illustrates a sample of combined sub-images after this operation was completed.
 
@@ -204,7 +236,7 @@ The first use for our autoencoder is to reduce the dimensions of our image input
 
 The second use of our autoencoder will be as a building block for a deep regression model. If our full autoencoder shows satisfactory reconstruction performance, then we can use the encoder block of the model and extend it in a regression structure. This autoencoder-based regression model will take images and associated overlap values as input for training, as shown in Figure \ref{fig:regression}.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \missingfigure[]{Figure of [encoder --> code] --> regression}
     \caption{Schematic diagram of a deep regression model using the decoder layers of an autoencoder as a building block. The encoder layers are connected to fully-connected layers which will output a numeric value.}
