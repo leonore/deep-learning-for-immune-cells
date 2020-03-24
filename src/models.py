@@ -46,8 +46,15 @@ from config import imw, imh, c, RS, evaluation_path
 
 
 def make_autoencoder():
+    """
+    Initialise autoencoder model for training and
+    return reference to both decoder and encoder parts of the model.
+    """
+
+    # image shape is defined in the configuration
     input_img = Input(shape=(imw, imh, c))
 
+    # layers for reduction of image
     x = Conv2D(64, (3, 3), padding='same')(input_img)
     x = PReLU()(x)
     x = MaxPooling2D((2, 2), padding='same')(x)
@@ -63,10 +70,12 @@ def make_autoencoder():
     x = Conv2D(32, (3, 3), padding='same', strides=2)(x)
     x = PReLU()(x)
 
-    encoded = Flatten()(x)
+    encoded = Flatten()(x) # bottleneck layer
 
+    # layers for expansion of image
     x = UpSampling2D((2, 2))(x)
     x = Conv2D(32, (3, 3), padding='same')(x)
+    x = PReLU()(x)
     x = UpSampling2D((2, 2))(x)
     x = Conv2D(32, (3, 3), padding='same')(x)
     x = PReLU()(x)
@@ -81,11 +90,17 @@ def make_autoencoder():
 
     decoder = Model(input_img, decoded)
     encoder = Model(input_img, encoded)
+    # the encoder will be trained through the decoder so it does not need to be compiled
     decoder.compile(optimizer='adam', loss='binary_crossentropy')
 
     return decoder, encoder
 
 def make_regression(encoder):
+    """
+    Initialise a regression model for training using
+    a previously created encoder model
+    """
+
     model = Sequential()
     model.add(encoder)
     model.add(Dense(128, activation='relu'))
@@ -93,11 +108,11 @@ def make_regression(encoder):
     model.add(Dense(64, activation='relu'))
     model.add(Dense(1, activation='linear', kernel_constraint=constraints.NonNeg()))
 
-    model.compile(loss='mean_squared_error',
-                  optimizer='adam')
+    model.compile(loss='mean_squared_error', optimizer='adam')
+
     return model
 
-def train(model, x, y, batch_size=64, epochs=20, tag=None):
+def train(model, x, y, batch_size=64, epochs=40, tag=None):
     # get before/after weights (make sure there is a change)
     untrained_weights = np.array(model.get_layer(index=1).get_weights()[1])
 
@@ -151,8 +166,8 @@ def evaluate_autoencoder(model, data, tag=None):
 
     plt.show()
 
-def evaluate_regression(y_true, y_pred, y_labels, tag=None):
-    plot_lines_of_best_fit(y_true, y_pred, y_labels, tag)
-    plot_predictions_histogram(y_true, y_pred, y_labels, tag)
+def evaluate_regression(y_true, y_pred, y_labels, labels=["Unstimulated", "OVA", "ConA"], tag=None):
+    plot_lines_of_best_fit(y_true, y_pred, y_labels, labels, tag)
+    plot_predictions_histogram(y_true, y_pred, y_labels, labels, tag)
     plot_error_distribution(y_true, y_pred, tag)
     metrics_report(y_true, y_pred, tag)
