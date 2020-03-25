@@ -568,7 +568,7 @@
 ### 22 March
 - *3 hours* Re-reading sections, making figures as appropriate
 
-## Week 11 (24) c/ 23 March (9.5 hours)
+## Week 11 (24) c/ 23 March (16.5 hours)
 
 ### 23 March
 - *0.5 hours* Making a skeleton for Presentation slides saying what they should have (no design yet)
@@ -576,4 +576,8 @@
 - *2 hours* Incorporating Hannah's comments into the dissertation
 
 ### 24 March
-- *5 hours* Working on implementation and finishing parts of Materials and Methods to send second draft over 
+- *5 hours* Working on implementation and finishing parts of Materials and Methods to send second draft over
+
+### 25 March
+- *3 hours* Working on the presentation
+- *4 hours* Working on writing evaluation, adding placeholder figures
