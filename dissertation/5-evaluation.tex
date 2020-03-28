@@ -7,15 +7,17 @@ As explained in Section \ref{subsec:selecting_dataset}, three sets of images wer
 \begin{itemize}
     \item A full dataset containing all categories, with no class imbalance issues
     \item A dual dataset, with no class imbalance issues
-    \item A `DMSO' dataset, which should show the most distinction between classes, but has class imbalance issues
+    \item A `DMSO' dataset, which should show the most distinction between classes, with class imbalance issues
 \end{itemize}
 
-Training and validating the autoencoder and regression models was done on the full dataset's 19,000 instances. We had 10,000 instances of this dataset left for testing, and 15,900 instances of the dual dataset, as well as 8,000 instances of the DMSO dataset. All datasets were consistently shuffled before training and testing with a random state parameter. Moreover, we had two versions of each dataset: one which has been noise-corrected, and one which has been background-corrected through the help of k-means colour segmentation. This dataset was denominated the `masked' dataset.
+We had two versions of each dataset: one which had been noise-corrected, and one which has been background-corrected through the help of k-means colour segmentation. This dataset was denominated the `masked' dataset. We trained separate models on those two datasets to evaluate the impact of the background on the models's learning.
 
-We are looking to evaluate the performance of our autoencoder and regression model on the unseen images of these datasets.
+Training and validating was done on the full dataset's 19,000 instances. We had 10,000 instances of this dataset left for testing, and 15,900 instances of the dual dataset, as well as 8,000 instances of the DMSO dataset. All datasets were consistently shuffled before training and testing with a random state parameter.
+
+This section will evaluate the performance of our autoencoder and regression models on the unseen images of these datasets.
 
 \begin{itemize}
-    \item The success of the autoencoder model will be evaluated on its capacity at image reconstruction, as well as if the projection by t-SNE or UMAP of the images coded by the autoencoder show some underlying structure of the data.
+    \item The success of the autoencoder model will be evaluated on its capacity at image reconstruction, as well as if the UMAP projection of the coded images shows some underlying structure of the data.
     \item The regression model will be evaluated on how well it predicts interaction values for unseen images of immune cells.
 \end{itemize}
 
@@ -23,72 +25,74 @@ We are looking to evaluate the performance of our autoencoder and regression mod
 
 \subsection{How well can we reconstruct an image?}
 
-%The task of an autoencoder is of the reconstruction of its input and how well the input is reconstructed. As such, we are looking to minimise the difference between the input to the model and its reconstruction. For a real-valued input, the difference would be calculated using the Mean-Squared-Error (MSE) loss, but because we are working in a normalised range of [0, 1], we are using the binary cross-entropy loss. The loss computed can then be considered as a probability of how close the two images are to each other. [should this be here or in implementation? repeated myself]
-
-The following images show how the autoencoder performed on image reconstruction. [what to show: one image in each category + both masked and unmasked?]
-
-\bigskip
-\subsubsection{Full dataset}
-\hfill
-\hfill
+The following images show how the autoencoder performed on image reconstruction for each of the datasets.
 
 \begin{figure}[h!]
     \centering
     \begin{subfigure}[h!]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{dissertation/figures/CK19_reconstruction.png}
+        \includegraphics[width=\textwidth]{dissertation/figures/evaluation/CK19_reconstruction.png}
         \caption{Normal images}
     \end{subfigure}
     \begin{subfigure}[h!]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{dissertation/figures/CK19_masked_reconstruction.png}
+        \includegraphics[width=\textwidth]{dissertation/figures/evaluation/CK19_masked_reconstruction.png}
         \caption{Masked images}
     \end{subfigure}
-    \caption{Autoencoder-reconstructed images from the full dataset. For each of the subfigures, categories are `Unstimulated', `OVA', `ConA' from left to right. Input images are at the top, and predicted images at the bottom.}
+    \caption{Autoencoder-reconstructed images from the test images of \textbf{full} dataset. For each of the subfigures, categories are `Unstimulated', `OVA', `ConA' from left to right. Input images are at the top, and predicted images at the bottom.}
     \label{fig:my_label}
 \end{figure}
-
-\bigskip
-\subsubsection{Dual dataset}
-\hfill
-\hfill
 
 \begin{figure}[h!]
     \centering
     \begin{subfigure}[h!]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{dissertation/figures/CK19_reconstruction.png}
+        \includegraphics[width=\textwidth]{dissertation/figures/evaluation/DMSO_reconstruon.png}
         \caption{Normal images}
     \end{subfigure}
     \begin{subfigure}[h!]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{dissertation/figures/CK19_masked_reconstruction.png}
+        \includegraphics[width=\textwidth]{dissertation/figures/evaluation/DMSO_masked_reconsttion.png}
         \caption{Masked images}
     \end{subfigure}
-    \caption{Autoencoder-reconstructed images from the full dataset. For each of the subfigures, categories are `Unstimulated', `OVA', `ConA' from left to right. Input images are at the top, and predicted images at the bottom.}
+    \caption{Autoencoder-reconstructed images from the \textbf{dual} dataset. For each of the subfigures, categories are `Unstimulated', `OVA', `ConA' from left to right. Input images are at the top, and predicted images at the bottom.}
     \label{fig:my_label}
 \end{figure}
-
-\bigskip
-\subsubsection{DMSO dataset}
-\hfill
-\hfill
 
 \begin{figure}[h!]
     \centering
     \begin{subfigure}[h!]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{dissertation/figures/CK19_reconstruction.png}
+        \includegraphics[width=\textwidth]{dissertation/figures/evaluation/DMSO_reconstruction.png}
         \caption{Normal images}
     \end{subfigure}
     \begin{subfigure}[h!]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{dissertation/figures/CK19_masked_reconstruction.png}
+        \includegraphics[width=\textwidth]{dissertation/figures/evaluation/DMSO_masked_reconstruction.png}
         \caption{Masked images}
     \end{subfigure}
-    \caption{Autoencoder-reconstructed images from the full dataset. For each of the subfigures, categories are `Unstimulated', `OVA', `ConA' from left to right. Input images are at the top, and predicted images at the bottom.}
+    \caption{Autoencoder-reconstructed images from the \textbf{DMSO} dataset. For each of the subfigures, categories are `Unstimulated', `OVA', `ConA' from left to right. Input images are at the top, and predicted images at the bottom.}
     \label{fig:my_label}
 \end{figure}
 
-The autoencoder received an input of 110,592 pixels. These pixels were reduced to a coded vector of 1,152. From this coded vector, we can see that the autoencoder reconstructed the images in quite a satisfactory way. Its main drawback is the way it merges different cells together.
+The autoencoder received an input of 110,592 pixels. These pixels were reduced to a coded vector of 1,152. From this coded vector, we can see that visually, the autoencoder reconstructed the images in quite a satisfactory way – we can still see where cells are and where they overlap. Its main drawback is the way it merges different cells together.
+
+The following table reports loss values for each dataset and model.
+
+\begin{table}[h]
+\centering
+\caption{Binary cross-entropy loss values for each model and dataset test predictions. The closer to 0 the better.}
+\rowcolor[HTML]{EFEFEF}
+\begin{tabular}{|l|r|r|}
+\hline
+\rowcolor[HTML]{EFEFEF}
+Dataset       & Normal images  & Masked images   \\ \hline
+Full & 16,490 & 2,910   \\
+Dual   &        &    \\
+DMSO          &     & \\ \hline
+\end{tabular}
+\label{table:splits}
+\end{table}
 
 \subsection{Can we find an underlying structure in the images of immune cells?}
 
-The aim for two-dimensional visualisation of the datasets was that the visualisations would uncover clusters of images around the same experimental conditions.
+The aim for two-dimensional visualisation of the datasets was that the visualisations would allow us to uncover clusters of images around the same experimental conditions.
+
+Each element projected onto a 2D plane counts 1,152 pixel points and is labelled with one of the `Unstimulated', `OVA', `ConA', or `Faulty' categories at the plotting step.
 
 \bigskip
 \subsubsection{Baseline performance}
@@ -99,8 +103,8 @@ The expectations were that an autoencoder would allow us to extract the necessar
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.45\textwidth]{dissertation/figures/CK19_baseline_visualisation.png}
-    \caption{Two-dimensional UMAP projection of the 10,000 testing images in the full dataset. Each image counts 110,592 pixel points and is categorised into one of the `Unstimulated', `OVA', `ConA', or `Faulty' categories.}
+    \includegraphics[width=0.45\textwidth]{dissertation/figures/evaluation/CK19_baseline_visualisation.png}
+    \caption{Two-dimensional UMAP projection of the 10,000 testing images in the full dataset. UMAP was ran with base parameters $n\_neighbors=15$, $min\_dist=0.1$. Each image counts 110,592 pixel points and is categorised into one of the `Unstimulated', `OVA', `ConA', or `Faulty' categories.}
     \label{fig:baseline_vis}
 \end{figure}
 
@@ -114,18 +118,19 @@ This projection highlights that with the raw 192x193x3 images of immune cells, o
 \begin{figure}[h!]
     \centering
     \begin{subfigure}[h!]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{dissertation/figures/CK19_baseline_visualisation.png}
+        \includegraphics[width=\textwidth]{dissertation/figures/evaluation/CK19_umap.png}
         \caption{Coded images}
     \end{subfigure}
+    %
     \begin{subfigure}[h!]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{dissertation/figures/CK19_baseline_visualisation.png}
+        \includegraphics[width=\textwidth]{dissertation/figures/evaluation/CK19_masked_umap.png}
         \caption{Coded masked images}
     \end{subfigure}
-    \caption{Two-dimensional UMAP projection of the 10,000 test images from the full dataset. Each image counts 1,152 pixel points and is categorised into one of the `Unstimulated', `OVA', `ConA', or `Faulty' categories.}
-    \label{fig:my_label}
+    \caption{Two-dimensional UMAP projection of the 10,000 test images from the \textbf{full} dataset. This projection was obtained with UMAP parameters n\_neighbors=30 and min\_dist=80.}
+    \label{fig:full_projection}
 \end{figure}
 
-This UMAP projection took [4 minutes] to run, which is a yx speed-up on the baseline performance. Moreover, we can see that some clusters have emerged.
+These UMAP projections took 55 and 54 seconds to run, which is approximately a 70x speedup on the baseline performance. Moreover, we can see that some clusters have emerged.
 
 \bigskip
 \subsubsection{Dual dataset}
@@ -142,7 +147,7 @@ This UMAP projection took [4 minutes] to run, which is a yx speed-up on the base
         \includegraphics[width=\textwidth]{dissertation/figures/CK19_baseline_visualisation.png}
         \caption{Coded masked images}
     \end{subfigure}
-    \caption{Two-dimensional UMAP projection of the 15,900 test images from the dual dataset. Each image counts 1,152 pixel points and is categorised into one of the `Unstimulated', `OVA', or `Faulty' categories.}
+    \caption{Two-dimensional UMAP projection of the 13,800 test images from the dual dataset.}
     \label{fig:my_label}
 \end{figure}
 
@@ -154,25 +159,28 @@ This UMAP projection took [4 minutes] to run, which is a yx speed-up on the base
 \begin{figure}[h!]
     \centering
     \begin{subfigure}[h!]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{dissertation/figures/CK19_baseline_visualisation.png}
+        \includegraphics[width=\textwidth]{dissertation/figures/evaluation/DMSO_umap.png}
         \caption{Coded images}
     \end{subfigure}
     \begin{subfigure}[h!]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{dissertation/figures/CK19_baseline_visualisation.png}
+        \includegraphics[width=\textwidth]{dissertation/figures/evaluation/DMSO_masked_umap.png}
         \caption{Coded masked images}
     \end{subfigure}
-    \caption{Two-dimensional UMAP projection of the 8,000 test images from the DMSO dataset. Each image counts 1,152 pixel points and is categorised into one of the `Unstimulated', `OVA', `ConA', or `Faulty' categories.}
-    \label{fig:my_label}
+    \caption{Two-dimensional UMAP projection of the 8,000 test images from the \textbf{DMSO} dataset. This projection was obtained with UMAP parameters $n\_neighbors=x$ and $min\_dist=0.y$.}
+    \label{fig:dmso_projection}
 \end{figure}
+
+The one thing we can notice from all datasets is that the model does not struggle to distinguish ``Faulty" images from images of immune cells. This is useful as it acts as a baseline and tells our model is working effectively. This might be a sign that the images in the different categories of stimulation are not structurally different enough in they way they are inputted in the dataset. [show faulty patches of images somewhere].
+Masking the dataset had similar effects on all datasets, as the clusters rounded up and separations of certain points was less visible. The DMSO projection interestingly shows some green to red gradient: some distinction between the ``OVA" and ``ConA" categories. Almost no blue points are at the top of the cluster, and almost no green points are at the bottom of the cluster. This is overlaid on top of images of the ``Unstimulated" category, however this might show that some distinction is being made between the images. Unstimulated immune cells could show some more random and unpredictable behaviour as lack of stimulation does not mean inhibition of interaction between immune cells. This randomness could shine through the images. This OVA-ConA distinction is not visible in the masked images.
 
 \bigskip
 \subsubsection{Exploring outliers}
 \hfill
 \hfill
 
-In order to explore the different clusters observed in the visualisations further, we developed a tool that makes use of matplotlib's animation API\footnote{https://matplotlib.org/api/animation\_api.html}. A user can hover over the points of the visualisation to display the image that was encoded and mapped to a point on the two-dimensional point. It is useful for looking at outlier points on the edges of clusters or in smaller clusters, but requires quite a lot of memory to update coordinates in a graph with a large number of points and display a 192x192x3 image, and is slow in such cases.
+In order to explore the different clusters observed in the visualisations further, we developed a tool that makes use of matplotlib's animation API\footnote{https://matplotlib.org/api/animation\_api.html}. A user can hover over the points of the visualisation to display the image that was encoded and mapped to a point on the two-dimensional point. It is useful for looking at outlier points on the edges of clusters or in smaller clusters, but requires quite a lot of memory to update coordinates in a graph with a large number of points and display a $192\times192\times3$ image, and is slow in such cases.
 
-Figures \ref{} highlight the tool's functionality.
+Figures \ref{} highlight the tool's functionality. We picked the graphs from Figures \ref{} above that showed some outlier points to evaluate whether or not they were meaningful.
 
 \subsection{Are our visualisations more meaningful with interaction measure meta-data?}
 
@@ -186,7 +194,7 @@ From this we can see that there is some meaningful structure to the data that th
 
 Our regression task is to predict the percentage of overlap between T-cells and dendritic cells from an image where T-cells are shaded green, and dendritic cells are shaded red.
 
-\subsection{Regression metrics}
+\subsection{Metrics}
 
 Our regression model is trained on mean squared error (MSE) and we decided to evaluate on root-mean-square-error (RMSE) as it is a common metric for evaluating the difference between predictions of a model and actual truth values. RMSE has the advantage of being in the same unit as the dependent variable, which in our case is the percentage of overlap between the cells objects obtained with intersection-over-union. RMSE is defined as the square root of the quadratic mean of the difference between our predicted values and their truth values. The equation is as follows:
 
@@ -205,6 +213,104 @@ We also include the (unbiased) standard deviation (SD) of our predicted results 
 where $n$ is the number of predicted samples, $\hat{y}_i$ is the predicted value of a sample and $\mu$ is the mean of all predicted values.
 
 \subsection{Can we quantify interaction from an image of immune cells?}
+
+[should I add a section about what we know about the dataset from Hannah's research? i.e. ConA gets more interaction]
+
+\bigskip
+\subsubsection{Full dataset}
+\hfill
+\hfill
+
+\begin{figure}[h!]
+    \centering
+    \begin{subfigure}{0.45\textwidth}
+        \includegraphics[width=\textwidth]{dissertation/figures/evaluation/full/CK19_scatter.png}
+        \caption{Normal images}
+    \end{subfigure}
+    \begin{subfigure}{0.45\textwidth}
+        \includegraphics[width=\textwidth]{dissertation/figures/evaluation/full/CK19_masked_scatter.png}
+        \caption{Masked images}
+    \end{subfigure}
+    \caption{Scatter plot comparing true values (x-axis) to predicted values (y-axis) for the full dataset. The line of best fit is the straight continuous line running diagonally true the plot, which is the line we want our predictions on.}
+    \label{fig:full_scatter}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \begin{subfigure}{0.45\textwidth}
+        \includegraphics[width=\textwidth]{dissertation/figures/evaluation/full/CK19_histogram.png}
+        \caption{Normal images}
+    \end{subfigure}
+    \begin{subfigure}{0.45\textwidth}
+        \includegraphics[width=\textwidth]{dissertation/figures/evaluation/full/CK19_masked_histogram.png}
+        \caption{Masked images}
+    \end{subfigure}
+    \caption{Histogram}
+\end{figure}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{l|rrr|r}
+\rowcolor[HTML]{EFEFEF}
+Images & Unstimulated & OVA & ConA & All \\ \hline
+Normal      & 1.344 $\pm$ 3.102  & 1.387 $\pm$ 2.963   & 2.502 $\pm$ 6.004  &   1.838 $\pm$ 4.583  \\ \hline
+Masked      &    0.832 $\pm$ 3.174          & 0.766 $\pm$ 3.355  &  1.642 $\pm$ 6.6067   &   1.161 $\pm$ 4.732
+\end{tabular}
+\end{table}
+
+\bigskip
+\subsubsection{Dual dataset}
+\hfill
+\hfill
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{dissertation/figures/CK19_regression_scatter.png}
+    \caption{Scatter plot comparing true values (x-axis) to predicted values (y-axis) for the dual dataset. The line of best fit is the straight continuous line running diagonally true the plot, which is the line we want our predictions on.}
+    \label{fig:full_scatter}
+\end{figure}
+
+\bigskip
+\subsubsection{DMSO dataset}
+\hfill
+\hfill
+
+\begin{figure}[h!]
+    \centering
+    \begin{subfigure}{0.45\textwidth}
+        \includegraphics[width=\textwidth]{dissertation/figures/evaluation/DMSO_scatter.png}
+        \caption{Normal images}
+    \end{subfigure}
+    \begin{subfigure}{0.45\textwidth}
+        \includegraphics[width=\textwidth]{dissertation/figures/evaluation/DMSO_masked_scatter.png}
+        \caption{Masked images}
+    \end{subfigure}
+    \caption{Scatter plot comparing true values (x-axis) to predicted values (y-axis) for the DMSO dataset. The line of best fit is the straight continuous line running diagonally true the plot, which is the line we want our predictions on.}
+    \label{fig:dmso_scatter}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \begin{subfigure}{0.45\textwidth}
+        \includegraphics[width=\textwidth]{dissertation/figures/evaluation/DMSO_histogram.png}
+        \caption{Normal images}
+    \end{subfigure}
+    \begin{subfigure}{0.45\textwidth}
+        \includegraphics[width=\textwidth]{dissertation/figures/evaluation/DMSO_masked_histogram.png}
+        \caption{Masked images}
+    \end{subfigure}
+    \caption{Histogram}
+\end{figure}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{l|rrr|r}
+\rowcolor[HTML]{EFEFEF}
+Images & Unstimulated & OVA & ConA & All \\ \hline
+Normal      & 1.013 $\pm$ 1.945  & 2.202 $\pm$ 4.308   & 2.567 $\pm$ 4.720  &   1.837 $\pm$ 3.816  \\ \hline
+Masked      &    0.832 $\pm$ 3.174          & 0.766 $\pm$ 3.355  &  1.642 $\pm$ 6.6067   &   1.161 $\pm$ 4.732
+\end{tabular}
+\end{table}
 
 \section{Discussion}
 
