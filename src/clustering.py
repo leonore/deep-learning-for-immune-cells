@@ -4,10 +4,10 @@ from datetime import datetime
 
 from config import RS
 
-def tsne_fn(x, y=None, random_state=RS):
+def tsne_fn(x, y=None,  perplexity=30, random_state=RS):
     start = datetime.now()
     print("t-sne dimensionality reduction started at {}".format(start.strftime("%H:%M:%S")))
-    x_tsne = TSNE(random_state=RS).fit_transform(x)
+    x_tsne = TSNE(perplexity=30, random_state=RS).fit_transform(x)
     print("t-sne took {} to finish".format(datetime.now() - start))
     return x_tsne
 
