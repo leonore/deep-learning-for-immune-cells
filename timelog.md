@@ -568,7 +568,7 @@
 ### 22 March
 - *3 hours* Re-reading sections, making figures as appropriate
 
-## Week 11 (24) c/ 23 March (39.5 hours)
+## Week 11 (24) c/ 23 March (48 hours)
 
 ### 23 March
 - *0.5 hours* Making a skeleton for Presentation slides saying what they should have (no design yet)
@@ -592,3 +592,12 @@
 - *6.5 hours* Reading over dissertation; adding citations as needed
 - *1 hour* Tweaking figures
 - *1 hour* Adding figures to evaluation and writing commentary
+
+### 29 March
+- *8.5 hours* Writing evaluation and conclusion
+
+## Week 12 (25) c/ 30 March (9.5 hours)
+
+### 30 March
+- *7.5 hours* Writing evaluation 
+- *2 hours* Writing and preparing presentation, recording presentation
