@@ -1,26 +1,40 @@
-## Data
-Keep your data (e.g. from evaluations here)
+## What data can I find here?
 
+```
+.
+├── evaluation                            <-- contains all outputs of evaluations ran on deep learning models
+│   ├── autoencoder                       <-- autoencoder reconstruction of immune cell images
+│   ├── clustering                        <-- UMAP projections
+│   └── regression                        <-- regression results
+|
+├── notebooks                             <-- contains all notebook code that was not crucial for src
+│   ├── classifier.ipynb                  <-- attempt at building a classifier for our data
+│   ├── image_segmentation.ipynb          <-- exploration of image segmentation techniques
+│   ├── make_gif.ipynb                    <-- make a gif from t-SNE projection
+│   ├── performance_evaluations.ipynb     <-- performance evaluation of segmentation for diss
+│   └── unet.ipynb                        <-- u-net model built from a tutorial
+|
+├── raw                                   <-- all the raw data used to build our dataset
+│   ├── images                            <-- should contain our raw images but due to confidentiality I cannot upload them
+│   └── plate_layouts                     <-- plate layouts contain the labelling information for the images
+│       ├── CK19 plate layout.xlsx
+│       ├── CK21 plate layout.xlsx
+│       └── CK22 plate layout.xlsx
+|
+├── sample_data                           <-- all forms of the data I was allowed to upload
+│   ├── evaluation                        <-- for evaluation outputs
+│   ├── processed                         <-- for processed data
+│   └── raw                               <-- for raw data
+|
+└── weights                               <-- Keras/Tensorflow 1.15 .h5 files for different developed models
+    ├── decoder.h5
+    ├── decoder_masked.h5
+    ├── encoder.h5
+    ├── encoder_masked.h5
+    ├── regression.h5
+    ├── regression_masked.h5
+    └── unet.h5
+```
 
-* If you involved human subjects in any form, you will require ethical permission.
-    * Keep records of all items related to ethics in `data/ethics`. There are templates for scripts, guidance provided.
-    * **You must have scanned PDFs of signed checklists in this folder**, or PDFs of ethics confirmations from other sources
-    * Ensure you remain GDPR compliant. In general:
-        * Never collect personally identifiable information if at all possible. 
-        * Pseudonymise identifiers for subjects. 
-        * Use coarse demographic values unless you need specific information (for example, if you need age ranges, collect ranges, not specific ages)
-        * Ensure you have explicit consent for the storage and use of data from human subjects
-        * DO NOT STORE PERSONALLY IDENTIFIABLE INFORMATION ON REMOTE SERVERS (no Dropbox, Github, etc.)
-
-* Keep a written description of the data, what is contained, and how it was captured in `data/readme.md`
-* Record all raw data as an immutable store. **Never modify captured data.** 
-    * Keep this under `data/raw`
-    * This could be logs, questionnaire responses, computation results
-
-* Write scripts to produced processed data from these (e.g. tidy dataframes, excel sheets, csv files, HDF5 files, sqlite databases)
-* Write scripts that process these into results, visualisations, tables that you include in your project.
-* If you use Jupyter/RStudio notebooks, place these in `data/notebooks` and name them carefully (not "Untitled1", "Untitled2").
-
-* You may need to remove the `data/` folder from version control if the data size is too large or you are bound by confidentiality.
-* If you do so **make sure you have good backups**
-
+* images are processed with the help of the `src/compress_files.ipynb` notebook
+* evaluation data is generated on `src/models.py` from functions written in `src/evaluation_helpers.py`
