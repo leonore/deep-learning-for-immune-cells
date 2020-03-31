@@ -5,45 +5,14 @@ from tensorflow.keras.layers import Input, Conv2D, MaxPooling2D, UpSampling2D, D
 from tensorflow.keras.models import Model, Sequential
 from tensorflow.keras import callbacks, constraints
 
-from evaluation_helpers import reshape, show_image
-from evaluation_helpers import plot_lines_of_best_fit, plot_predictions_histogram
-from evaluation_helpers import plot_error_distribution, metrics_report
-
-"""
-API for cell_autoencoder and regression
-
-* make_autoencoder()
-@returns:
-- decoder: model to evaluate reconstruction capabilities
-- encoder: model with flattened deepest, middle layer to feed into clustering algorithms
-
-* make_regression()
-@returns:
-- model: model that will attempt to predict an overlap value for the given image
-
-* train(model, data, batch_size, epochs)
-- fits @model with @data
-- WARNING: this can be lengthy on a non-GPU local computer
-
-* evaluate_autoencoder(model, data, test)
-- returns visualisations on model reconstruction performance
-- assumes model has been trained on @data and is being validated on @test
-
-* evaluate(model, x_test, y_true, y_labels, label=None)
-args:
-@model: regression model previously trained
-@x_test: input data to do predictions on
-@y_true: truth values for x_test
-@y_labels: categorical labels for nicer visualisations (not used in training, just informational)
-@label: filename to save figures to
-
-@returns:
-- visualisations and text on model regression performance
-
-"""
+from evaluation_helpers import plot_reconstruction
+from evaluation_helpers import plot_lines_of_best_fit, plot_predictions_histogram, plot_error_distribution, metrics_report
 
 from config import imw, imh, c, RS, evaluation_path
 
+"""
+API for cell_autoencoder and regression
+"""
 
 def make_autoencoder():
     """
@@ -95,6 +64,7 @@ def make_autoencoder():
 
     return decoder, encoder
 
+
 def make_regression(encoder):
     """
     Initialise a regression model for training using
@@ -112,7 +82,13 @@ def make_regression(encoder):
 
     return model
 
+
 def train(model, x, y, batch_size=64, epochs=40, tag=None):
+    """
+    fits @model with @data
+    WARNING: this can be lengthy on a non-GPU local computer
+    """
+
     # get before/after weights (make sure there is a change)
     untrained_weights = np.array(model.get_layer(index=1).get_weights()[1])
 
@@ -146,28 +122,28 @@ def train(model, x, y, batch_size=64, epochs=40, tag=None):
     else:
         print("Model was trained successfully.")
 
+
 def evaluate_autoencoder(model, data, tag=None):
-    plt.rcParams.update({'axes.titlesize': 'medium'})
-    test_nb = np.random.randint(0, len(data)-1)
+    """
+    returns loss score for model
+    returns visualisations on model reconstruction performance
+    assumes model has been trained on @data and is being validated on @test
+    """
+    score = model.evaluate(data, data)
+    print("Loss: {}".format(score['loss']))
 
-    # show the difference in reconstruction
-    decoded_imgs = model.predict(data[test_nb:test_nb+1])
+    plot_reconstruction(model, data, tag)
 
-    s=10
-
-    fig = plt.figure(figsize=(s,s))
-    fig.add_subplot(1, 2, 1)
-    show_image(reshape(data[test_nb:test_nb+1], w=imw, h=imh, c=c), "original image [index {}]".format(test_nb))
-    fig.add_subplot(1, 2, 2)
-    show_image(reshape(decoded_imgs[0], w=imw, h=imh, c=c), "reconstructed image")
-
-    if tag:
-        plt.savefig(evaluation_path + "autoencoder/" + tag + "_reconstruction.png", dpi=300)
-
-    plt.show()
 
 def evaluate_regression(y_true, y_pred, y_labels, labels=["Unstimulated", "OVA", "ConA"], tag=None):
+    """
+    @x_test: input data to do predictions on
+    @y_true: truth values for x_data
+    @y_labels: categorical labels for nicer visualisations (not used in training, just informational)
+    @tag: filename to save figures to
+    """
+
     plot_lines_of_best_fit(y_true, y_pred, y_labels, labels, tag)
     plot_predictions_histogram(y_true, y_pred, y_labels, labels, tag)
+    metrics_report(y_true, y_pred, y_labels, labels, tag)
     plot_error_distribution(y_true, y_pred, tag)
-    metrics_report(y_true, y_pred, tag)

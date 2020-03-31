@@ -1,6 +1,7 @@
 import numpy as np
 import cv2
 
+
 def convert_to_binary(a):
     val = np.unique(a)[1]
     above_threshold = a >= val
@@ -9,9 +10,7 @@ def convert_to_binary(a):
     a[under_threshold] = 0
     return a.astype(np.uint8).reshape(int(np.sqrt(len(a))), int(np.sqrt(len(a))))
 
-# For 500 images:
-# CPU times: user 21 s, sys: 37.7 ms, total: 21 s
-# Wall time: 5.49 s
+
 def get_mask(img):
     # if image is all black: ignore
     if not img.any():
@@ -20,9 +19,7 @@ def get_mask(img):
     _,label,center = cv2.kmeans(img.reshape(np.prod(img.shape), 1), 2, None, criteria, 10, cv2.KMEANS_PP_CENTERS)
     return convert_to_binary(center[label])
 
-# For 500 images
-# CPU times: user 180 ms, sys: 2 µs, total: 180 ms
-# Wall time: 181 ms
+
 def threshold(x):
     mask = np.copy(x)
     mask = mask.ravel()
@@ -31,6 +28,7 @@ def threshold(x):
     mask[above_threshold] = 1
     mask[under_threshold] = 0
     return mask.astype(np.uint8).reshape((x.shape))
+
 
 # intersection over union (evaluation function)
 def iou(a,b):

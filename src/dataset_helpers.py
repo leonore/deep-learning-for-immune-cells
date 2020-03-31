@@ -1,47 +1,58 @@
-## Standard imports
+# Standard imports
 import numpy as np
 import os
 
 from segmentation import get_mask
-from config import RS, imw
+from config import RS, imw, imh, size
 
-## IMAGE OPERATIONS
+# IMAGE OPERATIONS
 
 def low_clip(x):
     return np.clip(x, 255, 4095)
 
+
 def minmax(x):
     if x.min() == x.max():
         return x
-    return (x-np.min(x))/(np.max(x)-np.min(x))
+    return (x - np.min(x)) / (np.max(x) - np.min(x))
+
 
 def is_faulty(x):
     if x.max() <= 255:
         return True
     return False
 
-## DATASET OPERATIONS
+# DATASET OPERATIONS
 
-# train_test_split simplified
-# WARNING this does modifications in place --> otherwise running out of mem errors
 def efficient_shuffle(*arrays, random_state=None):
+    """
+    shuffling function that does not run out of memory
+    but shuffling is done in place
+    """
     if not random_state:
         random_state = np.random.randint(0, RS)
     for arr in arrays:
         np.random.seed(random_state)
         np.random.shuffle(arr)
 
+
 def even_round(num):
-    return round(num/2.)*2
+    return round(num / 2.) * 2
+
 
 def dataset_split(*arrays, test_size=0.2):
-    test_size = even_round(len(dataset)*test_size)
+    test_size = even_round(len(dataset) * test_size)
     results = []
     for arr in arrays:
         results.append(arr[:-test_size], arr[-test_size:])
     return results
 
+
 def is_dmso(file):
+    """
+    hardcoded labelling helper function
+    DMSO labels are specified in `data/raw/plate_layouts`
+    """
     # file format: folder/CKX - L - 00(...)
 
     # only file, no folder
@@ -66,7 +77,12 @@ def is_dmso(file):
         print("No CK found")
     return False
 
+
 def get_label(filename):
+    """
+    hardcoded get_label function
+    labels can be found in `data/raw/plate_layouts`
+    """
     # 0: unstimulated
     # 1: OVA
     # 2: ConA
@@ -120,79 +136,87 @@ def get_label(filename):
 
     return label
 
+
 def read_folder_filenames(folder):
+    """
+    return filepaths for the images we want
+    """
     return [os.path.join(folder, f)for f in os.listdir(folder) if os.path.isfile(os.path.join(folder, f)) and f[0] != '.' and "Brightfield" not in f]
 
 
 def sliding_window(img, dest_size, rgb=False):
+    """
+    This function passes a sliding window over an image
+    and returns sub-images
+    --> more detail
+    --> more training data
+    """
+
     new_img = np.full_like(img, img)
 
     size = img.shape[0]
     if dest_size > size or dest_size % 2 != 0:
-        raise Exception("destination size is bigger than picture size or destination size is not even")
+        raise Exception(
+            "destination size is bigger than picture size or destination size is not even")
 
-    qty = size//dest_size
+    qty = size // dest_size
     if size % dest_size != 0:
         # need to crop out the left and bottom (less significant in dataset)
-        crop = size-dest_size*qty
+        crop = size - dest_size * qty
         new_img = new_img[crop:, :-crop]
 
     if rgb:
-        windows = np.ndarray(shape=(qty**2, dest_size, dest_size, 3), dtype=np.uint16)
+        windows = np.ndarray(
+            shape=(qty**2, dest_size, dest_size, 3), dtype=np.uint16)
     else:
-        windows = np.ndarray(shape=(qty**2, dest_size, dest_size), dtype=np.uint16)
+        windows = np.ndarray(
+            shape=(qty**2, dest_size, dest_size), dtype=np.uint16)
 
     i = 0
     for row in range(qty):
-        y = row*dest_size
+        y = row * dest_size
         x = 0
         for col in range(qty):
             #print("x:coord {},{} - y:coord {},{}".format(x, x+dest_size, y, y+dest_size))
-            windows[i] = new_img[x:x+dest_size, y:y+dest_size]
+            windows[i] = new_img[x:x + dest_size, y:y + dest_size]
             x += dest_size
             i += 1
 
     return windows
 
-# reverses sliding window
-def reconstruct_from(images, size=imw):
-    # work on reconstruction
-    new_img = np.ndarray(shape=(size*10, size*10), dtype=np.float32)
+
+def reconstruct_from(images, imw=imw, size=size):
+    """
+    this reverses the sliding_window operation
+    if we want to visualise an original image
+    @imw: the width of the subimage
+    @size: the size of the original image
+    --> nb: the number of subimages created per image
+    """
+    nb = size // imw
+    new_img = np.ndarray(shape=(imw * nb, imw * nb), dtype=np.float32)
     y = 0
     x = 0
-    for i in range(100):
-        new_img[x:x+size, y:y+size] = images[i]
-        x += size
-        if x == size*10:
+    for i in range(nb**2):
+        new_img[x:x + imw, y:y + imw] = images[i]
+        x += imw
+        if x == imw * nb:
             x = 0
-            y += size
+            y += imw
     return new_img
 
-
-# show sliding window as a plot
-def show_reconstruct(images, size=imw):
-    # work on reconstruction
-    new_img = np.ndarray(shape=(size*10, size*10), dtype=np.float32)
-    fig = plt.figure(figsize=(10,10))
-    col = 0
-    row = 0
-    for i in range(100):
-        new_img[row:row+size, col:col+size] = images[i]
-        fig.add_subplot(10, 10, i+1)
-        plt.imshow(images[i])
-        plt.axis('off')
-        row+=size
-        if row == size*10:
-            row = 0
-            col += size
-    plt.tight_layout()
-    return new_img
 
 def combine_images(data, filenames, mask=False):
+    """
+    combine_images combines separate B&W images in an RGB image
+    each image's counterpart is found X images later in the array
+    where X = (size of the original image / size of the sub image)**2 --> number of sub-images per image
+    """
+
     l = len(data)
 
     # initialise arrays for filling in
-    x_data = np.ndarray(shape=(l // 2, 192, 192, 3), dtype=np.float32)
+    x_data = np.ndarray(shape=(l // 2, imw, imh, c), dtype=np.float32)
     y_data = np.ndarray(shape=(l // 2, ), dtype=np.uint8)
 
     # initialise index values
@@ -200,31 +224,35 @@ def combine_images(data, filenames, mask=False):
     i = 0
     count = 0
 
+    full = size // imw**2  # number of sub-images per full image (well)
+
     # loop through images and process
-    while idx < l-100:
+    while idx < l - full:
         # ignore 100, 300, etc. values as they will already have been processed
-        if count == 100:
+        if count == nb:
             count = 0
-            idx += 100
+            idx += full
         else:
             # if the image is "faulty" we cannot low_clip and apply minmax -> NaN
-            if is_faulty(data[idx]) or is_faulty(data[idx + 100]):
+            if is_faulty(data[idx]) or is_faulty(data[idx + full]):
                 x_data[i, ..., 1] = minmax(data[idx])
-                x_data[i, ..., 0] = minmax(data[idx + 100])
+                x_data[i, ..., 0] = minmax(data[idx + full])
                 y_data[i] = 3
             else:
                 x_data[i, ..., 1] = minmax(low_clip(data[idx]))
-                x_data[i, ..., 0] = minmax(low_clip(data[idx + 100]))
+                x_data[i, ..., 0] = minmax(low_clip(data[idx + full]))
                 y_data[i] = get_label(filenames[idx])
 
             # mask out the background
             if mask:
-                x_data[i, ..., 0] *= get_mask(x_data[i, ..., 0])  # red-coloured
-                x_data[i, ..., 1] *= get_mask(x_data[i, ..., 1])  # green-coloured
+                # red-coloured
+                x_data[i, ..., 0] *= get_mask(x_data[i, ..., 0])
+                # green-coloured
+                x_data[i, ..., 1] *= get_mask(x_data[i, ..., 1])
 
             # try and save memory
             data[idx] = 0
-            data[idx+100] = 0
+            data[idx + full] = 0
 
             idx += 1
             i += 1
@@ -233,16 +261,25 @@ def combine_images(data, filenames, mask=False):
     print('Images preprocessed. Size of dataset: {}'.format(len(x_data)))
     return x_data, y_data
 
+
 def remove_faulty(filenames):
+    """
+    function to get labels for an image
+    without the `faulty` label
+    this is desirable for our regression model,
+    where a separate faulty category does not matter
+    and messes up visualisations
+    """
+
     l = len(filenames)
-    y = np.ndarray(shape=(l//2, ), dtype=np.uint8)
+    y = np.ndarray(shape=(l // 2, ), dtype=np.uint8)
 
     idx = 0
     i = 0
     count = 0
 
     # loop through images and process
-    while idx < l-100:
+    while idx < l - 100:
         # ignore 100, 300, etc. values as they will already have been processed
         if count == 100:
             count = 0
@@ -254,5 +291,5 @@ def remove_faulty(filenames):
             i += 1
             count += 1
 
-    print('Faulty labels removed. Size of labels: {}'.format(l//2))
+    print('Faulty labels removed. Size of labels: {}'.format(l // 2))
     return y
