@@ -97,7 +97,7 @@
 
 \section{Autoencoder model initialisation}
 
-\begin{lstlisting}[language=python, float, caption={Keras code for initialising the autoencoder model developed here. It contains 5 downsampling and upsampling operations. It returns both its encoder and decoder parts. The decoder is used to evaluate the performance of the autoencoder at image reconstruction. The encoder is used to encode images to project them onto a two-dimensional plane using t-SNE and UMAP, and is also the building block for our regression model.}, label=lst:autoencoder]
+\begin{lstlisting}[language=python, float, caption={Keras code for initialising the autoencoder model developed here. It contains 5 downsampling and upsampling operations. It returns both its encoder and decoder parts. The decoder is used to evaluate the performance of the autoencoder at image reconstruction. The encoder is used to encode images to project them onto a two-dimensional plane using t-SNE and UMAP, and is also the building block for our regression model. Started from a tutorial by \citet{chollet_keras}, and was expanded through experiments and research.}, label=lst:autoencoder]
     def make_autoencoder():
         """
         Initialise autoencoder model for training and return reference to both decoder and encoder parts of the model.
