@@ -1,0 +1,12 @@
+MSE score: 1.743
+RMSE score: 1.320
+SD: 2.112
+
+Scores for OVA
+RMSE score: 0.953
+SD: 1.837
+
+Scores for ConA
+RMSE score: 1.606
+SD: 2.346
+
