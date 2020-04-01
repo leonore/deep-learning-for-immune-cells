@@ -77,7 +77,7 @@ def plot_predictions_histogram(y_true, y_pred, y, labels=["Unstimulated", "OVA",
         true.append(y_true[y == i].flatten())
         pred.append(y_pred[y == i].flatten())
 
-    palette = np.array(sns.color_palette("hls", len(labels))[np.unique(y)]
+    palette = np.array(sns.color_palette("hls", len(labels)))
 
     fig = plt.figure(figsize=(10, 5))
     ax1 = plt.subplot(211)
@@ -116,16 +116,16 @@ def plot_lines_of_best_fit(y_true, y_pred, y, labels=["Unstimulated", "OVA", "Co
         pred.append(y_pred[y == i].flatten())
 
     palette = np.array(sns.color_palette("hls", len(labels)))
-    colors = np.array(sns.color_palette("bright", len(labels)))
+    colors = np.array(sns.hls_palette(len(labels), l=.5, s=.95))
     fig = plt.figure(figsize=(15, 5))
 
-    for idx, target in zip(range(len(labels)), np.unique(y)):
+    for idx in range(len(labels)):
         s1 = plt.subplot(131 + idx, aspect='equal')
-        s1.scatter(true[idx], pred[idx], c=[palette[target]],
+        s1.scatter(true[idx], pred[idx], c=[palette[idx]],
                    alpha=0.65, lw=0.1, edgecolor='k')
         plt.xlabel('True Values')
         plt.ylabel('Predictions')
-        s1.plot(true[idx], true[idx], colors[target])
+        s1.plot(true[idx], true[idx], '-', c=colors[idx])
         plt.title("Predictions - {} label".format(labels[idx]))
 
     plt.tight_layout()
@@ -158,11 +158,9 @@ def plot_reconstruction(model, x_test, tag):
     test_nb = np.random.randint(0, len(x_test) - 1)
 
     # show the difference in reconstruction
-    decoded_imgs = model.predict(data[test_nb:test_nb + 1])
+    decoded_imgs = model.predict(x_test[test_nb:test_nb + 1])
 
-    s = 10
-
-    fig = plt.figure(figsize=(s, s))
+    fig = plt.figure(figsize=(10, 10))
     fig.add_subplot(1, 2, 1)
     show_image(reshape(x_test[test_nb:test_nb + 1], w=imw,
                        h=imh, c=c), "original image [index {}]".format(test_nb))
@@ -185,7 +183,7 @@ def plot_clusters(X, y, labels=["Unstimulated", "OVA", "ConA", "Faulty"], tag=No
 
     y = np.array(y)
 
-    fig = plt.figure(figsize=(15, 15))
+    fig = plt.figure(figsize=(6, 6))
     ax = plt.subplot()
 
     for target, color, label in zip(targets, palette, labels):

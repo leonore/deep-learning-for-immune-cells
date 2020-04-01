@@ -3,7 +3,7 @@ import numpy as np
 import os
 
 from segmentation import get_mask
-from config import RS, imw, imh, size
+from config import RS, imw, imh, c, size
 
 # IMAGE OPERATIONS
 
@@ -130,6 +130,13 @@ def get_label(filename):
             label = 1
         else:
             label = 3
+    elif ck == "CK01":
+        if letter == "B":
+            label = 1
+        elif letter == "E":
+            label = 2
+        else:
+            label = 3
     else:
         print("No CK found")
         return False
@@ -153,12 +160,13 @@ def remove_faulty(filenames):
     i = 0
     count = 0
 
+    nb = (size//imw)**2
     # loop through images and process
-    while idx < l - 100:
+    while idx < l - nb:
         # ignore 100, 300, etc. values as they will already have been processed
-        if count == 100:
+        if count == nb:
             count = 0
-            idx += 100
+            idx += nb
         else:
             y[i] = get_label(filenames[idx])
 
@@ -216,12 +224,12 @@ def combine_images(data, filenames, mask=False):
     i = 0
     count = 0
 
-    full = size // imw**2  # number of sub-images per full image (well)
+    full = (size//imw)**2  # number of sub-images per full image (well)
 
     # loop through images and process
     while idx < l - full:
         # ignore 100, 300, etc. values as they will already have been processed
-        if count == nb:
+        if count == full:
             count = 0
             idx += full
         else:
