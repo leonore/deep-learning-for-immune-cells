@@ -137,52 +137,44 @@ def get_label(filename):
     return label
 
 
+def remove_faulty(filenames):
+    """
+    function to get labels for an image
+    without the `faulty` label
+    this is desirable for our regression model,
+    where a separate faulty category does not matter
+    and messes up visualisations
+    """
+
+    l = len(filenames)
+    y = np.ndarray(shape=(l // 2, ), dtype=np.uint8)
+
+    idx = 0
+    i = 0
+    count = 0
+
+    # loop through images and process
+    while idx < l - 100:
+        # ignore 100, 300, etc. values as they will already have been processed
+        if count == 100:
+            count = 0
+            idx += 100
+        else:
+            y[i] = get_label(filenames[idx])
+
+            idx += 1
+            i += 1
+            count += 1
+
+    print('Faulty labels removed. Size of labels: {}'.format(l // 2))
+    return y
+
+
 def read_folder_filenames(folder):
     """
     return filepaths for the images we want
     """
     return [os.path.join(folder, f)for f in os.listdir(folder) if os.path.isfile(os.path.join(folder, f)) and f[0] != '.' and "Brightfield" not in f]
-
-
-def sliding_window(img, dest_size, rgb=False):
-    """
-    This function passes a sliding window over an image
-    and returns sub-images
-    --> more detail
-    --> more training data
-    """
-
-    new_img = np.full_like(img, img)
-
-    size = img.shape[0]
-    if dest_size > size or dest_size % 2 != 0:
-        raise Exception(
-            "destination size is bigger than picture size or destination size is not even")
-
-    qty = size // dest_size
-    if size % dest_size != 0:
-        # need to crop out the left and bottom (less significant in dataset)
-        crop = size - dest_size * qty
-        new_img = new_img[crop:, :-crop]
-
-    if rgb:
-        windows = np.ndarray(
-            shape=(qty**2, dest_size, dest_size, 3), dtype=np.uint16)
-    else:
-        windows = np.ndarray(
-            shape=(qty**2, dest_size, dest_size), dtype=np.uint16)
-
-    i = 0
-    for row in range(qty):
-        y = row * dest_size
-        x = 0
-        for col in range(qty):
-            #print("x:coord {},{} - y:coord {},{}".format(x, x+dest_size, y, y+dest_size))
-            windows[i] = new_img[x:x + dest_size, y:y + dest_size]
-            x += dest_size
-            i += 1
-
-    return windows
 
 
 def reconstruct_from(images, imw=imw, size=size):
@@ -260,36 +252,3 @@ def combine_images(data, filenames, mask=False):
 
     print('Images preprocessed. Size of dataset: {}'.format(len(x_data)))
     return x_data, y_data
-
-
-def remove_faulty(filenames):
-    """
-    function to get labels for an image
-    without the `faulty` label
-    this is desirable for our regression model,
-    where a separate faulty category does not matter
-    and messes up visualisations
-    """
-
-    l = len(filenames)
-    y = np.ndarray(shape=(l // 2, ), dtype=np.uint8)
-
-    idx = 0
-    i = 0
-    count = 0
-
-    # loop through images and process
-    while idx < l - 100:
-        # ignore 100, 300, etc. values as they will already have been processed
-        if count == 100:
-            count = 0
-            idx += 100
-        else:
-            y[i] = get_label(filenames[idx])
-
-            idx += 1
-            i += 1
-            count += 1
-
-    print('Faulty labels removed. Size of labels: {}'.format(l // 2))
-    return y

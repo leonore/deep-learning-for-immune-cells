@@ -77,7 +77,7 @@ def plot_predictions_histogram(y_true, y_pred, y, labels=["Unstimulated", "OVA",
         true.append(y_true[y == i].flatten())
         pred.append(y_pred[y == i].flatten())
 
-    palette = np.array(sns.color_palette("hls", 4))[np.unique(y)]
+    palette = np.array(sns.color_palette("hls", len(labels))[np.unique(y)]
 
     fig = plt.figure(figsize=(10, 5))
     ax1 = plt.subplot(211)
@@ -115,8 +115,8 @@ def plot_lines_of_best_fit(y_true, y_pred, y, labels=["Unstimulated", "OVA", "Co
         true.append(y_true[y == i].flatten())
         pred.append(y_pred[y == i].flatten())
 
-    palette = np.array(sns.color_palette("hls", 4))
-    colors = ['red', 'green', 'blue']
+    palette = np.array(sns.color_palette("hls", len(labels)))
+    colors = np.array(sns.color_palette("bright", len(labels)))
     fig = plt.figure(figsize=(15, 5))
 
     for idx, target in zip(range(len(labels)), np.unique(y)):
@@ -212,6 +212,8 @@ def plot_live(X, y, data, labels=["Unstimulated", "OVA", "ConA", "Faulty"]):
     A user can hover over point to see which image
     corresponds to which point
     /!\ can be slow for large and heavy datasets
+
+    DISCLAIMER: this code was adapted from https://stackoverflow.com/a/58058600
     """
     targets = np.unique(y)
     palette = np.array(sns.color_palette("hls", len(labels)))
