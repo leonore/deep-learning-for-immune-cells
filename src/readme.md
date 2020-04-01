@@ -36,6 +36,7 @@ source .venv/bin/activate && pip install -r requirements.txt
 This was a research project and is not really 'built', but it can be evaluated on sample data by running the cells in the `compress_files` and `run_evaluation` notebooks. Feel free to reuse any code written here, but it was developed with a specific dataset with specific labels in mind.
 
 ```bash
+ipython kernel install --user --name=.venv # install kernel for this virtual environment 
 jupyter notebook
 # navigate to localhost:8888/tree/
 ```
