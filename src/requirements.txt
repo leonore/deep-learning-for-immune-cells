@@ -1,11 +1,11 @@
-cv2
 matplotlib
 moviepy
 notebook
 numpy
+opencv-python
 scipy
 seaborn
-skimage
-sklearn
+scikit-image
+scikit-learn
 tensorflow==1.15
 umap-learn
