@@ -1,6 +1,6 @@
-# Deep learning for analysing immune cell interactions
+## Deep learning for analysing immune cell interactions :microscope:
 
-![system diagram](dissertation/figures/system_diagram.png)
+<img src="dissertation/figures/system_diagram.png" alt="system diagram" width="500"/>
 
 ### Background
 
