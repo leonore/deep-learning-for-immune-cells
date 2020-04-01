@@ -1,10 +1,6 @@
 # Deep learning for analysing immune cell interactions
 
-<object data="dissertation/figures/system_diagram.pdf" type="application/pdf">
-    <embed src="dissertation/figures/system_diagram.pdf">
-        <p>This browser does not support PDFs. Find the image in dissertation/figures/system_diagram.pdf</p>
-    </embed>
-</object>
+![system diagram](dissertation/figures/system_diagram.png)
 
 ### Background
 
