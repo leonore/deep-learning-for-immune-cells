@@ -1,35 +1,38 @@
-# Level 4 Individual project - Deep learning for analysing immune cell interactions
+# Deep learning for analysing immune cell interactions
+
+<object data="dissertation/figures/system_diagram.pdf" type="application/pdf">
+    <embed src="dissertation/figures/system_diagram.pdf">
+        <p>This browser does not support PDFs. Find the image in dissertation/figures/system_diagram.pdf</p>
+    </embed>
+</object>
+
+### Background
+
+_Deep learning for analysing immune cell interactions_ was my research project for my final year at the University of Glasgow. It was developed over a period of ~7 months from September 2019 to April 2020. This project is fully documented in `/dissertation/`.
+
+This repository includes an implementation of a convolutional autoencoder and a deep regression model that were developed to research whether we could quality/quantify interaction from images of immune cells (T cells and dendritic cells).
 
 ### Project aims
 
-* Using an autoencoder to learn a compressed representation of cell images in order to evaluate whether this helps with dimensionality reduction and clustering the cell images according to different drug stimulates
-* Exploring different image segmentation techniques in order to find binary masks of cells and calculate the overlap in order to analyse whether cells do or do not interact together under different conditions
+* Can we find an underlying structure in the images of immune cells under different experimental conditions?
+* Can a deep learning model be trained to 'quantify interaction' from an image of immune cells?
+
+### Dataset specifics
+
+I tried to find cluster of images of T cells and dendritic cells around their level of stimulation: _Unstimulated_, stimulation by _OVA peptide_, and stimulation by _ConA_.
+
+Our 'quantity of interaction' was amount of overlap between the T cells and dendritic cells.
 
 ### Project structure
 
-* `timelog.md` The time log for the project.
-* `plan.md` A skeleton week-by-week plan for the project.
-* `data/` data acquired during the project
-  * `*_logs.md` Step-by-step logs of results obtained with different autoencoder and clustering parameters
-  * `results/` contains the images of the different results obtained as above.
-  * `raw/` is for the pre-processing cell images (locally)
-  * `processed/` is for the post-processing cell images (locally)
-* `src/` all the source code for the project:
-  * the working code, in Python notebooks
-  * helper functions, in separate Python files
-* `status_report/` includes the summer report and the status report to be submitted in December
-* `meetings/` records of the meetings had during the project, including PowerPoint presentations made
-* `dissertation/` source for project dissertation
-* `presentation/` future presentation
+```
+.
+├── data            <-- find sample data, evaluation data, and notebooks
+├── dissertation    <-- latex files and figures for generating my dissertation
+├── meetings        <-- meeting minutes and powerpoint presentations
+├── presentation    <-- final presentation slides
+├── src             <-- code of the project
+└── status_report   <-- status reports submitted after summer and before christmas
+```
 
-### Initial project description
-
-The initiation of an immune response depends on the interaction strength between different types of immune cells. Dendritic cells act as pathogen detectors and form an interaction with T-helper cells; the strength of these interactions determines if and how the immune response subsequently develops.     
-
-This project aims to apply deep learning to the analysis of microscope images of interacting dendritic cells and T-helper cells (supplied by biological researchers). Algorithms will be developed for segmentation of the different cell types and to perform subsequent analysis, e.g. changes in cell morphology under different experimental conditions.     
-
-The strength of the interactions between the two cell types can be influenced by the application of drugs that either inhibit or enhance the interactions. Inhibitors (such as abatacept) can be useful in treating autoimmune diseases such as rheumatoid arthritis, whereas enhancement can be useful in immunotherapy for the treatment of certain cancers (e.g. with check-point inhibitors), or for developing vaccines against infectious disease.     
-
-The algorithms developed in the project will be used to explore the effects of drugs on immune cell interactions.    
-
-Technology: Python, Keras/Tensorflow
+Instructions for running the code can be found in [src/README.md](src/README.md). If you want to explore the code you can look at [src/manual.md](src/manual.md).
