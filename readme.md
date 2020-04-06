@@ -4,7 +4,7 @@
 
 ### Background
 
-_Deep learning for analysing immune cell interactions_ was my research project for my final year at the University of Glasgow. It was developed over a period of ~7 months from September 2019 to April 2020. This project is fully documented in `/dissertation/`.
+_Deep learning for analysing immune cell interactions_ was my research project for my final year at the University of Glasgow. It was developed over a period of ~7 months from September 2019 to April 2020. This project is fully documented in `/dissertation/` and a PDF of the dissertation is available [here](http://leonore.github.io/pdfs/dissertation.pdf).
 
 This repository includes an implementation of a convolutional autoencoder and a deep regression model that were developed to research whether we could quality/quantify interaction from images of immune cells (T cells and dendritic cells).
 
