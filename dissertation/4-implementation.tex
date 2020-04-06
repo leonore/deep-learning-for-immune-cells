@@ -9,13 +9,13 @@ Figure \ref{fig:system} can help the reader gain a better understanding of how e
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{dissertation/figures/system_diagram.pdf}
-    \caption{System diagram showing the project workflow and how each image is decomposed and analysed. The images are transformed into smaller patches, from which we can gain overlap labels. The images patches are then combined and used for training. On one branch, these images will be fed into an autoencoder to accomplish dimensionality reduction and evaluate the success of projection of this smaller data in a two-dimensional plane. On the other branch, the images will be fed in a regression model with the overlap labels in order to train a deep neural network for a regression task.}
+    \caption{System diagram showing the project workflow and how each image is decomposed and analysed. The images are transformed into smaller patches, from which we can gain overlap labels. The images patches are then combined and used for training. On one branch, these images will be fed into an autoencoder to accomplish dimensionality reduction and evaluate the projection of this smaller data in a two-dimensional plane. On the other branch, the images will be fed in a regression model with the overlap labels in order to train a deep neural network for a regression task.}
     \label{fig:system}
 \end{figure}
 
 \section{Pre-processing}
 
-Pre-processing steps are best explained through a diagram as shown in Figure \ref{fig:preprocessing}. 
+Pre-processing steps are best explained through the diagram shown in \autoref{fig:preprocessing}. 
 
 \begin{figure}[h!]
     \centering
@@ -245,7 +245,7 @@ In the hidden layers, the choice of activation function was a variant of the Rec
 
 The activation function at the output of the network was the logistic sigmoid activation function, as we needed to restrict output to the [0, 1] range of our image pixels. Figure \ref{fig:sigmoid} illustrates this activation function. 
 
-Our final autoencoder structure reduced dimensions by a factor of 2 a total of 5 times, resulting in a ten-fold reduction of dimensions on the original 110,592 pixels. The final coded dimensions were of 1,152. Figure \ref{fig:diff_reconstructions} illustrates how the autoencoder reconstructed an input image depending on number of pooling operations. We traded-off some reconstruction quality in order to obtain a smaller coded dimension in the hope that it would help high-dimensional visualisation algorithms perform better, as well as be a better starting block for a regression model. 
+Our final autoencoder structure reduced dimensions by a factor of 2 a total of 5 times, resulting in a tenfold reduction of dimensions on the original 110,592 pixels. The final coded dimensions were of 1,152. Figure \ref{fig:diff_reconstructions} illustrates how the autoencoder reconstructed an input image depending on number of pooling operations. We traded off some reconstruction quality in order to obtain a smaller coded dimension in the hope that it would help high-dimensional visualisation algorithms perform better, as well as be a better starting block for a regression model. 
 
 \begin{figure}[h]
     \centering
@@ -292,6 +292,6 @@ The regression model was trained with mean-squared-error loss, which calculates 
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=.85\textwidth]{dissertation/figures/regression_final_structure.png}
-    \caption{Diagram of the implemented regression structure. Note that the first part of the diagram is the exact same as the contracting path of the autoencoder shown in \ref{fig:autoencoder_details}, but the output of the strided convolutional layer is flattened and passed onto fully connected layers. Fully connected layers are purple rectangles, and Dropout layers are purple dots. Activation functions are represented in yellow or red.}
+    \caption{Diagram of the implemented regression structure. Note that the first part of the diagram is the exact same as the contracting path of the autoencoder shown in \ref{fig:autoencoder_details}, but the output of the strided convolutional layer is flattened and passed onto fully connected layers. Fully connected layers are purple rectangles, and the Dropout layer is shown by purple dots. Activation functions are represented in yellow or red.}
     \label{fig:regression_details}
 \end{figure}
