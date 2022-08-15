@@ -7,7 +7,7 @@ import umap.umap_ as umap
 
 from cell_autoencoder import make_autoencoder, evaluate
 from plot_helpers import plot_clusters, plot_live
-from dataset_helpers import get_label, preprocess
+from dataset_helpers import get_labels, preprocess
 
 """
 Main tool to run image analysis
@@ -31,10 +31,7 @@ print("{} is being loaded".format(input))
 npzfile = np.load(input)
 x = npzfile['x'] # images
 filenames = npzfile['y'] # filenames
-
-# get labels
-# TODO generalise for 3 datasets
-y = [get_label(f) for f in filenames]
+y = [get_label(i) for i in filenames] # get labels
 
 # preprocess
 print("Preprocessing dataset")
@@ -52,7 +49,7 @@ else:
     train(decoder, x_train)
 
 # evaluate
-# evaluate(decoder, x_combined, x_combined)
+evaluate(decoder, x_combined, x_combined)
 
 # run clustering
 print("Clustering encoded images")
