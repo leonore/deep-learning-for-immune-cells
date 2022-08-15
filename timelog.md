@@ -461,7 +461,7 @@
 - *1 hour* Realising big mistake in code: UMAP has been running the clustering supervised. running visualisation tests again to check if clusters are still somewhat discernible
 - *2 hours* Getting new weights with well-shuffled CK19 dataset; t-sne/UMAP indeed doesn't find clear clusters
 
-## Week 7 (20) c/ 24 February (20.5/15 hours)
+## Week 7 (20) c/ 24 February (22/15 hours)
 
 ### 24 February
 - *5 hours* Fixing big loss stagnation issues when trying to obtain weights from regression model; was because of MAE metric and probably overwhelming 0s in dataset
@@ -482,3 +482,18 @@
 - *1 hour* Meeting and writing meeting artifacts
 - *2 hours* Refactoring code. Not sure whether to make it all Python or keep Jupyter notebooks
 - *1 hour* Seeing if I can put all processed images in one file, but it's too big for Colab
+- *1 hour* More refactoring, getting final weights and putting them in data/
+
+### 28 February
+- *0.5 hours* Going over collected research to develop a structure for "background" dissertation
+
+## Week 8 (21) c/ 2 March (4.5/15 hours)
+
+### 2 March
+- *1 hour* Moving evaluation to a Colab notebook, running it locally was taking its toll on my laptop.
+- *1 hour* Running evaluation and debugging while writing dissertation
+- *2 hours* Working on dissertation structure to discuss at meeting tomorrow, drafting materials & methods
+
+### 3 March
+- *0.5 hours* Meeting and writing down artifacts
+- *2 hours* Writing down first draft for material & methods to send to Carol 

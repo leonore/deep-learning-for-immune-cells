@@ -20,7 +20,7 @@
 %==============================================================================
 %% ABSTRACT
 \begin{abstract}
-    Every abstract follows a similar pattern. Motivate; set aims; describe work; explain results.
+    Motivate; set aims; describe work; explain results.
     \vskip 0.5em
     ``XYZ is bad. This project investigated ABC to determine if it was better.
     ABC used XXX and YYY to implement ZZZ. This is particularly interesting as XXX and YYY have
@@ -39,8 +39,8 @@
 % Please note that you are under no obligation to sign
 % this declaration, but doing so would help future students.
 %
-%\def\consentname {My Name} % your full name
-%\def\consentdate {20 March 2018} % the date you agree
+\def\consentname {Leonore Papaloizos} % your full name
+\def\consentdate {\today} % the date you agree
 %
 \educationalconsent
 
@@ -80,430 +80,135 @@
 % reset page numbering. Don't remove this!
 \pagenumbering{arabic}
 
+\section{Motivation}
 
-Why should the reader care about what are you doing and what are you actually doing?
-\section{Introduction}
+[TODO: biological]
+The initiation of an immune response in our immune system depends on the interaction strength between different types of immune cells. Interactions between immune cells can be enhanced or inhibited by the application of drugs. Studying the reactions of immune cells to different types of drugs can help direct research in the right direction.
 
-\textbf{Motivation} first, then state the general problem clearly.
-
-dendritic cells process environmental information
-t-cells are controller of the immune system, what type of immune system are you going to generate?
-interaction dictates what is going to happen
-
-
-\section{Writing guidance}
-\subsection{Who is the reader?}
-
-This is the key question for any writing. Your reader:
-
-\begin{itemize}
-    \item
-    is a trained computer scientist: \emph{don't explain basics}.
-    \item
-    has limited time: \emph{keep on topic}.
-    \item
-    has no idea why anyone would want to do this: \emph{motivate clearly}
-    \item
-    might not know \emph{anything} about your project in particular:
-    \emph{explain your project}.
-    \item
-    but might know precise details and check them: \emph{be precise and
-    strive for accuracy.}
-    \item
-    doesn't know or care about you: \emph{personal discussions are
-    irrelevant}.
-\end{itemize}
-
-Remember, you will be marked by your supervisor and one or more members
-of staff. You might also have your project read by a prize-awarding
-committee or possibly a future employer. Bear that in mind.
-
-\subsection{References and style guides}
-There are many style guides on good English writing. You don't need to
-read these, but they will improve how you write.
-
-\begin{itemize}
-    \item
-    \emph{How to write a great research paper} \cite{Pey17} (\textbf{recommended}, even though you aren't writing a research paper)
-    \item
-    \emph{How to Write with Style} \cite{Von80}. Short and easy to read. Available online.
-    \item
-    \emph{Style: The Basics of Clarity and Grace} \cite{Wil09} A very popular modern English style guide.
-    \item
-    \emph{Politics and the English Language} \cite{Orw68}  A famous essay on effective, clear writing in English.
-    \item
-    \emph{The Elements of Style} \cite{StrWhi07} Outdated, and American, but a classic.
-    \item
-    \emph{The Sense of Style} \cite{Pin15} Excellent, though quite in-depth.
-\end{itemize}
-
-\subsubsection{Citation styles}
-
-\begin{itemize}
-\item If you are referring to a reference as a noun, then cite it as: ``\citet{Orw68} discusses the role of language in political thought.''
-\item If you are referring implicitly to references, use: ``There are many good books on writing \citep{Orw68, Wil09, Pin15}.''
-\end{itemize}
-
-There is a complete guide on good citation practice by Peter Coxhead available here: \url{http://www.cs.bham.ac.uk/~pxc/refs/index.html}.
-If you are unsure about how to cite online sources, please see this guide: \url{https://student.unsw.edu.au/how-do-i-cite-electronic-sources}.
-
-\subsection{Plagiarism warning}
-
-\begin{highlight_title}{WARNING}
-
-    If you include material from other sources without full and correct attribution, you are commiting plagiarism. The penalties for plagiarism are severe.
-    Quote any included text and cite it correctly. Cite all images, figures, etc. clearly in the caption of the figure.
-\end{highlight_title}
-
+\bigskip
+[TODO: technical]
+Applying deep learning to the analysis of microscope images of immune cells would allow us to explore cell interaction under different drug conditions. We can study whether deep learning techniques are applicable in this context and the type of high-dimensional data we have been provided by evaluating whether they provide any useful information on interaction levels between immune cells under different experimental conditions.
 
 %==================================================================================================================================
 \chapter{Background}
-What did other people do, and how is it relevant to what you want to do?
 
-\section{Image Segmentation}
-
-\url{https://www.youtube.com/watch?v=yR7k19YBqiw}
-\url{https://www.sciencedirect.com/science/article/pii/S1877050915014143}
-\url{https://jivp-eurasipjournals.springeropen.com/articles/10.1186/s13640-018-0309-3}
-- Image segmentation with K-means
-
+\section{Immunology research}
 
 \section{Autoencoders}
-Interesting articles:
-\url{https://www.jeremyjordan.me/autoencoders/}
-\url{http://www.deeplearningbook.org/contents/autoencoders.html}
 
-\section{Dimensionality Reduction}
-\url{https://arxiv.org/pdf/1809.00027.pdf}
-- nonlinear dimensionality reduction in climate applications
-- convolutional autoencoder outperforms PCA in terms of mean squared error
-- explanations of convolutional autoencoder
+\section{High dimensional visualisation}
 
-\url{https://arxiv.org/pdf/1501.01348.pdf}
-- high-content screening uses large collections of unlabeled cell image data to reason about genetics or cell biology: to identify cells bearing interesting phenotypes, and to identify sub-populations enriched for these phenotypes
-- research on dimensionality reduction followed by clustering
-- we want to rduce dimensionality, because clustering cell data split across millions of high dimensional data points is hard.
-- PCA is fast once the covariance matrix is formed, but is not able to model any non-linear interactions
-- supervised training coupled with initialized models and regularisation techniques are poor fit for high content screening:
-    - need some biological expertise
-    - time-intensive sampling
-    - means labels are scarce
-- 3 and 4 layer networks achieved better results on MNIST
+%==================================================================================================================================
+\chapter{Materials and Methods}
 
-\url{https://pdf.sciencedirectassets.com/280203/1-s2.0-S1877050912X00073/1-s2.0-S1877050912007272/main.pdf}
+This chapter covers the image materials that were available to analyse, how they were processed, and which methods were applied to them. The details of the implementation of these methods is then discussed in Section \ref{implementation}.
 
-\url{https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0213626}
-- edge enhancement?
-- data augmentation?
+\section{Immune cells dataset}
 
-\section{Activation functions}
-\url{https://www.analyticsvidhya.com/blog/2017/10/fundamentals-deep-learning-activation-functions-when-to-use-them/}
-other source: hands on machine learning
-- relu good starting point for hidden layers
-- softmax good for output layers for classification tasks
+\subsection{Setup}
 
-\section{Image Preprocessing}
-\url{https://imagej.nih.gov/ij/docs/guide/146-29.html}
+[decide where to explain the biological background so you can reconcile explanations: the backing research (finding interaction) as well as the different labels that come with the cells]
 
+\bigskip
+The images that were used for the purpose of this research were provided by biological researchers. The images were taken for their own research in an INCell Analyzer Machine, in which you can place a plate of wells for inage capture [ref?]. Each well contains t-cells and dendritic cells, as well as potential compounds to experiment with. In each well, the t-cells are dyed with a green dye, and the dendritic cells are dyed with a red dye. The output of this operation is three field-of-view images:
 
-\section{Guidance}
 \begin{itemize}
-    \item
-      Don't give a laundry list of references.
-    \item
-      Tie everything you say to your problem.
-    \item
-      Present an argument.
-    \item Think critically; weigh up the contribution of the background and put it in context.
-    \item
-      \textbf{Don't write a tutorial}; provide background and cite
-      references for further information.
+    \item a Brightfield image, which shows both t-cells and dendritic cells (Figure \ref{fig:brightfield})
+    \item an image of all the t-cells, which has been captured thanks to the green dye (Figure \ref{fig:tcells})
+    \item an image of all the dendritic cells, which has been captured thanks to the red dye (Figure \ref{fig:dcells}).
 \end{itemize}
 
-%==================================================================================================================================
-\chapter{Analysis/Requirements}
-What is the problem that you want to solve, and how did you arrive at it?
-\section{Guidance}
-Make it clear how you derived the constrained form of your problem via a clear and logical process.
+\bigskip
+[One row of three figures here illustrating the images]
+
+\subsection{Picking images}
+
+There was a large amount of images available from different well plates with different experimental conditions. However, each set of images represents about 8GB of data. Moving images about a file system and through disks or cloud filing system represented substantial time and was vulnerable to transfer errors. Hence, a limited number of plates were picked out for training and evaluation to make sure their consistency could be validated. The plates chosen had to be picked while keeping in mind the experimental conditions they represented, to make sure analysing them would yield something useful.
+
+[TODO: explain in more detail if labels haven't been explained earlier on]
+\begin{itemize}
+    \item The ``DMSO" dataset: [TODO to be read over by Hannah] DMSO is a solvent that helps solubilise the drug compounds in a well as most compounds are not initially water soluble. The drug compounds being more soluble, they should then be able to have more of an impact.
+    \item The ``balanced” dataset: this dataset contains an equal number of images in the three categories of stimulation: no drug simulation, stimulation with OVA peptide, and stimulation with ConA. This is to fight issues of class imbalance when training the model.
+    \item The simpler dataset, with two categories: this  dataset contains an equal number of images in two categories: no drug simulation, and simulation with OVA peptide. This was picked in the hope that if no results are obtained with 3 categories, a model might be able to perform better with two.
+\end{itemize}
+
+\subsection{Preprocessing}
+The datasets obtained from this setup consisted of 2048x2048 12-bit images in a 16-bit TIFF file. As mentioned above, each ``image” really consists of a set of three field-of-view images: the t-cells, the dendritic cells, and the Brightfield image. The Brightfield images were used to gain an overview of what the image might look like, but were discarded and not used for analysis.
+
+%Fiji (ImageJ) was used to explore the images as the particular 12-bit format of the image in a TIFF file meant that standard image previewers reproduced the image as all black. Fiji also offered useful tools for testing image pre-processing methods, such as binary filters, thresholding, and background correction.
+
+\bigskip
+Each of the images sized about 8MB, and represented 4,194,304 pixels. Each plate had about 400 setups, which corresponds to 800 images when counting both the t-cell image and the dendritic cell images. This represented an issue of very high dimensions to deal with, and little images to feed into any kind of model.
+
+\bigskip
+Moreover, initial tryouts of reconstructing images with an autoencoder showed that it struggled with such small details. Figure () shows that even to the naked eye, the small white dots could easily be confused for dust on the screen.
+
+\bigskip
+[example figure]
+
+\bigskip
+The first idea was to make the images more palatable by a neural network by cutting up a set square subsection of the image. However, this still created an issue of limited input to the dataset. This was improved by passing a sliding window over the image, creating a hundred 192x192 images per file. This quickly expanded the size of the dataset, making it as big as 58000 samples in some cases. Smaller images also made more sense to the naked eye, hence it was assumed that a trained model would perform better with this gridded dataset.
+
+\bigskip
+For each subimage, it was then normalised with min-max normalisation to get a [0,1] range of values. From analysing the images, it was also found that a lot of background noise was in the pixel range of [0, 255] before normalisation, so before normalisation values below 255 were clipped.
+
+\subsection{Outlier detection and labelling}
+
+The provided images sometimes contained some noise, coming from issues such as water droplets in the wells. These outlier images were detected because their pixel values seemed to always be between 0 and 255. Instead of removing them from the dataset entirely, it was decided to keep them in to see if a model could make sense of them as a category. These were labelled as "Faulty".
+
+All the images came with an Excel sheet giving information about the plate layout. Each image was given a letter and a name, and the Excel sheet gave information about drug stimulation, compound ID number, or compound concentration. These Excel sheets were not automatically parsable as types of drugs or location in the sheet might vary from one to the next, hence labelling had to be hardcoded and handchecked.
+
+\subsection{Combining images to visualise interaction}
+\bigskip
+
+For feeding into a model, the gridded, processed images had to be combined for them to make sense for the task of analysing interaction. For one set of microscopic image in one condition, the t-cell black and white image and the dendritic cell black and white image were combined in an RGB image where the red channel corresponded to the dendritic cell, the green channel corresponded to the t-cell, and the blue channel was left blank.
+
+Figure () illustrates how the processed and combined sub-image might look, for each of the different categories we are trying to look at in this task.
+
+[row of three images here]
+
+\section{Image segmentation}
+
+Image segmentation refers to the process of separating out different parts of interest of an image for different purposes. The purpose of image segmentation applied to this dataset of immune cells was both to attempt to correct any noisy background from the supplied images as well as use image segmentation to obtain numerical data about cells in the images.
+
+\subsection{Background correction}
+
+A common issue for microscopic images obtained systemically through different screening systems is that of a noisy background [ref]. This can usually be corrected through different methods, such as flat field correction or the rolling ball algorithm [ref]. Flat field correction takes a ``neutral” image without anything (i.e. cells) added to it to later use it as a reference image to perform background correction on any other images. However, the provided dataset did not come with a flat field image. As such, alternatives had to be explored.
+
+\bigskip
+All the images in the original, uncombined dataset are black and white, with the details of interest (the cells) in bright white spots. However there might be some gray details in the image that the naked eye cannot see immediately, but that could influence how a machine learns. Hence we need a method that will separate out the cell pixels from the background. We can do this by obtaining a binary mask of the image. The white pixels will correspond to the cells, and the dark cells will be the background. We can remove the background of the original image by multiplying it with the mask. Only the cells will remain in the image.
+
+\subsection{Analysing interaction}
+
+By using the above described method, we also obtain a binary mask of the image. This binary mask can be used for further calculations. A common metric for evaluating image segmentation quality is intersection over union [ref]. In our case, we can use this metric to calculate an area of overlap between the two separate images for a t-cell and a dendritic cell, corresponding to the same experimental condition. We can use the concept of overlap to quantify the level of interaction between cells. This number could then be used attached to an image as an input to a regression model in order to evaluate whether we can try a model to recognise a value of interaction from an image.
+
+\section{Autoencoders}
+
+[TODO: this might be covered in background a bit]
+Autoencoders are a particular type of neural network that have a symmetrical layer structured around an encoded representation. The aim of an autoencoder is to map an input to its output as close as possible while reducing its dimensions. The hope is that if an image is reduced to a certain number of dimensions, and a neural network is able to reconstruct the original image very closely just based on that compressed representation, then that compressed bottleneck representation of the image should be a good enough, reduced input we can then feed into other models.
+
+\bigskip
+[autoencoder figure here]
+
+\subsection{Visualising high dimensional data}
+
+One use for autoencoders and their capacity to reduce dimensions is that it could help the performance of high-dimensional visualisation techniques. High dimensionality visualisation techniques such as t-sne and UMAP can help visualise if there is an inherent structure to the data. This can be used in the context of analysing immune cell interactions by observing whether or not different clusters are found, and whether or not they correspond to different drug conditions. In this case, we would be able to differentiate different levels of interaction from the images.
+
+\subsection{Regression}
+
+We can also use the encoding part of the autoencoder to build a regression model and evaluate whether the model is capable of predicting interaction values from an image.
+
 
 %==================================================================================================================================
-\chapter{Design}
-How is this problem to be approached, without reference to specific implementation details?
-\section{Guidance}
-Design should cover the abstract design in such a way that someone else might be able to do what you did, but with a different language or library or tool.
 
-%==================================================================================================================================
 \chapter{Implementation}
-What did you do to implement this idea, and what technical achievements did you make?
-\section{Guidance}
-You can't talk about everything. Cover the high level first, then cover important, relevant or impressive details.
-
-\section{Dimensionality Reduction}
-- Obtaining a set of important, meaningful variables from a dataset to reduce the number of random variables
-- Reducing the dimension of feature space to have fewer relationships to consider
-
-\subsection{Principal Component Analysis}
-- linear feature extraction technique
-- performs a linear mapping of the data to a lower dimension space in such a way that the variance of the data in the low dimensional representation is maximised
-- eigenvectors from the covariance matrix are used
-- the eigenvectors that correspond to the largest eigenvalues are used to reconstruct a significant fraction of the variance of the original data
-- drop least important features while still retaining most valuable parts
-
-\subsection{t-Distributed Stochastic Neighbour Embedding (t-sne)}
-- calculates the probability of similarity of points in high dimensional space
-- calculates probability of similarity of points in the orresponding low dimensional space
-- similarity = conditional probability that a point A would choose point B as its neighbour if neighbours were picked in proportion to their probability under a normal distribution centered at A
-- minimisation of the differences between these similarities in high d and low d for a perfect representation of data points in lower dimensional space
-- to measure the minimisation, t-SNE minimises the sum of KL divergene of overall data points using a gradient desent methods
-- simply put: tsne minimises the difference between a distribution that measures pairwise similarities of the input objects and a distribution that measures similarities of the corresponding low dimensional points in the embedding
-
-
-
-\section{General points}
-
-These points apply to the whole dissertation, not just this chapter.
-
-
-
-\subsection{Figures}
-\emph{Always} refer to figures included, like Figure \ref{fig:relu}, in the body of the text. Include full, explanatory captions and make sure the figures look good on the page.
-You may include multiple figures in one float, as in Figure \ref{fig:synthetic}, using \texttt{subcaption}, which is enabled in the template.
-
-
-
-% Figures are important. Use them well.
-\begin{figure}
-    \centering
-    \includegraphics[width=0.5\linewidth]{images/relu.pdf}
-
-    \caption{In figure captions, explain what the reader is looking at: ``A schematic of the rectifying linear unit, where $a$ is the output amplitude,
-    $d$ is a configurable dead-zone, and $Z_j$ is the input signal'', as well as why the reader is looking at this:
-    ``It is notable that there is no activation \emph{at all} below 0, which explains our initial results.''
-    \textbf{Use vector image formats (.pdf) where possible}. Size figures appropriately, and do not make them over-large or too small to read.
-    }
-
-    % use the notation fig:name to cross reference a figure
-    \label{fig:relu}
-\end{figure}
-
-
-\begin{figure}
-    \centering
-    \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{images/synthetic.png}
-        \caption{Synthetic image, black on white.}
-        \label{fig:syn1}
-    \end{subfigure}
-    ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
-      %(or a blank line to force the subfigure onto a new line)
-    \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{images/synthetic_2.png}
-        \caption{Synthetic image, white on black.}
-        \label{fig:syn2}
-    \end{subfigure}
-    ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
-    %(or a blank line to force the subfigure onto a new line)
-    \caption{Synthetic test images for edge detection algorithms. \subref{fig:syn1} shows various gray levels that require an adaptive algorithm. \subref{fig:syn2}
-    shows more challenging edge detection tests that have crossing lines. Fusing these into full segments typically requires algorithms like the Hough transform.
-    This is an example of using subfigures, with \texttt{subref}s in the caption.
-    }\label{fig:synthetic}
-\end{figure}
-
-\clearpage
-
-\subsection{Equations}
-
-Equations should be typeset correctly and precisely. Make sure you get parenthesis sizing correct, and punctuate equations correctly
-(the comma is important and goes \textit{inside} the equation block). Explain any symbols used clearly if not defined earlier.
-
-For example, we might define:
-\begin{equation}
-    \hat{f}(\xi) = \frac{1}{2}\left[ \int_{-\infty}^{\infty} f(x) e^{2\pi i x \xi} \right],
-\end{equation}
-where $\hat{f}(\xi)$ is the Fourier transform of the time domain signal $f(x)$.
-
-\subsection{Algorithms}
-Algorithms can be set using \texttt{algorithm2e}, as in Algorithm \ref{alg:metropolis}.
-
-% NOTE: line ends are denoted by \; in algorithm2e
-\begin{algorithm}
-    \DontPrintSemicolon
-    \KwData{$f_X(x)$, a probability density function returing the density at $x$.\; $\sigma$ a standard deviation specifying the spread of the proposal distribution.\;
-    $x_0$, an initial starting condition.}
-    \KwResult{$s=[x_1, x_2, \dots, x_n]$, $n$ samples approximately drawn from a distribution with PDF $f_X(x)$.}
-    \Begin{
-        $s \longleftarrow []$\;
-        $p \longleftarrow f_X(x)$\;
-        $i \longleftarrow 0$\;
-        \While{$i < n$}
-        {
-            $x^\prime \longleftarrow \mathcal{N}(x, \sigma^2)$\;
-            $p^\prime \longleftarrow f_X(x^\prime)$\;
-            $a \longleftarrow \frac{p^\prime}{p}$\;
-            $r \longleftarrow U(0,1)$\;
-            \If{$r<a$}
-            {
-                $x \longleftarrow x^\prime$\;
-                $p \longleftarrow f_X(x)$\;
-                $i \longleftarrow i+1$\;
-                append $x$ to $s$\;
-            }
-        }
-    }
-
-\caption{The Metropolis-Hastings MCMC algorithm for drawing samples from arbitrary probability distributions,
-specialised for normal proposal distributions $q(x^\prime|x) = \mathcal{N}(x, \sigma^2)$. The symmetry of the normal distribution means the acceptance rule takes the simplified form.}\label{alg:metropolis}
-\end{algorithm}
-
-\subsection{Tables}
-
-If you need to include tables, like Table \ref{tab:operators}, use a tool like https://www.tablesgenerator.com/ to generate the table as it is
-extremely tedious otherwise.
-
-\begin{table}[]
-    \caption{The standard table of operators in Python, along with their functional equivalents from the \texttt{operator} package. Note that table
-    captions go above the table, not below. Do not add additional rules/lines to tables. }\label{tab:operators}
-    %\tt
-    \rowcolors{2}{}{gray!3}
-    \begin{tabular}{@{}lll@{}}
-    %\toprule
-    \textbf{Operation}    & \textbf{Syntax}                & \textbf{Function}                            \\ %\midrule % optional rule for header
-    Addition              & \texttt{a + b}                          & \texttt{add(a, b)}                                    \\
-    Concatenation         & \texttt{seq1 + seq2}                    & \texttt{concat(seq1, seq2)}                           \\
-    Containment Test      & \texttt{obj in seq}                     & \texttt{contains(seq, obj)}                           \\
-    Division              & \texttt{a / b}                          & \texttt{div(a, b) }  \\
-    Division              & \texttt{a / b}                          & \texttt{truediv(a, b) } \\
-    Division              & \texttt{a // b}                         & \texttt{floordiv(a, b)}                               \\
-    Bitwise And           & \texttt{a \& b}                         & \texttt{and\_(a, b)}                                  \\
-    Bitwise Exclusive Or  & \texttt{a \textasciicircum b}           & \texttt{xor(a, b)}                                    \\
-    Bitwise Inversion     & \texttt{$\sim$a}                        & \texttt{invert(a)}                                    \\
-    Bitwise Or            & \texttt{a | b}                          & \texttt{or\_(a, b)}                                   \\
-    Exponentiation        & \texttt{a ** b}                         & \texttt{pow(a, b)}                                    \\
-    Identity              & \texttt{a is b}                         & \texttt{is\_(a, b)}                                   \\
-    Identity              & \texttt{a is not b}                     & \texttt{is\_not(a, b)}                                \\
-    Indexed Assignment    & \texttt{obj{[}k{]} = v}                 & \texttt{setitem(obj, k, v)}                           \\
-    Indexed Deletion      & \texttt{del obj{[}k{]}}                 & \texttt{delitem(obj, k)}                              \\
-    Indexing              & \texttt{obj{[}k{]}}                     & \texttt{getitem(obj, k)}                              \\
-    Left Shift            & \texttt{a \textless{}\textless b}       & \texttt{lshift(a, b)}                                 \\
-    Modulo                & \texttt{a \% b}                         & \texttt{mod(a, b)}                                    \\
-    Multiplication        & \texttt{a * b}                          & \texttt{mul(a, b)}                                    \\
-    Negation (Arithmetic) & \texttt{- a}                            & \texttt{neg(a)}                                       \\
-    Negation (Logical)    & \texttt{not a}                          & \texttt{not\_(a)}                                     \\
-    Positive              & \texttt{+ a}                            & \texttt{pos(a)}                                       \\
-    Right Shift           & \texttt{a \textgreater{}\textgreater b} & \texttt{rshift(a, b)}                                 \\
-    Sequence Repetition   & \texttt{seq * i}                        & \texttt{repeat(seq, i)}                               \\
-    Slice Assignment      & \texttt{seq{[}i:j{]} = values}          & \texttt{setitem(seq, slice(i, j), values)}            \\
-    Slice Deletion        & \texttt{del seq{[}i:j{]}}               & \texttt{delitem(seq, slice(i, j))}                    \\
-    Slicing               & \texttt{seq{[}i:j{]}}                   & \texttt{getitem(seq, slice(i, j))}                    \\
-    String Formatting     & \texttt{s \% obj}                       & \texttt{mod(s, obj)}                                  \\
-    Subtraction           & \texttt{a - b}                          & \texttt{sub(a, b)}                                    \\
-    Truth Test            & \texttt{obj}                            & \texttt{truth(obj)}                                   \\
-    Ordering              & \texttt{a \textless b}                  & \texttt{lt(a, b)}                                     \\
-    Ordering              & \texttt{a \textless{}= b}               & \texttt{le(a, b)}                                     \\
-    % \bottomrule
-    \end{tabular}
-    \end{table}
-\subsection{Code}
-
-Avoid putting large blocks of code in the report (more than a page in one block, for example). Use syntax highlighting if possible, as in Listing \ref{lst:callahan}.
-
-\begin{lstlisting}[language=python, float, caption={The algorithm for packing the $3\times 3$ outer-totalistic binary CA successor rule into a
-    $16\times 16\times 16\times 16$ 4 bit lookup table, running an equivalent, notionally 16-state $2\times 2$ CA.}, label=lst:callahan]
-    def create_callahan_table(rule="b3s23"):
-        """Generate the lookup table for the cells."""
-        s_table = np.zeros((16, 16, 16, 16), dtype=np.uint8)
-        birth, survive = parse_rule(rule)
-
-        # generate all 16 bit strings
-        for iv in range(65536):
-            bv = [(iv >> z) & 1 for z in range(16)]
-            a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p = bv
-
-            # compute next state of the inner 2x2
-            nw = apply_rule(f, a, b, c, e, g, i, j, k)
-            ne = apply_rule(g, b, c, d, f, h, j, k, l)
-            sw = apply_rule(j, e, f, g, i, k, m, n, o)
-            se = apply_rule(k, f, g, h, j, l, n, o, p)
-
-            # compute the index of this 4x4
-            nw_code = a | (b << 1) | (e << 2) | (f << 3)
-            ne_code = c | (d << 1) | (g << 2) | (h << 3)
-            sw_code = i | (j << 1) | (m << 2) | (n << 3)
-            se_code = k | (l << 1) | (o << 2) | (p << 3)
-
-            # compute the state for the 2x2
-            next_code = nw | (ne << 1) | (sw << 2) | (se << 3)
-
-            # get the 4x4 index, and write into the table
-            s_table[nw_code, ne_code, sw_code, se_code] = next_code
-
-        return s_table
-
-\end{lstlisting}
 
 %==================================================================================================================================
 \chapter{Evaluation}
-How good is your solution? How well did you solve the general problem, and what evidence do you have to support that?
-
-\section{Guidance}
-\begin{itemize}
-    \item
-        Ask specific questions that address the general problem.
-    \item
-        Answer them with precise evidence (graphs, numbers, statistical
-        analysis, qualitative analysis).
-    \item
-        Be fair and be scientific.
-    \item
-        The key thing is to show that you know how to evaluate your work, not
-        that your work is the most amazing product ever.
-\end{itemize}
-
-\section{Evidence}
-Make sure you present your evidence well. Use appropriate visualisations, reporting techniques and statistical analysis, as appropriate.
-
-If you visualise, follow the basic rules, as illustrated in Figure \ref{fig:boxplot}:
-\begin{itemize}
-\item Label everything correctly (axis, title, units).
-\item Caption thoroughly.
-\item Reference in text.
-\item \textbf{Include appropriate display of uncertainty (e.g. error bars, Box plot)}
-\item Minimize clutter.
-\end{itemize}
-
-See the file \texttt{guide\_to\_visualising.pdf} for further information and guidance.
-
-\begin{figure}
-    \centering
-    \includegraphics[width=1.0\linewidth]{images/boxplot_finger_distance.pdf}
-
-    \caption{Average number of fingers detected by the touch sensor at different heights above the surface, averaged over all gestures. Dashed lines indicate
-    the true number of fingers present. The Box plots include bootstrapped uncertainty notches for the median. It is clear that the device is biased toward
-    undercounting fingers, particularly at higher $z$ distances.
-    }
-
-    % use the notation fig:name to cross reference a figure
-    \label{fig:boxplot}
-\end{figure}
 
 
 %==================================================================================================================================
 \chapter{Conclusion}
-Summarise the whole project for a lazy reader who didn't read the rest (e.g. a prize-awarding committee).
-\section{Guidance}
-\begin{itemize}
-    \item
-        Summarise briefly and fairly.
-    \item
-        You should be addressing the general problem you introduced in the
-        Introduction.
-    \item
-        Include summary of concrete results (``the new compiler ran 2x
-        faster'')
-    \item
-        Indicate what future work could be done, but remember: \textbf{you
-        won't get credit for things you haven't done}.
-\end{itemize}
 
 %==================================================================================================================================
 %
@@ -514,26 +219,6 @@ Summarise the whole project for a lazy reader who didn't read the rest (e.g. a p
 \begin{appendices}
 
 \chapter{Appendices}
-
-Typical inclusions in the appendices are:
-
-\begin{itemize}
-\item
-  Copies of ethics approvals (required if obtained)
-\item
-  Copies of questionnaires etc. used to gather data from subjects.
-\item
-  Extensive tables or figures that are too bulky to fit in the main body of
-  the report, particularly ones that are repetitive and summarised in the body.
-
-\item Outline of the source code (e.g. directory structure), or other architecture documentation like class diagrams.
-
-\item User manuals, and any guides to starting/running the software.
-
-\end{itemize}
-
-\textbf{Don't include your source code in the appendices}. It will be
-submitted separately.
 
 \end{appendices}
 
