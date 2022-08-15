@@ -57,33 +57,51 @@ def plot_live(X, y, labels=["Unstimulated", "OVA", "ConA"]):
     ax1 = plt.subplot()
     plt.axis('off')
 
-    for target, colour, label in zip(targets, palette, labels):
-        ax2 = ax1.twinx()
-        scatter2 = plt.scatter(X[y==target,0], X[y==target, 1], c=[colour], s=10, label=label)
-        ax2.grid(False)
-        annot = ax2.annotate("", xy=(0,0), xytext=(-20,20),textcoords="offset points",
-                            bbox=dict(boxstyle="round", fc="w", alpha=0.4),
-                            arrowprops=dict(arrowstyle="->"))
-        annot.set_visible(False)
-        annots.append(annot)
-        axes.append(ax2)
-        scatters.append(scatter2)
+for target, colour, label in zip(labels, palette, labels):
+    ax2 = ax1.twinx()
+    scatter2 = plt.scatter(tsne[y==target,0], tsne[y==target, 1], c=[colour], s=10, label=label)
+    ax2.grid(False)
+    annot = ax2.annotate("", xy=(0,0), xytext=(-20,20),textcoords="offset points",
+                        bbox=dict(boxstyle="round", fc="w", alpha=0.4),
+                        arrowprops=dict(arrowstyle="->"))
+    annot.set_visible(False)
+    annots.append(annot)
+    axes.append(ax2)
+    scatters.append(scatter2)
 
-        ax2.axis('off')
-        ax2.grid(False)
+    ax2.axis('off')
+    ax2.grid(False)
 
-        box = ax1.get_position()
-        ax1.set_position([box.x0, box.y0, box.width * 0.8, box.height])
-        ax1.legend(handles=scatters, loc='center left', bbox_to_anchor=(1, 0.5), labels=[str(x) for x in labels])
+    box = ax1.get_position()
+    ax1.set_position([box.x0, box.y0, box.width * 0.8, box.height])
+    ax1.legend(handles=scatters, loc='center left', bbox_to_anchor=(1, 0.5), labels=[str(x) for x in labels])
 
-        annot_dic = dict(zip(axes, annots))
-        line_dic = dict(zip(axes, scatters))
+    annot_dic = dict(zip(axes, annots))
+    line_dic = dict(zip(axes, scatters))
 
     def update_annot(point, annot, ind):
+
+        label = int(point.get_label())
         pos = point.get_offsets()[ind["ind"][0]]
         annot.xy = pos
-        text = "{}".format(" ".join(list(map(str,ind["ind"]))))
+        text = "{}".format(label)
         annot.set_text(text)
+
+
+        arr_img = x_test[y==label][ind["ind"][0]]
+        imagebox = OffsetImage(arr_img)
+        imagebox.image.axes = ax1
+        box = ax1.get_position()
+
+        ab = AnnotationBbox(imagebox, xy=(1, 0),
+                            xybox=(25, 10),
+                            xycoords='axes fraction',
+                            boxcoords="offset points",
+                            bboxprops=dict(alpha=0.2, linewidth=0.5, boxstyle="round"),
+                            frameon=True)
+
+        ax1.add_artist(ab)
+
 
     def hover(event):
 
@@ -101,4 +119,5 @@ def plot_live(X, y, labels=["Unstimulated", "OVA", "ConA"]):
                         fig.canvas.draw_idle()
 
     fig.canvas.mpl_connect("motion_notify_event", hover)
+
     plt.show()
