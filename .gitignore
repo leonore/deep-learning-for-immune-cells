@@ -1,7 +1,6 @@
-/data/raw/**
 /data/processed/**
 .ipynb_checkpoints
 __pycache__
 ~$*
 *.gif
-*.h5 
+*.h5
