@@ -11,17 +11,8 @@ def reformat(img, type):
     formatted = (img).astype(type)
     return Image.fromarray(formatted)
 
-def center_crop(img, size):
-    to_crop = (img.shape[0]-size)/2
-    image_resized = skimage.util.crop(img, (to_crop, to_crop))
-    return image_resized
-
-def mean_clip(x):
-    mean = np.mean(x)
-    return np.clip(x, mean-126, mean+127)
-
 def low_clip(x):
-    return np.clip(x, 255, 65535)
+    return np.clip(x, 255, 4095)
 
 def minmax(x):
     return (x-np.min(x))/(np.max(x)-np.min(x))
@@ -29,6 +20,11 @@ def minmax(x):
 def max_normalise(x):
     max = np.max(x)
     return x / max
+
+def is_faulty(x):
+    if x.max() <= 255:
+        return True
+    return False
 
 ## DATASET OPERATIONS
 
@@ -159,4 +155,4 @@ def reconstruct_from(images, size=192):
             col = 0
             y += size
 
-    return new_img 
+    return new_img

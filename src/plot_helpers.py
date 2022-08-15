@@ -11,9 +11,9 @@ def show_image(img, title="untitled", cmap="gray", **kwargs):
     plt.title(title)
 
 
-def plot_range(imgs, rn=8):
+def plot_range(imgs, RS=8):
   fig = plt.figure(figsize=(15, 15))
-  for i in range(1, 6):
+  for i in range(0, 5):
     ax = fig.add_subplot(1, 5, i)
     plt.imshow(imgs[i+rn])
     ax.axis('off')
