@@ -33,12 +33,23 @@ def is_faulty(x):
 ## DATASET OPERATIONS
 
 # train_test_split simplified
-def unishuffle(a, b, RS=None):
-    assert len(a) == len(b)
-    if RS:
-        np.random.seed(RS)
-    p = np.random.permutation(len(a))
-    return a[p], b[p]
+# WARNING this does modifications in place --> otherwise running out of mem errors
+def efficient_shuffle(*arrays, random_state=None):
+    if not random_state:
+        random_state = np.random.randint(0, 2211)
+    for arr in arrays:
+        np.random.seed(random_state)
+        np.random.shuffle(arr)
+
+def even_round(num):
+    return round(num/2.)*2
+
+def dataset_split(*arrays, test_size=0.2):
+    test_size = even_round(len(dataset)*test_size)
+    results = []
+    for arr in arrays:
+        results.append(arr[:-test_size], arr[-test_size:])
+    return results
 
 def is_dmso(file):
     # file format: folder/CKX - L - 00(...)

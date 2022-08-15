@@ -37,7 +37,7 @@ def plot_clusters(X, y, labels=["Unstimulated", "OVA", "ConA", "Faulty"]):
     ax = plt.subplot()
 
     for target, color, label in zip(targets, palette, labels):
-        plt.scatter(X[y==target, 0], X[y==target, 1], c=[color], label=label, alpha=0.75, s=10)
+        plt.scatter(X[y==target, 0], X[y==target, 1], c=[color], label=label, alpha=0.60, s=10, edgecolor='k', lw=0.2)
 
     ax.axis('off')
     ax.grid(False)

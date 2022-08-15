@@ -34,10 +34,8 @@ def threshold(x):
 
 # intersection over union (evaluation function)
 def iou(a,b):
-    a = a.astype(np.bool)
-    b = b.astype(np.bool)
-    i = a*b
-    u = a+b
+    i = a&b
+    u = a|b
     if u.sum() == 0:
         return 0
-    return i.sum()/(a.sum()+b.sum())
+    return i.sum()/u.sum()
