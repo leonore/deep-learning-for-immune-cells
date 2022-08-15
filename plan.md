@@ -57,8 +57,18 @@ Week-by-week plan for the whole project.
 * Tune clustering algorithm
 
 * **Week 10**
+* Tune autoencoder; record loss and clustering performance as I go along
+* Run code on separate datasets to evaluate performance
+
 * **Week 11 [PROJECT WEEK]**
+* Combine two fluorescent images into 2-channel image
+* Write fully shuffled split dataset function
+* Tune autoencoder; record loss and clustering performance as I go along
+
 * **Week 12 [PROJECT WEEK]** Status report submitted.
+* Tune autoencoder; record loss and clustering performance as I go along
+* Tune clustering algorithm parameters
+* Write status report
 
 ## Winter break
 
