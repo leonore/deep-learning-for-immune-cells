@@ -69,8 +69,9 @@ def is_dmso(file):
 def get_label(filename):
     # 0: unstimulated
     # 1: OVA
-    # 2: ConA or Empty
+    # 2: ConA
     # 3: Faulty
+    # 4: empty
 
     # filename format: folder/CKX - L - 00(...)
     file = filename.split("/")[-1].split("(")[0]
@@ -95,9 +96,18 @@ def get_label(filename):
             label = 2
         else:
             label = 3
-    elif ck == "CK21" or ck == "CK22":
+    elif ck == "CK21":
         if number in ["01", "12", "13", "24"]:
+            label = 4
+        elif number in ["02", "03", "04", "05", "06", "07", "08", "09", "10", "11"]:
+            label = 0
+        elif int(number) in range(14, 24):
             label = 2
+        else:
+            label = 3
+    elif ck == "CK22":
+        if number in ["01", "12", "13", "24"]:
+            label = 4
         elif number in ["02", "03", "04", "05", "06", "07", "08", "09", "10", "11"]:
             label = 0
         elif int(number) in range(14, 24):
