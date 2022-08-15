@@ -185,15 +185,11 @@ Image segmentation refers to the process of separating out the parts of interest
 
 \subsection{Background correction} \label{subsec:correction}
 
-[explain why additional background correction step is necessary following the clipping you applied to the images with noisy backgrounds in section 3.1.4]
+Although we have defined a method to perform some background noise reduction in images in Section \ref{subsec:preproc}, this method might not be able to catch all irregularities in the background. As such, we wanted to explore some alternatives.
 
-[talk about vignetting]
+All the images in the original, uncombined dataset were black and white, with the details of interest (the cells) in bright white spots. However, as discussed in Section \ref{subsec:preproc}, the images could contain noise coming from grey details in the image that the naked eye cannot see immediately. Moreover, our noise removal methods might not be foolproof. There might be some noise remaining that could influence how a model learns. The best way for a model to learn about cells only is to only provide pixel values for cells, with a background sent to 0. Hence, we needed a method that will separate out the cell pixels from the background. We achieved this by obtaining a binary mask of the image, such that the white pixels of the binary image corresponded to the cells, and the dark pixels corresponded to the background. We tested two methods for doing this: K-means and thresholding, which will be described further in Section \ref{sec:implementation}.
 
-A common issue for microscope images obtained systematically through different screening systems is that of a noisy background [ref]. This can usually be corrected through different methods, such as flat field correction [ref]. Flat field correction removes image noise by using a ``neutral” background image without any additional objects (i.e. cells) as a reference image. However, the provided dataset did not come with a flat field image. As such, alternatives had to be explored.
-
-All the images in the original, uncombined dataset were black and white, with the details of interest (the cells) in bright white spots. However, as discussed in Section \ref{subsec:preproc}, the images could contain noise coming from grey details in the image that the naked eye cannot see immediately. This could influence how a model learns. Hence, we needed a method that will separate out the cell pixels from the background. We can achieve this by obtaining a binary mask of the image, such that the white pixels of the binary image correspond to the cells, and the dark pixels correspond to the background. We tested two methods for doing this: K-means and thresholding, which will be described further in Section \ref{sec:implementation}.
-
-Once a binary mask is obtained through these methods, we can remove the background of the original image by multiplying it with the mask, a procedure known as \textit{masking}. If the binary mask is satisfactory, the output of this image should only contain the cells, which will have kept their detail, while the background will have been blacked out.
+Once a binary mask is obtained through these methods, we removed the background of the original image by multiplying it with the mask, a procedure known as \textit{masking}. If the binary mask is satisfactory, the output of this image should only contain the cells, which will have kept their detail, while the background will have been blacked out.
 
 \subsection{Quantifying interaction}
 
@@ -230,7 +226,7 @@ The following two sections highlight the purposes of developing an autoencoder i
 
 \subsection{Visualising high dimensional data}
 
-The first use for our autoencoder is to reduce the dimensions of our image input, as the size of the data points will not only make it slow for data visualisation techniques to process, but also harder for them to distinguish any structure in the data. High dimensionality visualisation techniques such as t-sne and UMAP can help visualise if there is an inherent structure to the data. We want to use this as a tool for analysis of immune cells interactions. The aim is to be able to qualify interaction from an image. We want to evaluate whether or not a technique such as t-SNE or UMAP can cluster different images around similar experimental conditions. If such successful groupings were found, it would allow us to show that different drug compounds yield structurally similar cell interactions.
+The first use for our autoencoder is to reduce the dimensions of our image input, as the size of the data points will not only make it slow for data visualisation techniques to process, but also harder for them to distinguish any structure in the data. High dimensionality visualisation techniques such as t-sne and UMAP can help visualise if there is an inherent structure to the data. We want to use this as a tool for analysis of immune cells interactions. The aim is to be able to qualify interaction from an image. We want to evaluate whether or not a technique such as t-SNE or UMAP can cluster different images around similar experimental conditions. If such successful groupings were found, it would allow us to show that different drug compounds yield structurally similar cell interactions. 
 
 \subsection{Quantifying interaction in unseen images}
 
