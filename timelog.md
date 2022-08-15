@@ -172,8 +172,12 @@
 ### 17 November 2019
 - *2.5 hours* Resizing images; trying new autoencoder architecture
 
-## Week 9 c/ 18 November (2.5/15 hours)
+## Week 9 c/ 18 November (7/15 hours)
 
 ### 18 November 2019
 - *1.5 hours* Trying each of: resizing data to smaller images, scaling data, adding normalisation post-activation, relu vs leakyrelu
 - *1 hour* Tuning; creating visual presentation of tweak results
+- *1.5 hour* Trying to see where model is going wrong with MNIST dataset
+
+### 19 November 2019
+- *3 hours* Preprocessing images with edge detectors, contrast tuning, choosing best filters

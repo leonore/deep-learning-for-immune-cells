@@ -3,6 +3,7 @@ import numpy as np
 import os
 from skimage.io import imread, imsave, imread
 from skimage.transform import rescale, resize, downscale_local_mean
+from skimage import filters
 from PIL import Image
 
 # IMAGE FORMATTING OPERATIONS
@@ -91,7 +92,7 @@ def resize_images(folder='/Users/Leonore/Documents/Workspace/l4proj/data/raw/',
                 print(e)
                 print("{} is causing issues".format(file))
 
-def images_to_dataset(folder="/Users/Leonore/Documents/Workspace/l4proj/data/processed/", w=200, h=200):
+def images_to_dataset(folder="/Users/Leonore/Documents/Workspace/l4proj/data/processed/", w=192, h=192):
     filenames = []
     for ck in ["CK19", "CK21", "CK22"]:
         filenames.extend(read_folder_filenames(folder+ck))
@@ -99,13 +100,9 @@ def images_to_dataset(folder="/Users/Leonore/Documents/Workspace/l4proj/data/pro
     dataset = np.ndarray(shape=(len(filenames), w, h), dtype=np.float32)
     i = 0
     for file in filenames:
-        try:
-            image = imread(file)
-            dataset[i] = normalise(image)
-        except Exception as e:
-            print(e)
-            print("{} is causing issues".format(file))
+        image = imread(file)
+        image_resized = resize(image, (w, h), anti_aliasing=True)
+        dataset[i] = normalise(filters.sobel(image_resized))
         i += 1
+    print("All files formatted into dataset.")
     return dataset, filenames
-
-dataset, filenames = images_to_dataset()
