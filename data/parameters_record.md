@@ -351,6 +351,28 @@ decoded = Conv2D(1, (3, 3), activation='sigmoid', padding='same')(x)
 
 * Might have to go back to data augmentation with this one.
 
+## Observations - playing with dataset:
+
+Dataset alterations tried:
+- Making a RGB image with green/red channel each of tcell, dcell and empty third one
+- Making a RGB image with the overlap as the third one    
+^^ this wasn't very successful and outputted black, unless I specifically added which channel to display in the code.
+- Training the network with the overlap directly
+- Cropping images to [96, 96]
+- Shuffling the dataset
+
+For all of these the result is the same:
+- With relu/no activation function nothing is learned but something is outputted (though no change from untrained network)
+- With sigmoid function the architecture seems to learn but nothing is outputted (fully black).
+  - This is just the sigmoid activation causing this.
+  - Solution: try other activation functions?... but why is it not outputting
+- The architecture + sigmoid on another dataset works. So what is wrong with this data?
+
+### Next up
+
+- Try data augmentation to make sure we can rule lack of data as the cause of the problem.
+- Try brightfield images? would the network learn better from that? (however: much overhead from getting the images from OneDrive again)
+
 
 ---------------- old records --------------------
 
