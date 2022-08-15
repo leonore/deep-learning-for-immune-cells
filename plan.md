@@ -43,12 +43,15 @@ Week-by-week plan for the whole project.
 * Calculate overlap of images
 
 * **Week 7**
-* Read on PCA/tsne - follow tutorial with MNIST dataset
-* Select only DMSO images from dataset
-* Apply clustering algorithm to that dataset
+* Follow tutorial on PCA/tsne with MNIST
+* Separate out DMSO data
+* Colab move
+* Tune autoencoder
 
 * **Week 8**
-* Tune clustering algorithm
+* Fit model, save weights
+* Apply chosen clustering algorithm
+* Tune clustering algorithms to improve performance
 
 * **Week 9**
 * Tune clustering algorithm
