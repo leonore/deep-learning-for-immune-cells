@@ -16,18 +16,16 @@ API for cell_autoencoder
 - encoder: model with flattened deepest, middle layer to feed into clustering algorithms
 
 * train(model, data, batch_size, epochs)
-- fits @model with @data. also called through evaluate() but can be called on its own
+- fits @model with @data
+- WARNING: this can be lengthy on a non-GPU local computer
 
-* evaluate(model, data, test, batch_size, epochs)
+* evaluate(model, data, test)
 - returns visualisations on model reconstruction performance
 - assumes model has been trained on @data and is being validated on @test
 
 """
 
-imw = 192
-imh = 192
-c = 3
-RS = 2211
+from config import imw, imh, c, RS
 
 
 def make_autoencoder():
@@ -77,7 +75,7 @@ def train(model, data, batch_size=32, epochs=20):
 
     reduce_lr = callbacks.ReduceLROnPlateau(monitor='val_loss', factor=0.2,
                               patience=3, min_lr=0.0001, verbose=1)
-    early_stop = callbacks.EarlyStopping(monitor="val_loss", verbose=1, patience=3)
+    early_stop = callbacks.EarlyStopping(monitor="val_loss", verbose=1, patience=5)
 
     loss = model.fit(data, data, epochs=epochs, batch_size=batch_size, validation_split=0.15,
                      callbacks=[reduce_lr, early_stop])
@@ -101,30 +99,22 @@ def train(model, data, batch_size=32, epochs=20):
     else:
         print("Model was trained successfully.")
 
-def evaluate(model, data, test, label=None):
+def evaluate(model, data, tag=None):
     plt.rcParams.update({'axes.titlesize': 'medium'})
-    train_nb = np.random.randint(0, len(data)-1)
     test_nb = np.random.randint(0, len(test)-1)
 
     # show the difference in reconstruction
-    decoded_imgs = model.predict(data[train_nb:train_nb+1]) # test on images it trained on
-    untrained_decoded = model.predict(test[test_nb:test_nb+1]) # test images
+    decoded_imgs = model.predict(data[test_nb:test_nb+1])
 
     s=10
-    fig = plt.figure(figsize=(s,s))
-    fig.add_subplot(1, 2, 1)
-    show_image(reshape(data[train_nb:train_nb+1], w=imw, h=imh, c=c), "original training image")
-    fig.add_subplot(1, 2, 2)
-    show_image(reshape(decoded_imgs[0], w=imw, h=imh, c=c), "reconstructed training image")
 
     fig = plt.figure(figsize=(s,s))
     fig.add_subplot(1, 2, 1)
-    show_image(reshape(test[test_nb:test_nb+1], w=imw, h=imh, c=c), "original test image")
+    show_image(reshape(test[test_nb:test_nb+1], w=imw, h=imh, c=c), "original image")
     fig.add_subplot(1, 2, 2)
-    show_image(reshape(untrained_decoded[0], w=imw, h=imh, c=c), "reconstructed test image")
+    show_image(reshape(untrained_decoded[0], w=imw, h=imh, c=c), "reconstructed image")
 
     plt.show()
 
-    if label:
-        new_label = "../data/evaluation/autoencoder/" + label + ".png"
-        plt.save(new_label)
+    if tag:
+        plt.save("../data/evaluation/autoencoder/" + tag + ".png")
