@@ -67,7 +67,7 @@
 * *1 hour* Summarising progress and writing a plan for the rest of the semester
 * *1 hour* Looking at changing image size to see if it improves autoencoder performance
 
-## Week 4 c/ 14 October 2019 (10/15 hours)
+## Week 4 c/ 14 October 2019 (11/15 hours)
 
 ### 14 Oct 2019
 * *3 hours* Tuning model and CNN layers parameters to get better output
@@ -85,3 +85,6 @@
 * *1 hour* Trying to move to Google Colab for GPU speedup; issues with using local files
 * *0.5 hour* Tuning autoencoder layers; seeing improvement in performance
 * *0.5 hour* Working on a function to display before/after images in subplots
+
+### 20 Oct 2019
+* *1 hour* Tuning autoencoder; looking at different representations to assess progress
