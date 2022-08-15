@@ -18,11 +18,15 @@ Week-by-week plan for the whole project.
 
 * **Week 2**
 * Setup training data
+   * Resize images and convert to JPEG
 * Setup an autoencoder
 * Run images through autoencoder
-* Examine compressed, decompressed products 
 
 * **Week 3**
+* Setup Trello board
+* Examine compressed, decompressed products
+* Build dissertation, solve any others, write motivation + background (helps for further plans)
+
 * **Week 4**
 * **Week 5**
 * **Week 6**

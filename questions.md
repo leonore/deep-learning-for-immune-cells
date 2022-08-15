@@ -7,3 +7,7 @@
 * What is the difference between the black and grey photos?
 * Show a photo and ask for description
 * We would like a convolutional autoencoder?
+
+## Week 3 meeting - Tue 07/10
+* What resolution should I aim for?
+* What exactly are we trying to predict? Do we want to apply clustering algorithm to both red and green images and then see how they overlap, or do we want to do it on the brightfield images?
