@@ -1,5 +1,3 @@
-
-
 \chapter{Implementation} \label{sec:implementation}
 
 \section{System diagram}
@@ -13,42 +11,13 @@ Figure \ref{fig:system} can help the reader to gain understanding how each of th
     \label{fig:system}
 \end{figure}
 
-\section{Experimental setup}
-
-As this is a research project based on using deep learning methods, a large part of the research involved an experimental process of tweaking the deep learning models, training them, and evaluating them.
-
-\section{Pre-processing}
-
-Firstly, before feeding them as input into any model, the images of cells had to be pre-processed. This is already partly discussed in Section \ref{}. This section will go over the implementation specifics.
-
-\bigskip
-The following list provides a step-by-step of the process:
-\begin{enumerate}
-    \item For each dataset, all the images of T cells and dendritic cells were picked out. Their corresponding filenames were retrieved.
-    \item The filenames were sorted to keep images from the same well next to each other in memory.
-    \item Each image was partitioned into sub-images through a sliding window approach. The window was of size 192x192 and yielded a 100 same-sized images. The original image was 2048x2048 so the right and bottom borders of the image were discarded.
-    \item Once this gridded dataset was obtained, each T cell image was combined in a RGB image with its dendritic cell counterpart, stored in index i and index i+100 respectively.
-    \item For each combined image, noise was removed through low value pixel clipping. Min-max normalisation was then applied to put all images in the same [0,1] range.
-\end{enumerate}
-
-Some implementation choices made in the above have to be justified.
-
-\subsection{Sliding window size}
-
-The sub-image window size was chosen to be 192x192 because of the way Pooling and Upsampling operations function in autoencoders. Autoencoders are built around symmetrical operations around a bottleneck. That is, we are trying to output a reconstructed image which will be of the same size as the input.
-
-[make an image]
-%Encoder layers in autoencoders make use of Pooling operations to reduce dimensionality of the input as you go deeper into the network. These pooling operations are commonly done in factors of 2 for their efficiency at downsizing as well as maintaining detail. In the context of an image passing through an autoencoder, it is reduced by 2 for every pooling operation. Each pooling operation then has a corresponding upsampling operation in the decoder part of the autoencoder, in order to reconstruct the image with the right size. An upsampling operation of factor 2 outputs an image of dimensions multiplied by 2. However, a pooling operation will round up resultant dimensions if the reduction of the original dimensions results in a decimal number. The corresponding upsampling operation would then double that number, which would result in a different dimension in the output of the autoencoder. Hence, we had to pick a size that would be big enough to show enough cells, but we also had to pick a size which meant the image could be divided by 2 for a large amount of times, depending on the number of hidden layers. To illustrate, if we apply a division by to the number 200 three times, the image can be upsampled and reconstructed correctly, however if it is reduced 4 times, then after the 4th operation we obtain a 13x13 image and the first upsampling operation creates a 26x26 image. A size which is a multiple of 8 bypasses that issue for a larger number of operations. A 192x192 image can be reduced 6 times, when it reaches dimensions of 3x3, without running into upsampling issues.
-
-\subsection{Image combination}
-
-Images of each type of cells on their own would not make much sense on their own when the aim is to quantify the level of interaction. Hence they have to be combined. The advantage that the provided dataset has is that it comes with the T cells and the dendritic cells separated by means of fluorescent dyes, hence no image segmentation technique had to be used to be able to separate the image out into the different types of cells and colour them in. Instead, each of the T cell and its corresponding DC, which were associated to the same file, were combined together in an RGB image, with the blue channel set to 0. %The images were not combined in an absolute difference operation as we would have lost information of where the images overlapped i.e. interacted, which is what we are looking into in this research.
-
-\section{Quantifying immune cell interaction}
+\section{Image segmentation}
 
 % To obtain an interaction measure from the images, multiple methods were explored. First, we looked at the Structural Similarity Index (SSIM) of images. was computed, however because the images were so similar in general i.e. white blobs spread across a black background, the results were extremely similar across all cells in different experiment conditions.
 
-The idea was [instead] to obtain masks of the images and compute the intersection over union area as the interaction value. As the cells were bright blobs on a black background, and we did not have the task of separating T-cells from dendritic cells, it was hoped that this would be straightforward. Both K-means and thresholding methods yielded good results and their specifics are detailed below.
+Performing cell segmentation from grayscale microscope images of cells has been researched and is necessary when the cells to be studied in an image have not been separately labelled in one way or another. In our case, cell segmentation does not need to be applied as the images of T-cells and dendritic cells have been captured separately through fluorescent dyes. Instead, we are interested in using segmentation techniques to obtain the mask of each type of immune cell for the purposes of background correction and interaction quantisation, as explained in Section \ref{sec:segmentation}.
+
+As our dataset pre-separated the type of immune cells and the cells were bright blobs on a background, we hoped that obtaining masks from each image would be straightforward. This section describes the methods we explored for this task. Both K-means and thresholding methods yielded good results and their specifics are detailed below.
 
 \subsection{\textit{k}-means colour clustering}
 
@@ -134,21 +103,100 @@ As such, we had to identify an alternative for a threshold. First, we selected t
     \caption{Segmented images according to different threshold values.}
 \end{figure}
 
+[add a final comparison with k-means in terms of difference]
+
+\subsection{UNet}
+
+[mention UNet findings here?]
+
 %\subsection{Image masks for background correction}
 
 %As mentioned in Section \ref{subsec:correction}, the microscope images of immune cells might have noise, especially in the background. Particularly in biomedical data, there has been research on background correction. Rather than fixing the background, we can evaluate whether removing the background entirely helps in this case by evaluating both masked and unmasked images.
 
-\section{Convolutional autoencoder}
+\section{Autoencoder and regression models}
 
-The main tool to be developed to exploit this dataset was a convolutional autoencoder. The autoencoder was built for two purposes: obtaining a smaller "code" representing each of the images to be fed into high-dimensional visualisation algorithms, and to be the starting block for a deep regression model.
+\subsection{Experimental setup}
 
-\subsection{Structure}
+As this is a research project based on using deep learning models, a large part of the research involved an iterative process of repetitively tweaking the deep learning models, training them, and evaluating them. Immunology experiments produce a lot of imaging data, and we wanted our models to perform well on unseen data. Moreover, not all datasets contained instances of all classes. We wanted our trained model to be able to deal with such datasets too. As such, we selected a balanced dataset containing instances for all classes for training our model. Part of it was set out for validation and testing. The other two selected datasets were used purely for testing. Table \ref{table:splits} reports the number of samples in each dataset.
 
-The autoencoder was built using Keras \footnote{https://keras.io} for Python. We based our architecture off the standard Convolution --> Activation --> Pooling sequence of operations commonly used in convolutional neural networks (ref). The aim was to maximise the reduction of dimensionality while maintaining a satisfactory reconstructed image. Hence, the choice of number of hidden layers had to be made as a compromise.
+\begin{table}[h]
+\centering
+\begin{tabular}{l|r|r|r}
+\rowcolor[HTML]{EFEFEF}
+Dataset       & Train  & Validation & Test   \\ \hline
+Three classes & 16,490 & 2,910      & 10,000 \\
+DMSO          &        &            & 8,000  \\
+Two classes   &        &            & 15,900
+\end{tabular}
+\caption{Train-test-validation splits for selected datasets. Models are only to be trained on the three-classes, balanced dataset. Validation set represents 15\% of training set.}
+\label{table:splits}
+\end{table}
 
-The autoencoder was tuned by evaluation on a training and validation dataset. Its structure was established through both literature review and trial and error. The choice of hidden layer activation is PReLU, because of its evidenced benefit in improved loss (ref), as well as showing slightly better results in training. Moreover, convolutional layer sizes were kept quite high, instead making the neural network deeper to reduce dimension. Strides are used in the last layer instead of max pooling (why?) because results were slightly better. The choice of feature maps being higher in earlier layers comes from the encoded representation being smaller this way, as well as differences with the reversed being marginal. Finally, the output layer activation is sigmoid, as we are trying to predict a value between 0 and 1, as the images have been normalised. 
+All deep learning development was done using Keras\footnote{https://keras.io} for Python on a Tensorflow backend. Training was carried out on Google Colaboratory notebooks\footnote{https://colab.research.google.com/} to be able to accelerate computations with Google's GPUs.
+
+While training, we used Keras's callbacks feature to monitor the model's validation loss and act accordingly. The model would reduce the learning rate by a factor of 0.2 if no improvements in the validation loss were seen over 3 epochs, and it would completely stop training if no improvements were witnessed in validation loss over 5 epochs. Training was usually ran with a batch size of 64 over 40 epochs.
+
+\subsection{Convolutional autoencoder}
+
+The main model to be developed was a convolutional autoencoder. The autoencoder was built for two purposes: obtaining a smaller \textit{code} representing each of the images to be fed into high-dimensional visualisation algorithms, and to be the building block for a deep regression model.
+
+An autoencoder follows a symmetrical structure of reduction and expansion operations. The reduction operations represent the encoding part of our model, and the expansion operations represent the decoding part of our model. In order for the autoencoder input to be reduced and then reconstructed to the same number of input dimensions, we need the two sets of operations to follow the same pattern and use the same number of parameters. Figure \ref{fig:symmstruc} illustrates the symmetrical structure of an autoencoder, and shows the core layers of a convolutional autoencoder: convolution layers combined with activation functions, and pooling/upsampling layers.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\textwidth]{dissertation/figures/autoencoder_repeat_structure.png}
+    \caption{Diagram for a typical autoencoder structure. Operations are symmetrical for the input to be reconstructed with the same dimensions at the output.}
+    \label{fig:symmstruc}
+\end{figure}
+
+\textit{Convolution} refers to the process of taking the weighted sums of neighbouring values. Put another way, convolutional layers can be thought as a window sliding over an image and summing everything within that window. The specific behaviour of convolution operation is determined by the kernel it uses. Each element in the window will be multiplied by the corresponding element of the kernel. We can specify both how big the kernel to be used should be, as well as how many different kernels should be used. If we use 64 kernels, we will learn 64 features about the image, but it will also multiply our dimensions by 64. Figure \ref{} illustrates the convolution process on an image.
+
+\textit{Activation functions} define whether or not each element in output of the convolutional layer (in this case) should be set to 'on' or 'off' i.e. whether it should be activated. The purpose of an activation function is to only keep elements of the hidden layers output if it seems to be contributing to the learning of the model.
+
+\textit{Pooling layers} will downsample an image by passing a window over an image and selecting a set value from that window as the one to keep. There are two main types of pooling operations commonly used: average pooling and max pooling. Their counterpart are \textit{upsampling layers} ...
+
+Throughout the development of the autoencoder, the aim was to maximise the reduction of dimensionality while maintaining a satisfactory reconstructed image. A trade-off had to be done. Size of the coded representation was mainly impacted by the number of hidden layers and size of the convolution and pooling filters. Quality of the reconstructed image could be improved with larger features being used in the convolutional layers and smaller filters.
+
+\hfill
+\subsubsection{Implementation choices}
+\hfill
+
+Knowing this, the structure of the autoencoder was tuned by trial and error and literature review of existing neural networks for other applications.
+
+In order to avoid losing too much detail in the reconstructed image, we only used 3x3 filters in convolution layers and pooling was done by a factor of 2. Moreover, we kept the number of filters in convolution layers relatively high so as not to lose too much detail in the images. Our structure also uses decreasing filter size instead of increasing filter size. Even though increasing filter size seems to show slight improvements in reconstruction, they are minimal, and having bigger filters towards the bottleneck generates bigger coded dimensions. We also decided to replace the pooling operation in the last layer before the bottleneck by a strided convolution layer, because our experiments showed that the colours in the reconstructed image seemed slightly brighter when using striding over pooling (see Figure \ref{}).
+
+In the hidden layers, the choice of activation function is a variant of the Rectified Linear Unit (ReLU), Parametric Rectified Linear Unit (PReLU). ReLU simply returns 0 if the weight unit in the output of a layer is less than 0, or the actual weight if it is bigger than 0. It has become popular because it has been shown to outperform the conventional sigmoid function (\cite{V. Nair and G. E. Hinton. Rectified linear units improve
+restricted boltzmann machines. In ICML, pages 807–814,
+2010.}, \cite{X. Glorot, A. Bordes, and Y. Bengio. Deep sparse rectifier
+networks. In Proceedings of the 14th International Conference on Artificial Intelligence and Statistics, pages 315–323,
+2011.}), as well as helping with faster training convergence (\cite{A. Krizhevsky, I. Sutskever, and G. Hinton. Imagenet classification with deep convolutional neural networks. In NIPS,
+2012.}). PReLU differs from ReLU by having a small slope for negative values which means it does not map all negative values to 0. This slope is made a learning parameter and is determined by the neural network during training. Figure \ref{relu_prelu} illustrates the difference between the two. He et al., 2015 (\cite{https://arxiv.org/pdf/1502.01852.pdf}) showed that PReLU can improve model fitting for image classification applications. Reconstruction difference using PReLU over ReLU in our network is shown in Figure \ref{}.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=.6\textwidth]{dissertation/figures/relu_prelu.png}
+    \caption{ReLU (left) vs. PReLU (right). The negative part of the PReLU function is variable and a parameter to be learned. Source: He et al., 2015}
+    \label{fig:relu_prelu}
+\end{figure}
+
+The activation function at the output of the network remained the logistic sigmoid activation function, as we needed to restrict output to the [0, 1] range of our image pixels. Figure \ref{} illustrates this activation function.
+
+Our final autoencoder structure reduced dimensions by a factor of 2 a total of 5 times, resulting in a ten-fold reduction of dimensions on the original 110,592 pixels. The final coded dimensions were of x,xxx. Figure \ref{} illustrates how the autoencoder reconstructed an input image depending on number of pooling operations. We traded-off some reconstruction quality in order to obtain a smaller coded dimension in the hope that it would help high-dimensional visualisation algorithms perform better, as well as be a better starting block for a regression model.
+
+[training with binary cross-entropy]
+
+The final structure of the autoencoder is shown below. Keras code for building the model is available in Appendix \ref{apdx:autoencoder}.
 
 \subsection{Deep regression}
 
-The regression model was built on the encoder layers of the autoencoder. The structure of the regression layers of the model was kept simple. Only two fully connected layers are used, with a Dropout layer in between. Dropout has shown to make models more robust and prevent overfitting.
-Both softplus and linear activations were tried for the regression model. The linear activation was accompanied with a kernel restriction on the keras model of non-negativity, as interaction cannot be negative. Softplus keeps its output values positive. The results were similar, however the linear function performed overall better.
+The regression model was built on the encoder part of the autoencoder. We wanted to use the dimensionality reduction capacities of the encoder layers to evaluate whether interaction could be quantified from an image's feature vector.
+
+The structure of the regression model was kept simple. The encoder model was extracted from the autoencoder with the bottleneck layer flattened. This encoder model was then extended with two fully connected layers separated by a dropout layer. Dropout has shown to make models more robust and prevent overfitting (ref).
+
+The final regression results are outputted with a fully connected layer of size 1, activated by a linear function.
+
+The input to the regression model is 192x192x3 images accompanied with labels in the range [0, 100] representing a percentage of overlap between two cells. As such, we want the output activation function to be limited to [0, 100]. Both softplus and linear activations were candidates. The linear activation had to be used with a non-negative kernel constraint, as overlap percentage cannot be negative but the linear function normally allows for negative values. softplus output values are in the range [0, $+\infty$]. Performance in terms of training loss was similar, however the linear function performed overall better. Furthermore, softplus does not map (shown in Figure \ref{}) and is harder to differentiate compared to the linear function, which would make for slower training.
+
+[training with mean-squared-error]
+
+The final structure of the deep regression model is shown below. Keras code for building the model is available in Appendix \ref{apdx:regression}.
