@@ -12,7 +12,10 @@ sns.set_context("notebook", font_scale=1.5,
                 rc={"lines.linewidth": 2.5})
 
 def show_image(img, title="untitled", cmap="gray", **kwargs):
-    plt.imshow(img, cmap=cmap, **kwargs)
+    try:
+        plt.imshow(img, cmap=cmap, **kwargs)
+    except:
+        plt.imshow(reshape(img), cmap=cmap, **kwargs)
     plt.axis("off")
     plt.title(title)
 

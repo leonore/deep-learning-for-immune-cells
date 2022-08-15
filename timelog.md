@@ -186,7 +186,7 @@
 - *2 hours* Using CIFAR autoencoder on dataset; visualising feature maps activations to pick out useful layers
 
 ### 21 November 2019
-= *1 hour* Running clustering code on full + DMSO dataset to have baseline
+- *1 hour* Running clustering code on full + DMSO dataset to have baseline
 
 ## Week 10 c/ 25 November (5.5/15 hours)
 
@@ -199,4 +199,7 @@
 
 ### 30 November 2019
 - *1.5 hour* Making evaluation script to run every time a change is made to a model
-= *1 hour* Evaluating different models and running it with the CIFAR dataset to see where the issue lies
+- *1 hour* Evaluating different models and running it with the CIFAR dataset to see where the issue lies
+
+### 1 December 2019
+- *1 hour* Researching image augmentation
