@@ -172,7 +172,7 @@
 ### 17 November 2019
 - *2.5 hours* Resizing images; trying new autoencoder architecture
 
-## Week 9 c/ 18 November (7/15 hours)
+## Week 9 c/ 18 November (10/15 hours)
 
 ### 18 November 2019
 - *1.5 hours* Trying each of: resizing data to smaller images, scaling data, adding normalisation post-activation, relu vs leakyrelu
@@ -181,3 +181,9 @@
 
 ### 19 November 2019
 - *3 hours* Preprocessing images with edge detectors, contrast tuning, choosing best filters
+
+### 20 November 2019
+- *2 hours* Using CIFAR autoencoder on dataset; visualising feature maps activations to pick out useful layers
+
+### 21 November 2019
+= *1 hour* Running clustering code on full + DMSO dataset to have baseline
