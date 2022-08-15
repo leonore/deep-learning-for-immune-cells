@@ -421,13 +421,13 @@ decoded = Conv2D(c, (3, 3), activation='sigmoid', padding='same')(x)
 
 ![Sigmoid](results/model9_sigmoid.png)
 ![Relu](results/model9_relu.png)
-![Sigmoid+predictions on test set after full training](results/model9_testouput.png)
+![Sigmoid+predictions on test set after full training](results/model9_testoutput.png)
 
 ### Results
 
 * Loss changes
 * There is a good output
-* Changes drastically after training 
+* Changes drastically after training
 * Even relu gets something
 
 ### Next up
@@ -437,34 +437,75 @@ decoded = Conv2D(c, (3, 3), activation='sigmoid', padding='same')(x)
 * Is it worth looking into Brightfield images? even just one, two, to overfit them
 * This isn't even the prediction task -- just a reconstruction task, so the learning from labels is not the problem
 
+## Observations: working on the preprocessing of images
 
----------------- old records --------------------
+Idea: if nothing is working but other datasets are working, and a network can learn anything, then maybe something is going wrong in the numerical values of the images.
 
-- add an extra convolutional layer, following each other: more lined, pixelly
-- reduce filter for half the conv2d: more boxed
-- more convolutional filters at beginning works better than less
-- activation = sigmoid produces black
-- smaller kernel size gets more pixellated results
-- varying kernel size gets truer colour results
-- bigger kernel size towards the centre loses points of where the bigger standouts are
-- reducing maxpooling obviously keeps more detail
+### Steps:
+* Get two random images from dataset.
+* Read them in different ways.
+* Run code.
+* Evaluate.
 
-- this has a bit less detail but works pretty well. not sure about having two convolutions right after the other
+### Code:
 ```python
-x =  Conv2D(128, (5, 5), activation='relu', padding='same')(input_img)
-x = MaxPooling2D((2, 2), padding='same')(x)
-x = Conv2D(64, (5, 5), activation='relu', padding='same')(x)
-x = Conv2D(32, (3, 3), activation='relu', padding='same')(x)
-encoded = MaxPooling2D((2, 2), padding='same')(x)
+tcell = imread('tcell.tif')
+dcell = imread('dcell.tif')
+imw=imh=200
+new = np.zeros((2, imw, imh))
+new[0] = tcell
+new[1] = dcell
+new = np.reshape(new, (len(new), imw, imh, 1))
+new = new / 65535.
 
-x = Conv2D(32, (3, 3), activation='relu', padding='same')(encoded)
-x = Conv2D(64, (5, 5), activation='relu', padding='same')(x)
-x = UpSampling2D((2, 2))(x)
-x =  Conv2D(128, (5, 5), activation='relu', padding='same')(x)
-# this will help going back the original image dimensions
-x = UpSampling2D((2, 2))(x)
+# model is model 4
+decoder = Model(input_img, decoded)
+decoder.compile(optimizer='adam', loss='binary_crossentropy')
+decoder.fit(new, new, epochs=5)
 
-decoded = Conv2D(1, (3, 3), padding='same')(x)
+# this is about overfitting
+# making sure it works on simple example
+decoded_imgs = decoder.predict(new)
+show_image(reshape(decoded_imgs[0], imw, imh))
 ```
 
-- smaller kernel size gives more detail. for above, change second conv2d and corresponding to 3, 3 kernel size
+### Output:
+
+![changed preprocessing output](results/preprocessed_output.png)
+
+This was then ran on a bigger chunk of the full dataset processed with the new preprocessing steps.
+It's not as clear (other colourmap had to be used) but promising?
+
+![preprocessing output on more data](results/preprocessed_output_full)
+
+### Problem:
+
+* More data gets it more confused. Doesn't print anything anymore.
+* MNIST does a lot better overall... is the structure not adapted?
+
+`
+input_img = Input(shape=(imw, imh, c))
+
+x = Conv2D(16, (3, 3), padding='same')(input_img)
+x = LeakyReLU()(x)
+x = MaxPooling2D((2, 2), padding='same')(x)
+x = Conv2D(8, (3, 3), padding='same')(x)
+x = LeakyReLU()(x)
+x = MaxPooling2D((2, 2), padding='same')(x)
+x = Conv2D(8, (3, 3), padding='same')(x)
+x = LeakyReLU()(x)
+x = MaxPooling2D((2, 2), padding='same')(x)
+encoded = Flatten()(x)
+
+x = Conv2D(8, (3, 3), padding='same')(x)
+x = LeakyReLU()(x)
+x = UpSampling2D((2, 2))(x)
+x = Conv2D(16, (3, 3), padding='same')(x)
+x = LeakyReLU()(x)
+x = UpSampling2D((2, 2))(x)
+x =  Conv2D(16, (3, 3), padding='same')(x)
+x = LeakyReLU()(x)
+x = UpSampling2D((2, 2))(x)
+
+decoded = Conv2D(1, (3, 3), activation='sigmoid', padding='same')(x)
+`
