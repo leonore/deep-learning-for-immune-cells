@@ -8,8 +8,10 @@ from PIL import Image
 
 # IMAGE FORMATTING OPERATIONS
 
-def reshape(img, w=200, h=200):
-    return np.reshape(img, (w, h))
+imw, imh, c = 192, 192, 1
+
+def reshape(img, w=imw, h=imh, c=c):
+    return np.reshape(img, (w, h, c))
 
 def reformat(img):
     formatted = (img).astype('uint16')
