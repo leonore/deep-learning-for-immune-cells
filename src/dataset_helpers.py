@@ -225,6 +225,10 @@ def remove_faulty(filenames):
     l = len(filenames)
     y = np.ndarray(shape=(l//2, ), dtype=np.uint8)
 
+    idx = 0
+    i = 0
+    count = 0
+
     # loop through images and process
     while idx < l-100:
         # ignore 100, 300, etc. values as they will already have been processed
@@ -238,5 +242,5 @@ def remove_faulty(filenames):
             i += 1
             count += 1
 
-    print('Labels preprocessed. Size of labels: {}'.format(l))
+    print('Faulty labels removed. Size of labels: {}'.format(l//2))
     return y
