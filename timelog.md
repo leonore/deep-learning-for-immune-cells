@@ -131,7 +131,7 @@
 ### 2 November 2019
 - *1 hour* Refactoring and testing read/write functions
 
-## Week 7 c/ 4 November 2019 (6/15 hours)
+## Week 7 c/ 4 November 2019 (9.5/15 hours)
 
 ### 6 November 2019
 - *0.5 hour* Reading an article comparing UMAP performance to tsne
@@ -140,3 +140,10 @@
 - *1 hour* Reading about t-sne and writing down notes for dissertation
 - *1 hour* Following tutorials on PCA, t-sne, UMAP to get baseline performance with digit dataset
 - *3.5 hours* Moving whole datasets from OneDrive for local processing
+
+### 8 November 2019
+- *2 hours* Listening to a lecture about convolutional neural networks and autoencoders, and PyTorch
+- *0.5 hour* Reflecting on best way to get all labels parsed from filenames
+
+### 9 November 2019
+- *1 hour* Rewriting and testing function to read filenames into labels for 3 CKXX datasets
