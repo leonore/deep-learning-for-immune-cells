@@ -196,3 +196,6 @@
 
 ### 28 November 2019
 - *1 hour* Building encoder from trained decoder, comparing model weights
+
+### 30 November 2019
+- *0.5 hour* Making evaluation script to run every time a change is made to a model
