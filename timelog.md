@@ -263,7 +263,7 @@
 - *1.5 hours* Comparing performance on autoencoder between 2 preprocessings, tuning autoencoder with leakyrelu
 - *0.5 hour* Running t-sne visualisation on DMSO dataset
 
-## Week 13 c/ 16 December (13.5/40 hours)
+## Week 13 c/ 16 December (19.5/40 hours)
 
 ### 16 December
 - *1.5 hours* Tuning model and clustering results
@@ -282,3 +282,7 @@
 ### 18 December
 - *2 hours* Tuning T-SNE with different parameters to see if clustering of 2-channel DMSO changes
 - *0.5 hours* Evaluating K-means overlaps with matplotlib
+- *3 hours* Collating all explored processing methods, image combinations, into one cell_autoencoder notebook to condense autoencoder research
+
+### 19 December
+- *1 hour* Finishing collating all explored processing methods into one cell_autoencoder notebook
