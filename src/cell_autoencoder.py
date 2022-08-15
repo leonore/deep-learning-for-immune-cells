@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 
 from tensorflow.keras.layers import Input, Conv2D, MaxPooling2D, UpSampling2D, Flatten, Reshape, PReLU
 from tensorflow.keras.models import Model
+from tensorflow.keras import callbacks
 
 from plot_helpers import reshape, show_image
 
@@ -41,11 +42,16 @@ def make_autoencoder():
     x = Conv2D(32, (3, 3), padding='same')(x)
     x = PReLU()(x)
     x = MaxPooling2D((2, 2), padding='same')(x)
-    x = Conv2D(16, (3, 3), padding='same', strides=2)(x)
+    x = Conv2D(32, (3, 3), padding='same')(x)
+    x = PReLU()(x)
+    x = MaxPooling2D((2, 2), padding='same')(x)
+    x = Conv2D(32, (3, 3), padding='same', strides=2)(x)
     x = PReLU()(x)
 
     encoded = Flatten()(x)
 
+    x = UpSampling2D((2, 2))(x)
+    x = Conv2D(32, (3, 3), padding='same')(x)
     x = UpSampling2D((2, 2))(x)
     x = Conv2D(32, (3, 3), padding='same')(x)
     x = PReLU()(x)
@@ -65,21 +71,28 @@ def make_autoencoder():
     return decoder, encoder
 
 
-def train(model, data, batch_size=32, epochs=10):
+def train(model, data, batch_size=32, epochs=20):
     # get before/after weights (make sure there is a change)
-    untrained_weights = np.array(model.get_layer(index=1).get_weights()[0])
+    untrained_weights = np.array(model.get_layer(index=1).get_weights()[1])
 
-    loss = model.fit(data, data, epochs=epochs, batch_size=batch_size)
+    reduce_lr = callbacks.ReduceLROnPlateau(monitor='val_loss', factor=0.2,
+                              patience=3, min_lr=0.0001, verbose=1)
+    early_stop = callbacks.EarlyStopping(monitor="val_loss", verbose=1, patience=3)
 
-    trained_weights = np.array(model.get_layer(index=1).get_weights()[0])
+    loss = model.fit(data, data, epochs=epochs, batch_size=batch_size, validation_split=0.15,
+                     callbacks=[reduce_lr, early_stop])
+
+    trained_weights = np.array(model.get_layer(index=1).get_weights()[1])
 
     # plot the loss
     plt.figure()
-    plt.plot(loss.history['loss'])
+    plt.plot(loss.history['loss'], label='loss')
+    plt.plot(loss.history['val_loss'], label='val_loss')
     plt.ylabel('loss')
     plt.xlabel('epoch')
     plt.title("Evolution of loss per epoch")
     plt.grid(True)
+    plt.legend()
     plt.show()
 
     weight_diff = trained_weights - untrained_weights
@@ -87,7 +100,6 @@ def train(model, data, batch_size=32, epochs=10):
         print("Training does not seem to have changed the weights. Something might have gone wrong.")
     else:
         print("Model was trained successfully.")
-
 
 def evaluate(model, data, test):
     plt.rcParams.update({'axes.titlesize': 'medium'})
