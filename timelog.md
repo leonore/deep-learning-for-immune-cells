@@ -131,7 +131,7 @@
 ### 2 November 2019
 - *1 hour* Refactoring and testing read/write functions
 
-## Week 7 c/ 4 November 2019 (9.5/15 hours)
+## Week 7 c/ 4 November 2019 (10/15 hours)
 
 ### 6 November 2019
 - *0.5 hour* Reading an article comparing UMAP performance to tsne
@@ -147,3 +147,7 @@
 
 ### 9 November 2019
 - *1 hour* Rewriting and testing function to read filenames into labels for 3 CKXX datasets
+- *0.5 hour* Looking at best way to parse DMSO filename index values
+
+### 10 November 2019
+- *0.5 hour* Building DMSO dataset and labels (can be improved)
