@@ -1,11 +1,16 @@
 # Readme
 
-Put a brief description of your code here. This should at least describe the file structure.
+* `cell_autoencoder.ipynb` includes the current model and clustering algorithm being tuned
+* `clustering_mnist.ipynb` contains the tutorial code for clustering MNIST with PCA, PCA+t-sne, and UMAP
+* `prepare_dataset.py` contains the code used to transfer the needed images from the OneDrive dataset for transformation
+* `dataset_helpers.py` contains helper functions to prepare the dataset
+* `plot_helpers.py` contains helper functions to plot different results 
+
 
 ## Build instructions
 
-**You must** include the instructions necessary to build and deploy this project successfully. If appropriate, also include 
-instructions to run automated tests. 
+**You must** include the instructions necessary to build and deploy this project successfully. If appropriate, also include
+instructions to run automated tests.
 
 ### Requirements
 
@@ -14,18 +19,18 @@ List the all of the pre-requisites software required to set up your project (e.g
 For example:
 
 * Python 3.7
-* Packages: listed in `requirements.txt` 
+* Packages: listed in `requirements.txt`
 * Tested on Windows 10
 
 or another example:
 
-* Requires Raspberry Pi 3 
+* Requires Raspberry Pi 3
 * a Linux host machine with the `arm-none-eabi` toolchain (at least version `x.xx`) installed
 * a working LuaJIT installation > 2.1.0
 
 ### Build steps
 
-List the steps required to build software. 
+List the steps required to build software.
 
 Hopefully something simple like `pip install -e .` or `make` or `cd build; cmake ..`. In
 some cases you may have much more involved setup required.
@@ -38,4 +43,3 @@ Examples:
 
 * Run automated tests by running `pytest`
 * Start the software by running `bin/editor.exe` and opening the file `examples/example_01.bin`
-
