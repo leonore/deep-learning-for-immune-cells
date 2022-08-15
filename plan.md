@@ -24,12 +24,23 @@ Week-by-week plan for the whole project.
 
 * **Week 3**
 * Setup Trello board
-* Examine compressed, decompressed products
-* Build dissertation, solve any others, write motivation + background (helps for further plans)
+* Build dissertation, solve any problems
+* Transfer fluorescent images to dataset
+* Run autoencoder on data, make sure it works
+* Follow tutorial on clustering algorithm to familiarise with it
 
 * **Week 4**
+* Split dataset into training, validation to test autoencoder performance
+* Familiarise with calculating overlap of images
+* Use compressed representation of images obtained from autoencoder to calculate overlap
+
 * **Week 5**
+* Run overlap data through a clustering algorithm
+* Start tuning models to improve performance
+
 * **Week 6**
+* Label data to see how it graphs out
+
 * **Week 7**
 * **Week 8**
 * **Week 9**
