@@ -40,8 +40,8 @@ decoded = Conv2D(1, (3, 3), padding='same')(x)
 
 ### Images
 
-![Image results](results/model1_output.png)
-![Loss function](results/model1_loss.png)
+![Image results](results/autoencoder/model1_output.png)
+![Loss function](results/autoencoder/model1_loss.png)
 
 ### Results
 
@@ -63,8 +63,8 @@ See [model 1](#model-1).
 
 ### Images
 
-![Image results](results/model2_output.png)
-![Loss function](results/model2_loss.png)
+![Image results](results/autoencoder/model2_output.png)
+![Loss function](results/autoencoder/model2_loss.png)
 
 ### Results
 
@@ -85,7 +85,7 @@ I will try another autoencoder structure on the data; if nothing changes, data a
 ```python
 tsne = TSNE(random_state=RS, perplexity=12, learning_rate=250.0).fit_transform(encoded_imgs)
 ```
-![TSNE clustering on model 1](results/model1_tsne.png)
+![TSNE clustering on model 1](results/autoencoder/model1_tsne.png)
 
 * Upping the perplexity then made it more of a ball (we don't want that)
 * Lower perplexity seems to return a bit more outliers
@@ -93,7 +93,7 @@ tsne = TSNE(random_state=RS, perplexity=12, learning_rate=250.0).fit_transform(e
 ```python
 tsne = TSNE(random_state=RS, perplexity=4, learning_rate=250.0).fit_transform(encoded_imgs)
 ```
-![TSNE clustering 2 on model 1](results/model1_tsne2.png)
+![TSNE clustering 2 on model 1](results/autoencoder/model1_tsne2.png)
 
 ## Model 4
 
@@ -134,8 +134,8 @@ decoded = Conv2D(1, (3, 3), padding='same')(x)
 
 ### Images
 
-![Image results](results/model4_output.png)
-![Loss function](results/model4_loss.png)
+![Image results](results/autoencoder/model4_output.png)
+![Loss function](results/autoencoder/model4_loss.png)
 
 ### Results
 
@@ -158,8 +158,8 @@ decoded = Conv2D(1, (3, 3), padding='same')(x)
 
 ### Images
 
-![Image results](results/model5_output.png)
-![Loss function](results/model5_loss.png)
+![Image results](results/autoencoder/model5_output.png)
+![Loss function](results/autoencoder/model5_loss.png)
 
 ### Results
 
@@ -218,8 +218,8 @@ decoded = Conv2D(1, (3, 3), activation='sigmoid', padding='same')(x)
 
 ### Images
 
-![Image results](results/model6_output.png)
-![Loss function](results/model6_loss.png)
+![Image results](results/autoencoder/model6_output.png)
+![Loss function](results/autoencoder/model6_loss.png)
 
 ### Results
 
@@ -270,9 +270,9 @@ decoded = Conv2D(1, (3, 3), activation='sigmoid', padding='same')(x)
 
 ### Images
 
-![Image results](results/model7_output.png)
-![Loss function](results/model7_loss.png)
-![Last layer before sigmoid](results/model7_activations.png)
+![Image results](results/autoencoder/model7_output.png)
+![Loss function](results/autoencoder/model7_loss.png)
+![Last layer before sigmoid](results/autoencoder/model7_activations.png)
 
 ### Results
 
@@ -289,7 +289,7 @@ decoded = Conv2D(1, (3, 3), activation='sigmoid', padding='same')(x)
 * Sigmoid -> MaxPooling does not translate well.
 * Try: use strided convolutional layers instead of maxpooling?
 
-![sigmoid -> maxpooling](results/activations1.png)
+![sigmoid -> maxpooling](results/autoencoder/activations1.png)
 
 * Result: same issue changing to strides.
 * Trying to visualise with old model again, but adding a separate sigmoid activation layer.
@@ -337,8 +337,8 @@ decoded = Conv2D(1, (3, 3), activation='sigmoid', padding='same')(x)
 
 ### Images
 
-![Image results](results/model8_output.png)
-![Loss function](results/model8_loss.png)
+![Image results](results/autoencoder/model8_output.png)
+![Loss function](results/autoencoder/model8_loss.png)
 
 ### Results
 
@@ -419,9 +419,9 @@ decoded = Conv2D(c, (3, 3), activation='sigmoid', padding='same')(x)
 
 ### Images
 
-![Sigmoid](results/model9_sigmoid.png)
-![Relu](results/model9_relu.png)
-![Sigmoid+predictions on test set after full training](results/model9_testoutput.png)
+![Sigmoid](results/autoencoder/model9_sigmoid.png)
+![Relu](results/autoencoder/model9_relu.png)
+![Sigmoid+predictions on test set after full training](results/autoencoder/model9_testoutput.png)
 
 ### Results
 
@@ -471,12 +471,12 @@ show_image(reshape(decoded_imgs[0], imw, imh))
 
 ### Output:
 
-![changed preprocessing output](results/preprocessed_output.png)
+![changed preprocessing output](results/autoencoder/preprocessed_output.png)
 
 This was then ran on a bigger chunk of the full dataset processed with the new preprocessing steps.
 It's not as clear (other colourmap had to be used) but promising?
 
-![preprocessing output on more data](results/preprocessed_output_full.png)
+![preprocessing output on more data](results/autoencoder/preprocessed_output_full.png)
 
 ### Problem:
 
@@ -498,13 +498,13 @@ def minmax(x):
 
 Here is what we get:
 
-![original image](results/old_image.png)
-![original histogram](results/old_histogram.png)
-![new histogram](results/new_histogram.png)
-![results](results/post_preprocess_results.png)
+![original image](results/autoencoder/old_image.png)
+![original histogram](results/autoencoder/old_histogram.png)
+![new histogram](results/autoencoder/new_histogram.png)
+![results](results/autoencoder/post_preprocess_results.png)
 
-![Final tuned loss](results/final_loss.png)
-![Final tuned train](results/final_train.png)
-![Final tuned test](results/final_test.png)
+![Final tuned loss](results/autoencoder/final_loss.png)
+![Final tuned train](results/autoencoder/final_train.png)
+![Final tuned test](results/autoencoder/final_test.png)
 
 Weight difference: [ 0.10083839 -0.0824943 ]
