@@ -17,12 +17,15 @@ parser = argparse.ArgumentParser(description='Train model with input dataset, ev
 
 parser.add_argument('--input', '-i', action='store', type=str, help='Compressed NPZ file to process images from', required=True)
 parser.add_argument('--weights', '-w', action='store', nargs=2, type=str, help='Two h5 files for decoder and encoder trained models (decoder.h5, encoder.h5)', required=False)
+parser.add_argument('--mask', '-m', action='store_false', help="Mask out the background of images using K-means")
 parser.add_argument('--live', '-l', action='store_true', help='Make clustering visualisation live')
+parser.add_argument('--label', action='store', help="Name of the files for saving figures. Not required but very recommended, will be saved as a datestring otherwise.")
 
 args = parser.parse_args()
 input = args.input
 weights = args.weights
 live = args.live
+label = args.label
 
 RS=2211
 
