@@ -131,7 +131,7 @@
 ### 2 November 2019
 - *1 hour* Refactoring and testing read/write functions
 
-## Week 7 c/ 4 November 2019 (10/15 hours)
+## Week 7 c/ 4 November 2019 (11/15 hours)
 
 ### 6 November 2019
 - *0.5 hour* Reading an article comparing UMAP performance to tsne
@@ -151,3 +151,5 @@
 
 ### 10 November 2019
 - *0.5 hour* Building DMSO dataset and labels (can be improved)
+- *0.5 hour* Testing own code on MNIST dataset to see if it works
+- *0.5 hour* Testing clustering code on DMSO dataset
