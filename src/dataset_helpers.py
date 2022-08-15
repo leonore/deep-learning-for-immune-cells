@@ -35,7 +35,7 @@ def max_normalise(x):
 RS = 2211
 
 # train_test_split simplified
-def unishuffle(a, b, random_state):
+def unishuffle(a, b, random_state=None):
     assert len(a) == len(b)
     if random_state:
         np.random.seed(RS)
@@ -127,9 +127,9 @@ def sliding_window(img, dest_size, rgb=False):
         new_img = new_img[crop:, :-crop]
 
     if rgb:
-        windows = np.ndarray(shape=(qty**2, dest_size, dest_size, 3), dtype=np.float32)
+        windows = np.ndarray(shape=(qty**2, dest_size, dest_size, 3), dtype=np.uint16)
     else:
-        windows = np.ndarray(shape=(qty**2, dest_size, dest_size), dtype=np.float32)
+        windows = np.ndarray(shape=(qty**2, dest_size, dest_size), dtype=np.uint16)
 
     i = 0
     for row in range(qty):
