@@ -540,7 +540,7 @@
 - *1 hour* Re-running UMAP with new parameters for better visualisation
 - *2 hours* Attempting to finish writing background
 
-## Week 10 (23) c/ 16 March (7.5/15 hours)
+## Week 10 (23) c/ 16 March (11.5/15 hours)
 
 ### 16 March
 - *5 hours* Going over Materials & Methods, making figures as necessary  
@@ -548,3 +548,4 @@
 ### 17 March
 - *1 hour* Finishing Materials & methods figure and first draft
 - *0.5 hours* Final checkups on introduction + biology part of background
+- *4 hours* Working on background -- struggling to best verbalise t-SNE and UMAP concepts, as well as medical research using deep learning
