@@ -208,7 +208,7 @@
 - *1.5 hour* Pairing up tcells/dcells into one image before training, testing code on that
 - *0.5 hour* Playing with dataset
 
-## Week 11 c/ 2 December (9.5/15 hours)
+## Week 11 c/ 2 December (10/15 hours)
 
 ### 2 December 2019
 - *1 hour* Playing with dataset (cropping, shuffling) to see if it impacts learning
@@ -225,10 +225,11 @@
 
 ### 6 December
 - *0.5 hour* Talking to Carol about best ways to pre-process images
+- *0.5 hour* Reporting on and cleaning up work on pre-processing images differently
 
 Next up:
-* Clean up clipping code
-* Go through function to make sure we don't copy in array memory addres = make copies !!
-* clean up and send to colab
+* clean up and send to colab DONE
 * copy images to usb or hard drive
 * write sliding window function
+* run evaluation to see if weights change
+* run through tsne

@@ -502,3 +502,9 @@ Here is what we get:
 ![original histogram](results/old_histogram.png)
 ![new histogram](results/new_histogram.png)
 ![results](results/post_preprocess_results.png)
+
+![Final tuned loss](results/final_loss.png)
+![Final tuned train](results/final_train.png)
+![Final tuned test](results/final_test.png)
+
+Weight difference: [ 0.10083839 -0.0824943 ]
