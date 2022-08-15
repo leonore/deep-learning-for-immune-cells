@@ -137,7 +137,7 @@ In our case, we do not need to segment the T-cells from DCs as they have already
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.6\textwidth]{dissertation/figures/unet_model.png}
-    \caption{Schematic diagram of the U-Net model. The name of the model comes from its `U' structure, with an expansive path and a contracting path. Each blue box represents a multi-channel feature map obtained through the network's operations. White boxes are copied feature maps. The arrows show different operations. Source: \citet{ronneberger_unet_2015}}
+    \caption{Schematic diagram of the U-Net model. The name of the model comes from its `U' structure, with an expansive path and a contracting path. Each blue rectangle represents a multi-channel feature map obtained through the network's operations. White rectangles are copied feature maps. The arrows show different operations. Source: \citet{ronneberger_unet_2015}}
     \label{fig:unet}
 \end{figure}
 
@@ -158,15 +158,15 @@ As this is a research project based on using deep learning models, a large part 
 \rowcolor[HTML]{EFEFEF}
 Dataset       & Train  & Validation & Test   \\ \hline
 Full & 16,490 & 2,910      & 10,000 \\
-Dual   &        &            & 13,900 \\
-DMSO          &        &            & 8,000  \\ \hline
+Dual   &     N/A   &     N/A       & 13,900 \\
+DMSO       &     N/A      &        N/A       & 8,000  \\ \hline
 \end{tabular}
 \label{table:splits}
 \end{table}
 
 All deep learning development was done using Keras\footnote{https://keras.io} on a Tensorflow backend. Training was carried out on Google Colaboratory notebooks\footnote{https://colab.research.google.com/} to be able to accelerate computations with Google's GPUs.
 
-While training, we used Keras's callbacks feature to monitor the model's validation loss and change training parameters accordingly. The model would reduce its learning rate by a factor of 0.2 if no improvements in the validation loss were seen over 3 epochs, and it would completely stop training if no improvements were witnessed in validation loss over 5 epochs. Training was usually ran with a batch size of 64 over 40 epochs.
+We chose the \textit{adam} optimizer for training \citep{kingma2014method}. While training, we used Keras's callbacks feature to monitor the model's validation loss and change training parameters accordingly. The model would reduce its learning rate by a factor of 0.2 if no improvements in the validation loss were seen over 3 epochs, and it would completely stop training if no improvements were witnessed in validation loss over 5 epochs. Training was usually ran with a batch size of 64 over 40 epochs.
 
 \subsection{Convolutional autoencoder}
 
@@ -221,7 +221,7 @@ In order to avoid losing too much detail in the reconstructed image, we only use
 
 We also decided to replace the pooling operation in the last layer before the bottleneck by a strided convolution layer. \citet{springenberg_striving_2014} show that adding striding to convolution layers instead of using pooling operations can achieve the same levels of accuracy. Furthermore, by adding the downsampling operation to the convolution layer, the network will learn how to best perform this operation as convolutions are weighted layers. We did not add strides to all our convolution layers in place of pooling layers as strides do come at the performance cost of having more trainable parameters. Our experiments showed that the colours in the reconstructed image seemed slightly more detailed when using striding over pooling, but this was very minimal and the choice came down to wanting to experiment.
 
-In the hidden layers, the choice of activation function was a variant of the Rectified Linear Unit (ReLU), the Parametric Rectified Linear Unit (PReLU). ReLU simply returns 0 if the weight unit in the output of a layer is less than 0, or the actual weight if it is bigger than 0. It has become popular because it has been shown to outperform the conventional sigmoid function \citep{hinton_relu, glorot2011} in hidden layers, as well as helping with faster training convergence \citep{krizhevsky_imagenet_2012}. PReLU differs from ReLU by having a small slope for negative values which means it does not map all negative values to 0. This slope is made a training parameter and is determined by the neural network during training. Figure \ref{fig:relu_prelu} illustrates the difference between the two. \citet{he_2015} showed that PReLU can improve model fitting for image classification applications. Reconstruction difference using PReLU over ReLU in our model is shown in Figure \ref{fig:relu_prelu_reconstruction}. Our PReLU model also had a slightly lower validation loss of 0.0871 compared to ReLU's 0.0875.
+In the hidden layers, the choice of activation function was a variant of the Rectified Linear Unit (ReLU), the Parametric Rectified Linear Unit (PReLU). ReLU simply returns 0 if the weight unit in the output of a layer is less than 0, or the actual weight if it is bigger than 0. It has become popular because it has been shown to outperform the conventional sigmoid function in hidden layers \citep{hinton_relu, glorot2011}, as well as helping with faster training convergence \citep{krizhevsky_imagenet_2012}. PReLU differs from ReLU by having a small slope for negative values which means it does not map all negative values to 0. This slope is made a training parameter and is determined by the neural network during training. Figure \ref{fig:relu_prelu} illustrates the difference between the two. \citet{he_2015} showed that PReLU can improve model fitting for image classification applications. Reconstruction difference using PReLU over ReLU in our model is shown in Figure \ref{fig:relu_prelu_reconstruction}. Our PReLU model also had a slightly lower validation loss of 0.0871 compared to ReLU's 0.0875.
 
 \begin{figure}
     \centering
@@ -233,7 +233,7 @@ In the hidden layers, the choice of activation function was a variant of the Rec
 \begin{figure}[h]
     \centering
     \includegraphics[width=.6\textwidth]{dissertation/figures/relu_prelu.png}
-    \caption{ReLU (left) vs. PReLU (right). The negative part of the PReLU function is variable and a parameter to be learned. Source: He et al., 2015}
+    \caption{ReLU (left) vs. PReLU (right). The negative part of the PReLU function is variable and a parameter to be learned. Source: \citet{he_2015}}
     \label{fig:relu_prelu}
 \end{figure}
 
@@ -268,7 +268,7 @@ The autoencoder was trained with binary cross-entropy as a loss function, as we 
 
 The regression model was built on the encoder part of the autoencoder. We wanted to use the dimensionality reduction capacities of the encoder layers to evaluate whether interaction could be quantified from an image's features.
 
-The structure of the regression model was kept simple. Research reviewing existing general-purpose neural networks such as VGG-16 showed that adequate tuning of these models obtained results close to ``state-of-the-art'' without having to resort to more complicated structures \citep{Lathu2018}. We did not reuse such a general purpose model but the convolutional part of the VGG-16 network is similar to the decoder part of our autoencoder, using 5 combinations of convolutions and pooling operations. These operations are followed by a small number of fully-connected layers \citep{Simonyan15}. Hence, we decided to follow this template and not make our regression structure overly complex.
+The structure of the regression model was kept simple. Research reviewing existing general-purpose neural networks such as VGG-16 showed that adequate tuning of these models resulted in a performance close to ``state-of-the-art'' without having to develop more complicated structures \citep{Lathu2018}. We did not reuse such a general purpose model but the convolutional part of the VGG-16 network is similar to the decoder part of our autoencoder, using 5 combinations of convolutions and pooling operations. These operations are followed by a small number of fully-connected layers \citep{Simonyan15}. Hence, we decided to follow this template and not make our regression structure overly complex.
 
 The encoder model was extracted from the autoencoder with the bottleneck layer flattened. This encoder model was then extended with two fully connected layers separated by a dropout layer. Dropout has shown to make models more robust and prevent overfitting \citep{hinton_improving_2012}. The final regression predictions were outputted with a fully connected layer of size 1, activated by a linear function.
 
