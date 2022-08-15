@@ -188,7 +188,7 @@
 ### 21 November 2019
 = *1 hour* Running clustering code on full + DMSO dataset to have baseline
 
-## Week 10 c/ 25 November (3/15 hours)
+## Week 10 c/ 25 November (4.5/15 hours)
 
 ### 27 November 2019
 - *1 hour* Debugging autoencoder code with empty convolutional feature maps
@@ -198,4 +198,4 @@
 - *1 hour* Building encoder from trained decoder, comparing model weights
 
 ### 30 November 2019
-- *0.5 hour* Making evaluation script to run every time a change is made to a model
+- *1.5 hour* Making evaluation script to run every time a change is made to a model
