@@ -357,7 +357,7 @@
 - *1 hour* Having fun with autoencoder structures
 - *0.5 hours* Polishing processing deliverable
 
-## Week 3 (16) c/ 27 January (10/15 hours)
+## Week 3 (16) c/ 27 January (12/15 hours)
 
 ### 27 January
 - *2 hours* Collating research metrics for all datasets in data/target from data/raw
@@ -377,3 +377,7 @@
 - *1 hour* Reading up on issues with image processing in biological researcher; looking into flat field correction
 - *0.5 hours* Looking at dataset, experimenting with image correction
 - *1 hour* Writing some dissertation bullet points, getting ideas in order. Issues with setting out the problem
+- *0.5 hours* Looking at the biological research done as provided by Hannah
+
+### 31 January
+- *1.5 hours* Visiting immunology building to look at current software being used for cell image analysis and writing up notes
