@@ -6,6 +6,7 @@
 %
 \usepackage{todonotes}
 \usepackage{booktabs}
+\usepackage{diagbox}
 \usepackage[table,xcdraw]{xcolor}
 
 \begin{document}
@@ -25,7 +26,7 @@
     \vskip 0.5em
     ``XYZ is bad. This project investigated ABC to determine if it was better.
     ABC used XXX and YYY to implement ZZZ. This is particularly interesting as XXX and YYY have
-    never been used together. It was found that  
+    never been used together. It was found that
     ABC was 20\% better than XYZ, though it caused rabies in half of subjects.''
 \end{abstract}
 
@@ -85,12 +86,89 @@
 \input{dissertation/5-evaluation}
 \input{dissertation/6-conclusion}
 
+% CHANGE DIMENSIONS TO $3\times 3$
+
 %==================================================================================================================================
 %  APPENDICES
 
 \begin{appendices}
 
 \chapter{Appendices}
+
+\section{Autoencoder model initialisation}
+
+\begin{lstlisting}[language=python, float, caption={Keras code for initialising the autoencoder model developed here. It contains 5 downsampling and upsampling operations. It returns both its encoder and decoder parts. The decoder is used to evaluate the performance of the autoencoder at image reconstruction. The encoder is used to encode images to project them onto a two-dimensional plane using t-SNE and UMAP, and is also the building block for our regression model.}, label=lst:autoencoder]
+    def make_autoencoder():
+        """
+        Initialise autoencoder model for training and return reference to both decoder and encoder parts of the model.
+        """
+
+        # image shape is defined in the configuration
+        input_img = Input(shape=(imw, imh, c))
+
+        # layers for reduction of image
+        x = Conv2D(64, (3, 3), padding='same')(input_img)
+        x = PReLU()(x)
+        x = MaxPooling2D((2, 2), padding='same')(x)
+        x = Conv2D(32, (3, 3), padding='same')(x)
+        x = PReLU()(x)
+        x = MaxPooling2D((2, 2), padding='same')(x)
+        x = Conv2D(32, (3, 3), padding='same')(x)
+        x = PReLU()(x)
+        x = MaxPooling2D((2, 2), padding='same')(x)
+        x = Conv2D(32, (3, 3), padding='same')(x)
+        x = PReLU()(x)
+        x = MaxPooling2D((2, 2), padding='same')(x)
+        x = Conv2D(32, (3, 3), padding='same', strides=2)(x)
+        x = PReLU()(x)
+
+        # bottleneck layer
+        encoded = Flatten()(x)
+
+        # layers for expansion of image
+        x = UpSampling2D((2, 2))(x)
+        x = Conv2D(32, (3, 3), padding='same')(x)
+        x = PReLU()(x)
+        x = UpSampling2D((2, 2))(x)
+        x = Conv2D(32, (3, 3), padding='same')(x)
+        x = PReLU()(x)
+        x = UpSampling2D((2, 2))(x)
+        x = Conv2D(32, (3, 3), padding='same')(x)
+        x = PReLU()(x)
+        x = UpSampling2D((2, 2))(x)
+        x = Conv2D(64, (3, 3), padding="same")(x)
+        x = PReLU()(x)
+        x = UpSampling2D((2, 2))(x)
+        decoded = Conv2D(c, (3, 3), activation='sigmoid', padding='same')(x)
+
+        decoder = Model(input_img, decoded)
+        encoder = Model(input_img, encoded)
+        # the encoder will be trained through the decoder so it does not need to be compiled
+        decoder.compile(optimizer='adam', loss='binary_crossentropy')
+
+        return decoder, encoder
+\end{lstlisting}
+
+\section{Regression model initialisation}
+
+\begin{lstlisting}[language=python, caption={Keras code for initialising the regression model developed here. It is constructed from an encoder model which has been previously initialised.}, label=lst:regression]
+    def make_regression(encoder):
+        """
+        Initialise a regression model for training using
+        a previously created encoder model
+        """
+
+        model = Sequential()
+        model.add(encoder)
+        model.add(Dense(128, activation='relu'))
+        model.add(Dropout(0.15))
+        model.add(Dense(64, activation='relu'))
+        model.add(Dense(1, activation='linear', kernel_constraint=constraints.NonNeg()))
+
+        model.compile(loss='mean_squared_error', optimizer='adam')
+
+        return model
+\end{lstlisting}
 
 \end{appendices}
 
