@@ -356,3 +356,8 @@
 - *1.5 hours* Giving references for autoencoder decision, doing research on past work with biomedical data
 - *1 hour* Having fun with autoencoder structures
 - *0.5 hours* Polishing processing deliverable
+
+## Week 3 (16) c/ 27 January (1/15 hours)
+
+### 27 January
+- *1 hour* Collating research metrics for DMSO dataset
