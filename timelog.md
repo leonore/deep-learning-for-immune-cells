@@ -1,7 +1,7 @@
 # Timelog
 
 * Deep learning for analysing immune cell interactions
-* Leonore Papaloizos
+* Leonore P.
 * 2264897v
 * Carol Webster
 
@@ -596,7 +596,7 @@
 ### 29 March
 - *8.5 hours* Writing evaluation and conclusion
 
-## Week 12 (25) c/ 30 March (16.5 hours)
+## Week 12 (25) c/ 30 March (20 hours)
 
 ### 30 March
 - *7.5 hours* Writing evaluation
@@ -611,3 +611,6 @@
 ### 1 April
 - *1.5 hours* Cleaning up src/
 - *0.5 hours* Writing main README
+- *0.5 hours* Cleaning up run_evaluation
+- *1 hour* Reading over diss
+- *2 hours* Running sample evaluation, upload sample_data, final debugging
