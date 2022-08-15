@@ -208,7 +208,7 @@
 - *1.5 hour* Pairing up tcells/dcells into one image before training, testing code on that
 - *0.5 hour* Playing with dataset
 
-## Week 11 c/ 2 December (9.5/15 hours)
+## Week 11 c/ 2 December (14.5/15 hours)
 
 ### 2 December 2019
 - *1 hour* Playing with dataset (cropping, shuffling) to see if it impacts learning
@@ -227,3 +227,12 @@
 - *0.5 hour* Talking to Carol about best ways to pre-process images
 - *0.5 hour* Reporting on and cleaning up work on pre-processing images differently
 - *0.5 hour* Clustering new encoded images with t-sne
+- *1 hour* Working on a sliding window function
+
+### 7 December
+- *4 hours* Transferring OneDrive cell images to hard drive for easier access
+
+* change data transfer to take from hard drive
+* have sliding window over all images
+* have all in one folder, but have all filenames have their CK name in the name
+* look at how shuffling function is done
