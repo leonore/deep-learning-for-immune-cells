@@ -89,10 +89,51 @@ Does not seem to differentiate between the conditions.
 
 ![Clustering model 12](results/clustering/model12.png)
 
-## Attempt 4 - model 12, but tuned
+## Attempt 4 - no dimensionality reduction, TSNE tuned
 
-![Clustering model 12 tuned](results/clustering/model12_tuned.png)
+![Clustering model 10 tuned](results/clustering/model10_tuned.png)
 
 * This one in particular is with perplexity 5, learning rate 200.
 * Different changes in parameters yields the same: shape changes but the different conditions overlap.
 * So problem is coming from data.
+
+## Further attempts at parameter tuning
+
+### With 500 subsample size
+
+```python
+tsne = TSNE(random_state=RS, perplexity=5, learning_rate=10, n_iter=2500).fit_transform(encoded)
+```
+
+![Clustering model 10 tuned 2](results/clustering/model10_tuned_2.png)
+
+```python
+tsne = TSNE(random_state=RS, perplexity=5, learning_rate=200, n_iter=2500).fit_transform(encoded)
+```
+
+![Clustering model 10 tuned 3](results/clustering/model10_tuned_3.png)
+
+* We get some blobs which should be right: more interaction with ConA/OVA, unstimulated on its own!
+
+### With 800 subsample size
+
+```python
+tsne = TSNE(random_state=RS, perplexity=5, learning_rate=200, n_iter=2500).fit_transform(encoded)
+```
+
+![Clustering model 10 tuned 4](results/clustering/model10_tuned_4.png)
+
+* More subsamples creates more confusion...
+
+### With 1200 subsample size
+
+![Clustering model 10 tuned 5](results/clustering/model10_tuned_5.png)
+
+### With 500 subsample size, picked from another chunk
+
+![Clustering model 10 tuned 6](results/clustering/model10_tuned_5.png)
+
+## Conclusions on parameter tuning
+
+* Clusters, if obtained, are not consistent
+* Images are still to confusing, both to naked eye and model? 
