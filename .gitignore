@@ -5,3 +5,4 @@ __pycache__
 *.h5
 *.pptx
 _*
+.DS_Store
