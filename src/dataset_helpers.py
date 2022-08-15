@@ -10,7 +10,7 @@ from PIL import Image
 def reformat(img, type):
     formatted = (img).astype(type)
     return Image.fromarray(formatted)
-
+    
 def low_clip(x):
     return np.clip(x, 255, 4095)
 
