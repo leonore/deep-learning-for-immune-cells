@@ -54,7 +54,7 @@ evaluate(decoder, x_combined, x_combined)
 # run clustering
 print("Clustering encoded images")
 encoded_imgs = encoder.predict(x_combined)
-x_umap = umap.UMAP(random_state=RS).fit_transform(encoded_imgs, y_combined)
+x_umap = umap.UMAP(random_state=RS).fit_transform(encoded_imgs)
 if args.live:
     print("Visualisation being plotted live...")
     plot_live(x_umap, y_combined, x_combined)
