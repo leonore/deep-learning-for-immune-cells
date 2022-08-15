@@ -21,7 +21,7 @@ The images that were used for the purpose of this research were provided by the 
     \label{fig:384_well}
 \end{figure}
 
-\begin{figure}[h]!
+\begin{figure}[h]
     \centering
     \begin{subfigure}[h!]{0.3\textwidth}
         \includegraphics[width=\textwidth]{dissertation/figures/example_Brightfield_L20.jpg}
@@ -91,7 +91,7 @@ The datasets obtained from this setup consisted of $2048\times2048$ 16-bit image
 
 Each of the images was about 8 MB in size, representing 4,194,304 pixels. This raised the issue of very high dimensions to handle for a model. Moreover, each plate had 384 wells, which corresponds to a total of about 800 images when counting both the T cells image and the DCs image. This meant that we had quite a limited amount of images to feed into any kind of model. 
 
-Moreover, as shown on Figures \ref{fig:fov_fitc} and \ref{fig:fov_tr}, the smaller white dots of immune cells could easily be confused for dust on the screen, even to the naked eye. This could be as confusing for a deep learning model trying to learn features from an image as it could be for us. Furthermore, the issue of images being of very high dimensions remained. Indeed, a basic autoencoder with three $2\times2$ downsampling operations would yield around 500,000 pixel points from a $2048\times2048$ input image, which is still a very high number for a visualisation technique like t-SNE or UMAP. 
+Furthermore, as shown on Figures \ref{fig:fov_fitc} and \ref{fig:fov_tr}, the smaller white dots of immune cells could easily be confused for dust on the screen, even to the naked eye. This could be as confusing for a deep learning model trying to learn features from an image as it could be for us. Furthermore, the issue of images being of very high dimensions remained. Indeed, a basic autoencoder with three $2\times2$ downsampling operations would yield around 500,000 pixel points from a $2048\times2048$ input image, which is still a very high number for a visualisation technique like t-SNE or UMAP. 
 
 \bigskip
 \subsubsection{Sliding window}    
@@ -165,20 +165,20 @@ As described above, the provided images sometimes contained some background nois
 
 \hfill\\
 \hfill\\
-Each plate came with an Excel sheet giving information about plate layout. Each well was assigned a letter and a name, and the Excel sheet contained information about the stimulation, drug compound ID number, and compound concentration used for each well. These Excel sheets were not automatically parsable, since types of drugs or location in the sheet might vary from one to the next, hence labelling had to be hardcoded and handchecked. 
+Each plate came with an Excel sheet giving information about plate layout. Each well was assigned a letter and a name, and the Excel sheet contained information about the stimulation, drug compound ID number, and compound concentration used for each well. The filename of each image of immune cells was formatted by plate number, and letter and number associated to the image's experimental condition. We could link this information to the Excel sheets. However, the sheets were not automatically parsable, because types of drugs or placements in the sheet might vary from one plate to the next, hence labelling had to be hardcoded and handchecked by plate. 
 
 \subsection{Combining images to qualify interaction} \label{subsec:combining}
 
 To summarise the section above, we made sure that for each well representing an experimental condition, we obtained two images of interest: an image of T cells, and its counterpart image of dendritic cells. While these were obtained separately with the help of fluorescent dyes, they were still captured from the same well in which they were placed together. Hence, for us to gain any understanding of cell interaction from these images, we needed to combine them one way or another. 
 
-We decided to combine each black-and-white T cell and DC image in one RGB image. Computationally speaking, an RGB image is represented by a multi-dimensional array of three arrays. Each of these arrays corresponds to a colour channel: red, green, or blue. The dendritic cell images were obtained through fluorescent red dye screening, so the red channel of the image was set to this image. Similarly, the T cell images were obtained through fluorescent green dye screening, so the green channel of the image was set to this image. The blue channel of the RGB image was left blank. The resulting RGB image thus allowed us to visualise T cells in green, DCs in red, with close overlap between those cells will in orange hues. Figure \ref{fig:combined} illustrates a sample of combined sub-images after this operation was completed.
+We decided to combine each black-and-white T cell and DC image in one RGB image. Computationally speaking, an RGB image is represented by a multi-dimensional array of three arrays. Each of these arrays corresponds to a colour channel: red, green, or blue. The dendritic cell images were obtained through fluorescent red dye screening, so the red channel of the image was set to this image. Similarly, the T cell images were obtained through fluorescent green dye screening, so the green channel of the image was set to this image. The blue channel of the RGB image was left blank. The resulting RGB image thus allowed us to visualise T cells in green, DCs in red, with close overlap between those cells in orange hues. Figure \ref{fig:combined} illustrates a sample of combined sub-images after this operation was completed.
 
-This combination allowed us to visualise areas of proximity in cells as well as areas of overlap. As such, this visualisation provides us a means of qualifying interaction between the different types of immune cells. 
+This combination allowed us to visualise areas of proximity in cells as well as areas of overlap. As such, this visualisation provided us a means of qualifying interaction between the different types of immune cells. 
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=\textwidth]{dissertation/figures/combined_cells.png}
-    \caption{Random sample of five RGB images, where the red channel contains the dendritic cells and the green channel contains the T cells.}
+    \caption{Random sample of five RGB images of immune cells, where the red channel contains the dendritic cells and the green channel contains the T cells. We can observe areas of interaction where there are hues of orange.}
     \label{fig:combined}
 \end{figure}
 
@@ -190,9 +190,9 @@ Image segmentation refers to the process of separating out the parts of interest
 
 Although we have defined a method to perform some background noise reduction in images in Section \ref{subsec:preproc}, this method might not be able to catch all irregularities in the background. As such, we wanted to be cautious and explore some alternatives. 
 
-All the images in the original, uncombined dataset were black and white, with the details of interest (i.e. the cells) in bright white spots. However, as discussed in Section \ref{subsec:preproc}, the images could contain noise coming from grey details in the image that the naked eye cannot see immediately. Moreover, our noise removal methods might not be foolproof. There might be some noise remaining that could influence how a model learns. The best way for a model to learn about cells only is to only provide pixel values for cells, with a background sent to 0. Hence, we needed a method that will separate out the cell pixels from the background. We achieved this by obtaining a binary mask of the image, such that the white pixels of the binary image corresponded to the cells, and the dark pixels corresponded to the background. We tested two methods for doing this: K-means and thresholding, which will be described further in Section \ref{sec:implementation}.
+All the images in the original, uncombined dataset were black and white, with the details of interest (i.e. the cells) in bright white spots. However, as discussed in Section \ref{subsec:preproc}, the images could contain noise coming from grey details in the image that the naked eye cannot see immediately. Moreover, our noise removal methods might not be foolproof. There might be some noise remaining that could influence how a model learns. The best way for a model to learn about cells only is to only provide pixel values for cells, with a background sent to 0. Hence, we needed a method that will separate out the cell pixels from the background. We achieved this by obtaining a binary mask of the image, such that the white pixels of the binary image corresponded to the cells, and the dark pixels corresponded to the background. We tested two methods for doing this: k-means and thresholding, which will be described further in Section \ref{sec:implementation}.
 
-Once a binary mask is obtained through these methods, we removed the background of the original image by multiplying it with the mask, a procedure known as \textit{masking}. If the binary mask is satisfactory, the output of this image should only contain the cells, which will have kept their detail, while the background will have been blacked out. 
+Once a binary mask was obtained through these methods, we removed the background of the original image by multiplying it with the mask, a procedure known as \textit{masking}. If the binary mask is satisfactory, the output of this image should only contain the cells, which will have kept their detail, while the background will have been blacked out. 
 
 \subsection{Quantifying interaction}
 

@@ -14,7 +14,7 @@ Our immune system consists of organs, cells and groups of cells working in colla
     \begin{subfigure}[h!]{0.3\textwidth}
         \includegraphics[width=\textwidth]{dissertation/figures/example_Tcells_CK22B12.png}
     \end{subfigure}
-    \caption{Brightfield microscope images of dendritic cells (left) and T-cells (right). Dendritic cells are named after their branching, tree-like structure. T cells are generally round.}
+    \caption{Brightfield microscope images of dendritic cells (left) and T cells (right). Dendritic cells are named after their branching, tree-like structure. T cells are generally round.}
     \label{fig:real_cells}
 \end{figure}
 
@@ -81,7 +81,7 @@ The data we will be studying consists of images of cells obtained through high c
     \label{fig:vis_mammoth}
 \end{figure}
 
-The main differences between t-SNE and UMAP are of speed and parameters. The original UMAP paper compares UMAP's performance with t-SNE's on the MNIST digit dataset which consists of 70,000 28x28 images of digits (0-9). On the researcher's 2017 MacBook Pro with i7 core and 8 GB of RAM, UMAP takes 87 seconds to run, while t-SNE takes 1,450 seconds \citep{umap_arxiv}.
+The main differences between t-SNE and UMAP are of speed and parameters. The original UMAP paper compares UMAP's performance with t-SNE's on the MNIST digit dataset which consists of 70,000 $28\times28$ images of digits (0-9). On the researcher's 2017 MacBook Pro with i7 core and 8 GB of RAM, UMAP takes 87 seconds to run, while t-SNE takes 1,450 seconds \citep{umap_arxiv}.
 
 t-SNE's main parameter to be tweaked is `perplexity', which loosely corresponds to an estimate of the number of neighbours each data point has \citep{wattenberg2016how}. UMAP's main parameters are number of neighbours and minimum distance. The former corresponds to the number of approximate neighbours a data point has, similar to t-SNE's perplexity. The latter corresponds to the minimum distance between points in low-dimensional space, meaning that it will tell UMAP how tightly to cluster points together, making visualisation more flexible.
 

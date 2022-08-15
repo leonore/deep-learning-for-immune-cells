@@ -596,7 +596,7 @@
 ### 29 March
 - *8.5 hours* Writing evaluation and conclusion
 
-## Week 12 (25) c/ 30 March (20 hours)
+## Week 12 (25) c/ 30 March (21 hours)
 
 ### 30 March
 - *7.5 hours* Writing evaluation
@@ -614,3 +614,15 @@
 - *0.5 hours* Cleaning up run_evaluation
 - *1 hour* Reading over diss
 - *2 hours* Running sample evaluation, upload sample_data, final debugging
+
+### 3 April
+- *1 hour* Going over Carol's dissertation checks
+- *2.5 hours* Going over dissertation again... changing captions to figures  
+
+### 4 April
+- *2.5 hours* Writing evaluation discussion, conclusion. Redoing preprocessing diagram. Cutting dissertation from 41 to 40 pages.
+- *2 hours* Final read up, fixing figures.
+- *1.5 hours* Recording final presentation
+- *1.5 hours* Setting up submission
+
+Total: 447 hours
