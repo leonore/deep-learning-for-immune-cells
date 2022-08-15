@@ -647,3 +647,15 @@ Weight difference: [ 0.04601523 -0.01926789]
 * As we can see we lose quite a lot of detail from the above, and the loss is higher than for the previous model.
 * However dimensionality is reduced.
 * But clustering doesn't perform too well.
+
+## Model 12: model 11, but with combined DMSO image
+
+* Same structure and parameters as above
+
+### Outputs
+
+![Model 12 loss](results/autoencoder/model12_loss.png)
+![Model 12 output](results/autoencoder/model12_output.png)
+
+* Lower loss!
+* Weight difference: [ 0.04236275 -0.03961913]
