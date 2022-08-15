@@ -487,7 +487,7 @@
 ### 28 February
 - *0.5 hours* Going over collected research to develop a structure for "background" dissertation
 
-## Week 8 (21) c/ 2 March (15.5/15 hours)
+## Week 8 (21) c/ 2 March (28/15 hours)
 
 ### 2 March
 - *1 hour* Moving evaluation to a Colab notebook, running it locally was taking its toll on my laptop.
@@ -503,3 +503,18 @@
 
 ### 5 March
 - *6 hours* Looking through Keras github issues to try and fix model.predict() getting massively different results across different sessions
+
+### 7 March
+- *4 hours* Realised the opencv's random k-means center initialisation was producing wildly different results for overlap calculations; recalculated; checked shuffling. Getting much better results (very good fit on the line).
+- *2 hours* Writing dissertation background (also while waiting for some things to run in Colab)
+
+### 8 March
+- *3 hour* Writing dissertation background
+- *4 hours* Working on reprocessing of overlaps, cleaning up files
+- *1 hour* Re-training regression, trying to re-train decoder but have ran out of Colab GPU allocation
+
+## Week 9 (22) c/ 9 March (2/15 hours)
+
+### 9 March
+- *1.5 hours* Writing dissertation; drawing system diagram
+- *0.5 hours* Can finally run notebooks on Google Colab, was disconnected from GPU for usage limit
