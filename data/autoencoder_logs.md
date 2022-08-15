@@ -559,7 +559,7 @@ x = UpSampling2D((2, 2))(x)
 decoded = Conv2D(c, (3, 3), activation='sigmoid', padding='same')(x)
 ```
 
-![Clipped leakyrelu](results/autoencoder/clipped255_leaky.png)
+![Clipped leakyrelu](results/autoencoder/255clipped_leaky.png)
 
 Weight difference: [ 0.02239831 -0.00090417]
 
@@ -619,8 +619,13 @@ x = MaxPooling2D((2, 2), padding='same')(x)
 x = Conv2D(8, (3, 3), padding='same')(x)
 x = LeakyReLU()(x)
 x = MaxPooling2D((2, 2), padding='same')(x)
-encoded = Flatten()(x)
+x = Conv2D(8, (3, 3), padding='same')(x)
+x = LeakyReLU()(x)
+encoded = MaxPooling2D((2, 2), padding='same')(x)
 
+x = Conv2D(8, (3, 3), padding='same')(encoded)
+x = LeakyReLU()(x)
+x = UpSampling2D((2, 2))(x)
 x = Conv2D(8, (3, 3), padding='same')(x)
 x = LeakyReLU()(x)
 x = UpSampling2D((2, 2))(x)
