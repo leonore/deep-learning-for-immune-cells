@@ -11,7 +11,7 @@ def reformat(img, type):
     formatted = (img).astype(type)
     return Image.fromarray(formatted)
 
-def center_crop(img, size=imw):
+def center_crop(img, size):
     to_crop = (img.shape[0]-size)/2
     image_resized = skimage.util.crop(img, (to_crop, to_crop))
     return image_resized
@@ -32,8 +32,10 @@ def max_normalise(x):
 
 ## DATASET OPERATIONS
 
+RS = 2211
+
 # train_test_split simplified
-def unishuffle(a, b, random_state=RS):
+def unishuffle(a, b, random_state):
     assert len(a) == len(b)
     if random_state:
         np.random.seed(RS)
