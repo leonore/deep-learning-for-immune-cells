@@ -1,0 +1,6 @@
+# Week 9 meeting minutes - 20 November 2019
+
+* I ran over my progress for the week, highlighting that my attempts at autoencoder tuning have not been very significant. The model does not seem to be able to learn images in a way that is useful for the clustering to produce the right clusters.
+* I said that the autoencoder might be struggling to learn features from the images, as they are quite sparse, with mostly black and then a few white blobs for the cell. Hence I have been looking into image pre-processing with edge detection for example to try and get better results. Carol said this was a good idea, and I should look into contrast enhancement as well.
+* Carol suggested that if my attempts did not work, I should look at going through the images and maybe cropping out an area that has a denser population of cells, and see if it works better.
+* I raised the fact that all the tutorials I have followed so far were on the MNIST digit dataset, which is simple and black and white, and cannot really be compared to the cell dataset. I suggested I look at tutorials for autoencoders and CIFAR, as this might give me a better idea at a successful structure for an autoencoder, as CIFAR images are a lot more complex. Carol agreed this was a good idea.
