@@ -1,0 +1,16 @@
+MSE score: 1.348
+RMSE score: 1.161
+SD: 4.732
+
+Scores for Unstimulated
+RMSE score: 0.832
+SD: 3.174
+
+Scores for OVA
+RMSE score: 0.766
+SD: 3.355
+
+Scores for ConA
+RMSE score: 1.642
+SD: 6.067
+
