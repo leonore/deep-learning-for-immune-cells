@@ -117,10 +117,13 @@
 - *0.5 hour* Plotting overlap results with labels to see if labels make sense
 - *1 hour* Experimenting with PCA decomposition
 
-## Week 6 c/ 28 October 2019 (6/15 hours)
+## Week 6 c/ 28 October 2019 (7/15 hours)
 
 ### 28 October 2019
 - *5.5 hours* Computer cluster training
 
 ### 29 October 2019
 - *0.5 hour* Recapping current work done for meeting
+
+### 31 October 2019
+- *1 hour* Working on writing resized images to disk
