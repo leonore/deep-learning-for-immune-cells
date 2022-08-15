@@ -154,7 +154,7 @@
 - *0.5 hour* Testing own code on MNIST dataset to see if it works
 - *0.5 hour* Testing clustering code on DMSO dataset
 
-## Week 8 c/ 11 November 2019 (5/15 hours)
+## Week 8 c/ 11 November 2019 (14/15 hours)
 
 ### 12 November 2019
 - *0.5 hour* Testing clustering code on full dataset
@@ -165,3 +165,15 @@
 
 ### 15 November 2019
 - *2 hours* Reviewing research done on autoencoders for dimensionality reduction and using CNNs for cell classification
+- *2 hours* Moving code to Colab
+- *3.5 hours* Visualising filters, scaling data, tuning autoencoder, attempting to get better results.
+- *1 hour* Plotting model filters; seeing where data is being lost in the autoencoder
+
+### 17 November 2019
+- *2.5 hours* Resizing images; trying new autoencoder architecture
+
+## Week 9 c/ 18 November (2.5/15 hours)
+
+### 18 November 2019
+- *1.5 hours* Trying each of: resizing data to smaller images, scaling data, adding normalisation post-activation, relu vs leakyrelu
+- *1 hour* Tuning; creating visual presentation of tweak results
