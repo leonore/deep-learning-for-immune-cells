@@ -325,7 +325,7 @@
 - *1 hour* Testing autoencoder with batch normalisation, average pooling, removing bias
 - *0.5 hours* Reading about why upsampling (resize) + Conv2D is preferred to Conv2DTranspose
 
-## Week 2 (15) c/ 20 January (15/15 hours)
+## Week 2 (15) c/ 20 January (19/15 hours)
 
 ### 20 January
 - *0.5 hours* Looking at outlier images to best code image pre-processing
@@ -345,3 +345,8 @@
 ### 23 January
 - *1 hour* Failing to preprocess images with K-means masking out the background, takes too long
 - *1.5 hours* Working on plotting the indices of image outliers in clusters to see if the outliers make sense
+
+### 24 January
+- *1 hour* Working on pushing code from Google Colab and polishing autoencoder file to be a deliverable
+- *2 hours* Using new visualisation function on autoencoder model and datasets
+- *1 hour* Working on optimising K-Means function as working on the full dataset runs out of memory in Colab
