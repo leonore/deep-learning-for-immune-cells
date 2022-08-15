@@ -145,18 +145,33 @@ def sliding_window(img, dest_size, rgb=False):
 def reconstruct_from(images, size=192):
     # work on reconstruction
     new_img = np.ndarray(shape=(size*10, size*10), dtype=np.float32)
-
-    col = 0
     y = 0
     x = 0
     for i in range(100):
         new_img[x:x+size, y:y+size] = images[i]
-        x = size*col
-        col += 1
-        if col == 10:
-            col = 0
+        x += size
+        if x == size*10:
+            x = 0
             y += size
+    return new_img
 
+# show sliding window as a plot
+def show_reconstruct(images, size=192):
+    # work on reconstruction
+    new_img = np.ndarray(shape=(size*10, size*10), dtype=np.float32)
+    fig = plt.figure(figsize=(10,10))
+    col = 0
+    row = 0
+    for i in range(100):
+        new_img[row:row+size, col:col+size] = images[i]
+        fig.add_subplot(10, 10, i+1)
+        plt.imshow(images[i])
+        plt.axis('off')
+        row+=size
+        if row == size*10:
+            row = 0
+            col += size
+    plt.tight_layout()
     return new_img
 
 def preprocess(data, labels, mask=False):
