@@ -22,23 +22,18 @@
 %==============================================================================
 %% ABSTRACT
 \begin{abstract}
-    Motivate; set aims; describe work; explain results.
-    \vskip 0.5em
-    ``XYZ is bad. This project investigated ABC to determine if it was better.
-    ABC used XXX and YYY to implement ZZZ. This is particularly interesting as XXX and YYY have
-    never been used together. It was found that
-    ABC was 20\% better than XYZ, though it caused rabies in half of subjects.''
+    The protective responses of our immune system are initiated by interactions between immune cells. These interactions can be inhibited or enhanced by the application of drugs. This project investigated using deep learning models to analyse microscope images of immune cells to study their interactions under different experimental conditions. Deep learning has scarcely been applied in the field of immunology. We implemented and evaluated a convolutional autoencoder and an autoencoder-based regression model to qualitatively and quantitatively analyse the interaction between T cells and dendritic cells in microscope images. We found that the autoencoder helped speed up the process of data visualisation and that the regression model successfully predicted measures of interaction in unseen images of immune cells. With carefully selected and pre-processed datasets, deep learning can be a useful technique for immunology researchers to analyse immune cell interaction.
 \end{abstract}
 
 %==============================================================================
 
 % EDUCATION REUSE CONSENT FORM
 % If you consent to your project being shown to future students for educational purposes
-% then insert your name and the date below to  sign the education use form that appears in the front of the document.
+% then insert your name and the date below to  sign the education use form that appears in the front of the document. 
 % You must explicitly give consent if you wish to do so.
 % If you sign, your project may be included in the Hall of Fame if it scores particularly highly.
 %
-% Please note that you are under no obligation to sign
+% Please note that you are under no obligation to sign 
 % this declaration, but doing so would help future students.
 %
 \def\consentname {Leonore Papaloizos} % your full name
@@ -46,6 +41,12 @@
 %
 \educationalconsent
 
+%==============================================================================
+
+\renewcommand{\abstractname}{Acknowledgements}
+\begin{abstract}
+I would like to thank Dr Carol Webster and Dr Hannah Scales for their continuous guidance and advice throughout this project. Thank you to all the friends and family that supported and encouraged me in the past four years.
+\end{abstract}
 
 %==============================================================================
 \tableofcontents
@@ -54,15 +55,15 @@
 %% Notes on formatting
 %==============================================================================
 % The first page, abstract and table of contents are numbered using Roman numerals and are not
-% included in the page count.
+% included in the page count. 
 %
 % From now on pages are numbered
 % using Arabic numerals. Therefore, immediately after the first call to \chapter we need the call
-% \pagenumbering{arabic} and this should be called once only in the document.
+% \pagenumbering{arabic} and this should be called once only in the document. 
 %
 % Do not alter the bibliography style.
 %
-% The first Chapter should then be on page 1. You are allowed 40 pages for a 40 credit project and 30 pages for a
+% The first Chapter should then be on page 1. You are allowed 40 pages for a 40 credit project and 30 pages for a 
 % 20 credit report. This includes everything numbered in Arabic numerals (excluding front matter) up
 % to but excluding the appendices and bibliography.
 %
@@ -74,7 +75,7 @@
 % IMPORTANT
 % The chapter headings here are **suggestions**. You don't have to follow this model if
 % it doesn't fit your project. Every project should have an introduction and conclusion,
-% however.
+% however. 
 %
 %==================================================================================================================================
 
@@ -86,10 +87,8 @@
 \input{dissertation/5-evaluation}
 \input{dissertation/6-conclusion}
 
-% CHANGE DIMENSIONS TO $3\times 3$
-
 %==================================================================================================================================
-%  APPENDICES
+%  APPENDICES  
 
 \begin{appendices}
 
@@ -102,10 +101,10 @@
         """
         Initialise autoencoder model for training and return reference to both decoder and encoder parts of the model.
         """
-
+    
         # image shape is defined in the configuration
         input_img = Input(shape=(imw, imh, c))
-
+    
         # layers for reduction of image
         x = Conv2D(64, (3, 3), padding='same')(input_img)
         x = PReLU()(x)
@@ -121,11 +120,11 @@
         x = MaxPooling2D((2, 2), padding='same')(x)
         x = Conv2D(32, (3, 3), padding='same', strides=2)(x)
         x = PReLU()(x)
-
+        
         # bottleneck layer
         encoded = Flatten()(x)
-
-        # layers for expansion of image
+    
+        # layers for expansion of image 
         x = UpSampling2D((2, 2))(x)
         x = Conv2D(32, (3, 3), padding='same')(x)
         x = PReLU()(x)
@@ -140,40 +139,40 @@
         x = PReLU()(x)
         x = UpSampling2D((2, 2))(x)
         decoded = Conv2D(c, (3, 3), activation='sigmoid', padding='same')(x)
-
+    
         decoder = Model(input_img, decoded)
         encoder = Model(input_img, encoded)
         # the encoder will be trained through the decoder so it does not need to be compiled
         decoder.compile(optimizer='adam', loss='binary_crossentropy')
-
+    
         return decoder, encoder
 \end{lstlisting}
 
 \section{Regression model initialisation}
 
-\begin{lstlisting}[language=python, caption={Keras code for initialising the regression model developed here. It is constructed from an encoder model which has been previously initialised.}, label=lst:regression]
+\begin{lstlisting}[language=python, caption={Keras code for initialising the regression model developed here. It is constructed from an encoder model which has been previously initialised. The encoder is then extended with fully connected (Dense) layers of decreasing sizes, separated by a Dropout layer for robustness. The final layer is activated by a linear function constrained not to be negative, and outputs a numeric value.}, label=lst:regression]
     def make_regression(encoder):
         """
         Initialise a regression model for training using
         a previously created encoder model
         """
-
+    
         model = Sequential()
         model.add(encoder)
         model.add(Dense(128, activation='relu'))
         model.add(Dropout(0.15))
         model.add(Dense(64, activation='relu'))
         model.add(Dense(1, activation='linear', kernel_constraint=constraints.NonNeg()))
-
+    
         model.compile(loss='mean_squared_error', optimizer='adam')
-
+        
         return model
 \end{lstlisting}
 
 \end{appendices}
 
 %==================================================================================================================================
-%   BIBLIOGRAPHY
+%   BIBLIOGRAPHY   
 
 % The bibliography style is abbrvnat
 % The bibliography always appears last, after the appendices.
