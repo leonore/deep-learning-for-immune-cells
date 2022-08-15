@@ -28,6 +28,7 @@ def center_crop(img, size=imw):
 
 def normalise(img):
     # normalise 16-bit TIF image
+    img = np.full_like(img, img)
     return img / 65535.0
 
 def clip(x):
