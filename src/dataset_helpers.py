@@ -176,7 +176,7 @@ def get_label(filename):
     # 3: empty
 
     # filename format: folder/CKX - L - 00(...)
-    file = file.split("/")[-1].split("(")[0]
+    file = filename.split("/")[-1].split("(")[0]
 
     # get letter for DMSO indices
     letter = file.split('-')[1].strip()
