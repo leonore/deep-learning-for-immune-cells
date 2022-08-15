@@ -50,6 +50,6 @@ tsne = TSNE(random_state=RS, perplexity=5, learning_rate=10, n_iter=2500).fit_tr
 
 ### Next up
 
-* Need more data --> make sliding window function over images
-* What is t-sne doing? --> Get visualisation up and running
+* Need more data --> make sliding window function over images: DONE
+* What is t-sne doing? --> Get visualisation up and running: DONE
 * How much dimensionality reduction for t-sne?
