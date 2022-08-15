@@ -8,7 +8,7 @@ from sklearn.metrics import mean_squared_error
 
 from config import RS, imw, imh, c, evaluation_path
 
-## QUICK VIS
+# QUICK VIS
 
 def show_image(img, title="untitled", cmap="gray", **kwargs):
     try:
@@ -18,96 +18,83 @@ def show_image(img, title="untitled", cmap="gray", **kwargs):
     plt.axis("off")
     plt.title(title)
 
+
 def reshape(img, w=imw, h=imh, c=c):
     if c > 1:
-      return np.reshape(img, (w, h, c))
+        return np.reshape(img, (w, h, c))
     else:
-      return np.reshape(img, (w, h))
+        return np.reshape(img, (w, h))
 
-def plot_range(imgs, RS=RS):
-  fig = plt.figure(figsize=(15, 15))
-  for i in range(0, 5):
-    ax = fig.add_subplot(1, 5, i)
-    plt.imshow(imgs[i+rn])
-    ax.axis('off')
 
-## EVALUATION
+def plot_range(imgs, RS=0):
+    fig = plt.figure(figsize=(15, 15))
+    for i in range(0, 5):
+        ax = fig.add_subplot(1, 5, i + 1)
+        plt.imshow(imgs[i + RS])
+        ax.axis('off')
 
-# CREDIT: https://www.kaggle.com/c/mercedes-benz-greener-manufacturing/discussion/34019
-def r2_score(y_true, y_pred):
-    ssres = np.sum(np.square(y_true - y_pred))
-    sstot = np.sum(np.square(y_true - np.mean(y_true)))
-    return 1 - ssres / sstot
 
-def metrics_report(y_true, y_pred, tag=None):
+## EVALUATION: REGRESSION
+
+def metrics_report(y_true, y_pred, y_labels, labels, tag=None):
     mse = mean_squared_error(y_true, y_pred)
     rmse = np.sqrt(mse)
-    #r2 = r2_score(y_true, y_pred)
+    sd = np.std(y_pred)
+
+    categories = np.unique(y_labels)
 
     if tag:
         with open(evaluation_path + "regression/" + tag + "_metrics.txt", "w") as file:
-            file.write("MSE score: {}\n".format(mse))
-            file.write("RMSE score: {}\n".format(rmse))
-            #file.write("R2 score: {}\n".format(r2))
+            file.write("MSE score: {0:.3f}\n".format(mse))
+            file.write("RMSE score: {0:.3f}\n".format(rmse))
+            file.write("SD: {0:.3f}\n".format(sd))
+            file.write("\n")
 
-    print("MSE score: {} -- this is the average square difference between true and predicted".format(mse))
-    print("RMSE score: {} -- difference between T and P in DV unit".format(rmse))
-    #print("R2 score: {} -- explains variance. closest to 1 is better".format(r2))
+            for idx, cat in enumerate(categories):
+                file.write("Scores for {}\n".format(labels[idx]))
+                file.write("RMSE score: {0:.3f}\n".format(
+                    np.sqrt(mean_squared_error(y_true[y_labels == cat], y_pred[y_labels == cat]))))
+                file.write("SD: {0:.3f}\n\n".format(
+                    np.std(y_pred[y_labels == cat])))
 
+    print(
+        "MSE score: {0:.3f} -- this is the average square difference between true and predicted".format(mse))
+    print(
+        "RMSE score: {0:.3f} -- difference between T and P in DV unit".format(rmse))
+    print("SD of predictions: {0:.3f}\n".format(sd))
 
-def plot_clusters(X, y, labels=["Unstimulated", "OVA", "ConA", "Faulty"], tag=None):
-    targets = range(len(labels))
-    palette = np.array(sns.color_palette("hls", len(labels)))
-
-    y = np.array(y)
-
-    fig = plt.figure(figsize=(15,15))
-    ax = plt.subplot()
-
-    for target, color, label in zip(targets, palette, labels):
-        plt.scatter(X[y==target, 0], X[y==target, 1], c=[color], label=label, alpha=0.60, s=12, edgecolor='k', lw=0.2)
-
-    ax.axis('off')
-    ax.grid(False)
-
-    box = ax.get_position()
-    ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
-
-    ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-
-    if tag:
-        plt.savefig(evaluation_path + "clustering/" + tag + ".png", dpi=300)
-
-    plt.show()
+    for idx, cat in enumerate(categories):
+        print("Scores for {}".format(labels[idx]))
+        print("RMSE score: {0:.3f}".format(np.sqrt(mean_squared_error(
+            y_true[y_labels == cat], y_pred[y_labels == cat]))))
+        print("SD: {0:.3f}\n".format(np.std(y_pred[y_labels == cat])))
 
 
-def plot_predictions_histogram(x_true, x_pred, y, tag=None):
-    t_u = x_true[y==0].flatten() # true unstimulated
-    t_o = x_true[y==1].flatten() # true ova
-    t_c = x_true[y==2].flatten() # true cona
+def plot_predictions_histogram(y_true, y_pred, y, labels=["Unstimulated", "OVA", "ConA"], tag=None):
+    true = []
+    pred = []
+    for i in np.unique(y):
+        true.append(y_true[y == i].flatten())
+        pred.append(y_pred[y == i].flatten())
 
-    p_u = x_pred[y==0].flatten() # predicted unstimulated
-    p_o = x_pred[y==1].flatten() # predicted ova
-    p_c = x_pred[y==2].flatten() # predicted cona
+    palette = np.array(sns.color_palette("hls", 4))[np.unique(y)]
 
-    palette = np.array(sns.color_palette("hls", 4))[:3]
-
-    fig = plt.figure(figsize=(10,5))
+    fig = plt.figure(figsize=(10, 5))
     ax1 = plt.subplot(211)
 
-    plt.hist([p_u, p_o, p_c], bins=32,
-         label=["Unstimulated", "OVA", "ConA"],
-         color=palette)
+    plt.hist(pred, bins=16,
+             label=labels,
+             color=palette)
 
     ax1.yaxis.set_label_position("right")
     ax1.set_ylabel("Predicted values")
     plt.title("Histograms for predicted vs true overlaps")
     plt.legend()
 
-    ax2=plt.subplot(212, sharex=ax1, sharey=ax1)
-    plt.hist([t_u, t_o, t_c], bins=32,
-         label=["Unstimulated", "OVA", "ConA"],
-         color=palette)
+    ax2 = plt.subplot(212, sharex=ax1, sharey=ax1)
+    plt.hist(true, bins=16,
+             label=labels,
+             color=palette)
     ax2.yaxis.set_label_position("right")
     ax2.set_ylabel("True values")
 
@@ -115,49 +102,40 @@ def plot_predictions_histogram(x_true, x_pred, y, tag=None):
     plt.tight_layout()
 
     if tag:
-        plt.savefig(evaluation_path + "regression/" + tag + "_histogram.png", dpi=300)
+        plt.savefig(evaluation_path + "regression/" +
+                    tag + "_histogram.png", dpi=300)
 
     plt.show()
 
-def plot_lines_of_best_fit(x_true, x_pred, y, tag=None):
-    t_u = x_true[y==0].flatten() # true unstimulated
-    t_o = x_true[y==1].flatten() # true ova
-    t_c = x_true[y==2].flatten() # true cona
 
-    p_u = x_pred[y==0].flatten() # predicted unstimulated
-    p_o = x_pred[y==1].flatten() # predicted ova
-    p_c = x_pred[y==2].flatten() # predicted cona
+def plot_lines_of_best_fit(y_true, y_pred, y, labels=["Unstimulated", "OVA", "ConA"], tag=None):
+    true = []
+    pred = []
+    for i in np.unique(y):
+        true.append(y_true[y == i].flatten())
+        pred.append(y_pred[y == i].flatten())
 
-    palette = np.array(sns.color_palette("hls", 4))[:3]
+    palette = np.array(sns.color_palette("hls", 4))
+    colors = ['red', 'green', 'blue']
+    fig = plt.figure(figsize=(15, 5))
 
-    fig = plt.figure(figsize=(15,5))
-    s1 = plt.subplot(131, aspect='equal')
-    s1.scatter(t_u, p_u, c=[palette[0]], alpha=0.65, lw=0.1, edgecolor='k')
-    plt.xlabel('True Values')
-    plt.ylabel('Predictions')
-    s1.plot(t_u, t_u, 'red')
-    plt.title("Predictions - Unstimulated label")
-
-    s2 = plt.subplot(132, aspect='equal')
-    s2.scatter(t_o, p_o, c=[palette[1]], alpha=0.65, lw=0.1, edgecolor='k')
-    plt.xlabel('True Values')
-    plt.ylabel('Predictions')
-    s2.plot(t_o, t_o, 'green')
-    plt.title("Predictions - OVA label")
-
-    s3 = plt.subplot(133, aspect='equal')
-    s3.scatter(t_c, p_c, c=[palette[2]], alpha=0.65, lw=0.1, edgecolor='k')
-    plt.xlabel('True Values')
-    plt.ylabel('Predictions')
-    s3.plot(t_c, t_c, 'blue')
-    plt.title("Predictions - ConA label")
+    for idx, target in zip(range(len(labels)), np.unique(y)):
+        s1 = plt.subplot(131 + idx, aspect='equal')
+        s1.scatter(true[idx], pred[idx], c=[palette[target]],
+                   alpha=0.65, lw=0.1, edgecolor='k')
+        plt.xlabel('True Values')
+        plt.ylabel('Predictions')
+        s1.plot(true[idx], true[idx], colors[target])
+        plt.title("Predictions - {} label".format(labels[idx]))
 
     plt.tight_layout()
 
     if tag:
-        plt.savefig(evaluation_path + "regression/" + tag + "_scatter.png", dpi=300)
+        plt.savefig(evaluation_path + "regression/" +
+                    tag + "_scatter.png", dpi=300)
 
     plt.show()
+
 
 def plot_error_distribution(y_true, y_pred, tag=None):
     error = y_pred - y_true
@@ -167,13 +145,75 @@ def plot_error_distribution(y_true, y_pred, tag=None):
     plt.title("Error distribution")
 
     if tag:
-        plt.savefig(evaluation_path + "regression/" + tag + "_error.png", dpi=300)
+        plt.savefig(evaluation_path + "regression/" +
+                    tag + "_error.png", dpi=300)
+
+    plt.show()
+
+
+## EVALUATION: AUTOENCODER
+
+def plot_reconstruction(model, x_test, tag):
+    plt.rcParams.update({'axes.titlesize': 'medium'})
+    test_nb = np.random.randint(0, len(x_test) - 1)
+
+    # show the difference in reconstruction
+    decoded_imgs = model.predict(data[test_nb:test_nb + 1])
+
+    s = 10
+
+    fig = plt.figure(figsize=(s, s))
+    fig.add_subplot(1, 2, 1)
+    show_image(reshape(x_test[test_nb:test_nb + 1], w=imw,
+                       h=imh, c=c), "original image [index {}]".format(test_nb))
+    fig.add_subplot(1, 2, 2)
+    show_image(reshape(decoded_imgs[0], w=imw,
+                       h=imh, c=c), "reconstructed image")
+
+    plt.tight_layout()
+
+    if tag:
+        plt.savefig(evaluation_path + "autoencoder/" +
+                    tag + "_reconstruction.png", dpi=300)
+
+    plt.show()
+
+
+def plot_clusters(X, y, labels=["Unstimulated", "OVA", "ConA", "Faulty"], tag=None):
+    targets = np.unique(y)
+    palette = np.array(sns.color_palette("hls", len(labels)))
+
+    y = np.array(y)
+
+    fig = plt.figure(figsize=(15, 15))
+    ax = plt.subplot()
+
+    for target, color, label in zip(targets, palette, labels):
+        plt.scatter(X[y == target, 0], X[y == target, 1], c=[color],
+                    label=label, alpha=0.8, s=25, edgecolor='k', lw=0.2)
+
+    ax.axis('off')
+    ax.grid(False)
+
+    box = ax.get_position()
+    ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
+
+    ax.legend(loc='center left', bbox_to_anchor=(1, 0.5), fontsize='x-large')
+
+    if tag:
+        plt.savefig(evaluation_path + "clustering/" + tag + ".png", dpi=300)
 
     plt.show()
 
 
 def plot_live(X, y, data, labels=["Unstimulated", "OVA", "ConA", "Faulty"]):
-    targets = range(len(labels))
+    """
+    Plotting function for live visualisation of UMAP graphs
+    A user can hover over point to see which image
+    corresponds to which point
+    /!\ can be slow for large and heavy datasets
+    """
+    targets = np.unique(y)
     palette = np.array(sns.color_palette("hls", len(labels)))
 
     annots = []
@@ -187,14 +227,16 @@ def plot_live(X, y, data, labels=["Unstimulated", "OVA", "ConA", "Faulty"]):
     fig = plt.figure()
     ax1 = plt.subplot()
     plt.axis('off')
+    plt.title("Live visualisation")
 
     for target, colour, label in zip(targets, palette, labels):
         ax2 = ax1.twinx()
-        scatter2 = plt.scatter(X[y==target,0], X[y==target, 1], c=[colour], s=10, label=label, alpha=0.75)
+        scatter2 = plt.scatter(X[y == target, 0], X[y == target, 1], c=[
+                               colour], label=label, alpha=0.8, s=10, edgecolor='k', lw=0.2)
         ax2.grid(False)
-        annot = ax2.annotate("", xy=(0,0), xytext=(-20,20),textcoords="offset points",
-                            bbox=dict(boxstyle="round", fc="w", alpha=0.4),
-                            arrowprops=dict(arrowstyle="->"))
+        annot = ax2.annotate("", xy=(0, 0), xytext=(-20, 20), textcoords="offset points",
+                             bbox=dict(boxstyle="round", fc="w", alpha=0.4),
+                             arrowprops=dict(arrowstyle="->"))
         annot.set_visible(False)
         annots.append(annot)
         axes.append(ax2)
@@ -205,7 +247,8 @@ def plot_live(X, y, data, labels=["Unstimulated", "OVA", "ConA", "Faulty"]):
 
     box = ax1.get_position()
     ax1.set_position([box.x0, box.y0, box.width * 0.8, box.height])
-    ax1.legend(handles=scatters, loc='center left', bbox_to_anchor=(1, 0.5), labels=[str(x) for x in labels])
+    ax1.legend(handles=scatters, loc='center left', bbox_to_anchor=(
+        1, 0.5), labels=[str(x) for x in labels])
 
     annot_dic = dict(zip(axes, annots))
     line_dic = dict(zip(axes, scatters))
@@ -218,9 +261,9 @@ def plot_live(X, y, data, labels=["Unstimulated", "OVA", "ConA", "Faulty"]):
         text = "{}".format(label)
         annot.set_text(text)
 
-
-        arr_img = data[y==label][ind["ind"][0]]
-        imagebox = OffsetImage(cv2.resize(arr_img, dsize=(48,48), interpolation=cv2.INTER_NEAREST))
+        arr_img = data[y == label][ind["ind"][0]]
+        imagebox = OffsetImage(cv2.resize(
+            arr_img, dsize=(96, 96), interpolation=cv2.INTER_AREA))
         imagebox.image.axes = ax1
         box = ax1.get_position()
 
@@ -228,11 +271,11 @@ def plot_live(X, y, data, labels=["Unstimulated", "OVA", "ConA", "Faulty"]):
                             xybox=(25, 10),
                             xycoords='axes fraction',
                             boxcoords="offset points",
-                            bboxprops=dict(alpha=0.2, linewidth=0.5, boxstyle="round"),
+                            bboxprops=dict(
+                                alpha=0.2, linewidth=0.5, boxstyle="round"),
                             frameon=True)
 
         ax1.add_artist(ab)
-
 
     def hover(event):
 
