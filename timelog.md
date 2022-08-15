@@ -89,7 +89,7 @@
 ### 20 Oct 2019
 * *1 hour* Tuning autoencoder; looking at different representations to assess progress
 
-## Week 5 c/ 21 October 2019 (12/15 hours)
+## Week 5 c/ 21 October 2019 (13/15 hours)
 
 ### 22 October 2019
 - *1 hour* Writing function to plot input/output of autoencoder to visualise progress
@@ -115,3 +115,12 @@
 - *1 hour* Getting coloured labels on a plot and seeing if tnse results make sense (they don't)
 - *1 hour* Trying to save resized images locally without loss of information for GPU access/Colab access
 - *0.5 hour* Plotting overlap results with labels to see if labels make sense
+- *1 hour* Experimenting with PCA decomposition
+
+## Week 6 c/ 28 October 2019 (6/15 hours)
+
+### 28 October 2019
+- *5.5 hours* Computer cluster training
+
+### 29 October 2019
+- *0.5 hour* Recapping current work done for meeting
