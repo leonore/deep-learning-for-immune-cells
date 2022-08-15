@@ -154,10 +154,14 @@
 - *0.5 hour* Testing own code on MNIST dataset to see if it works
 - *0.5 hour* Testing clustering code on DMSO dataset
 
-## Week 8 c/ 11 November 2019 (1.5/15 hours)
+## Week 8 c/ 11 November 2019 (5/15 hours)
 
 ### 12 November 2019
 - *0.5 hour* Testing clustering code on full dataset
 
 ### 14 November 2019
-- *1 hour* Reorganising code into different files
+- *1.5 hour* Reorganising code into different files
+- *1 hour* Tuning autoencoder for dimensionality reduction; trying new models  
+
+### 15 November 2019
+- *2 hours* Reviewing research done on autoencoders for dimensionality reduction and using CNNs for cell classification
