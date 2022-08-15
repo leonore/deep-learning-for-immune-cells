@@ -18,9 +18,8 @@ API for cell_autoencoder
 - fits @model with @data. also called through evaluate() but can be called on its own
 
 * evaluate(model, data, test, batch_size, epochs)
-- calls train(), as well as returns multiple visualisations
-- model is only trained on @data, so if performance is satisfactory
-- worth training on @data + @test
+- returns visualisations on model reconstruction performance
+- assumes model has been trained on @data and is being validated on @test
 
 """
 
@@ -68,11 +67,11 @@ def make_autoencoder():
 
 def train(model, data, batch_size=32, epochs=10):
     # get before/after weights (make sure there is a change)
-    untrained_weights = np.array(model.get_layer(index=1).get_weights()[0]))
+    untrained_weights = np.array(model.get_layer(index=1).get_weights()[0])
 
     loss = model.fit(data, data, epochs=epochs, batch_size=batch_size)
 
-    trained_weights = np.array(model.get_layer(index=1).get_weights()[0]))
+    trained_weights = np.array(model.get_layer(index=1).get_weights()[0])
 
     # plot the loss
     plt.figure()
@@ -81,6 +80,7 @@ def train(model, data, batch_size=32, epochs=10):
     plt.xlabel('epoch')
     plt.title("Evolution of loss per epoch")
     plt.grid(True)
+    plt.show()
 
     weight_diff = trained_weights - untrained_weights
     if np.all(weight_diff) == 0:
@@ -89,34 +89,26 @@ def train(model, data, batch_size=32, epochs=10):
         print("Model was trained successfully.")
 
 
-def evaluate(model, data, test, batch_size=32, epochs=10):
+def evaluate(model, data, test):
     plt.rcParams.update({'axes.titlesize': 'medium'})
-    train_nb = np.random.randint(0 len(data)-1)
+    train_nb = np.random.randint(0, len(data)-1)
     test_nb = np.random.randint(0, len(test)-1)
-
-    # get a model image prediction before training
-    decoded_before = model.predict(data[train_nb:train_nb+1)
-    test_decoded_before = model.predict(test[test_nb1:test_nb+1])
-
-    train(model, data, batch_size=batch_size, epochs=epochs)
 
     # show the difference in reconstruction
     decoded_imgs = model.predict(data[train_nb:train_nb+1]) # test on images it trained on
     untrained_decoded = model.predict(test[test_nb:test_nb+1]) # test images
 
-    s=12
+    s=10
     fig = plt.figure(figsize=(s,s))
-    fig.add_subplot(1, 3, 1)
-    show_image(reshape(data[21], w=imw, h=imh, c=c), "original training image")
-    fig.add_subplot(1, 3, 2)
-    show_image(reshape(decoded_imgs[0], w=imw, h=imh, c=c), "reconstructed - after")
-    fig.add_subplot(1, 3, 3)
-    show_image(reshape(decoded_before[0], w=imw, h=imh, c=c), "reconstructed - before")
+    fig.add_subplot(1, 2, 1)
+    show_image(reshape(data[train_nb:train_nb+1], w=imw, h=imh, c=c), "original training image")
+    fig.add_subplot(1, 2, 2)
+    show_image(reshape(decoded_imgs[0], w=imw, h=imh, c=c), "reconstructed training image")
 
     fig = plt.figure(figsize=(s,s))
-    fig.add_subplot(1, 3, 1)
-    show_image(reshape(test[21], w=imw, h=imh, c=c), "original test image")
-    fig.add_subplot(1, 3, 2)
-    show_image(reshape(untrained_decoded[0], w=imw, h=imh, c=c), "reconstructed test - after")
-    fig.add_subplot(1, 3, 3)
-    show_image(reshape(test_decoded_before[0], w=imw, h=imh, c=c), "reconstructed test - before")
+    fig.add_subplot(1, 2, 1)
+    show_image(reshape(test[test_nb:test_nb+1], w=imw, h=imh, c=c), "original test image")
+    fig.add_subplot(1, 2, 2)
+    show_image(reshape(untrained_decoded[0], w=imw, h=imh, c=c), "reconstructed test image")
+
+    plt.show()
