@@ -6,7 +6,7 @@ This chapter covers the images that were available for analysis, how they were p
 
 \subsection{Setup}
 
-The images that were used for the purpose of this research were provided by a researcher [Hannah: do you want your name to be cited?] in Immunology at the Institute of Infection, Immunity \& Inflammation at the University of Glasgow. The images were captured from 384-well plates with a commercial INCell Analyzer 2000. As established in Section \ref{bg:immunesystem}, the type of immune cells we are studying are T-cells and dendritic cells (DCs). Each plate to be imaged in the INCell Analyzer Machine contains a grid of wells. Each of those wells is assigned a label and an experimental condition. T-cells, dendritic cells, and compounds related to the experimental conditions are injected in the well. In order to be able to distinguish between them, cells are loaded with fluorescent dyes: the T-cells are dyed with a green dye (CSFE dye), and the dendritic cells are dyed with a red dye (CMTPX dye). After imaging, we obtain three field-of-view images per well:
+The images that were used for the purpose of this research were provided by the Laboratory of Immune Cell Visualisation and Examination (LIVE) at the Institute of Infection, Immunity \& Inflammation at the University of Glasgow. The images were captured from 384-well plates with a commercial INCell Analyzer 2000. As established in Section \ref{bg:immunesystem}, the type of immune cells we are studying are T-cells and dendritic cells (DCs). Each plate to be imaged in the INCell Analyzer contains a grid of wells. Each of those wells is assigned a label and an experimental condition. T-cells, dendritic cells, and compounds related to the experimental conditions are injected in the well. In order to be able to distinguish between them, cells are loaded with fluorescent dyes: the T-cells are dyed with a green dye (CSFE dye), and the dendritic cells are dyed with a red dye (CMTPX dye). After imaging, we obtain three field-of-view images per well:
 
 [should I add an image of a plate of wells for illustration if that is not clear to a casual reader?]
 
@@ -55,14 +55,14 @@ We are interested in using the latter as a label for our images, as it gives us 
     \item Stimulation with Concanavalin A (ConA), an antigen which cross-links T-cells receptors with a molecule on DCs that would hold the OVA peptide antigen and show it to T-cells
 \end{itemize}
 
-\subsection{Selecting images}
+\subsection{Selecting images} \label{subsec:selecting_dataset}
 
 There was a large amount of images available from different well plates with the different experimental conditions described above. However, each set of images corresponding to a plate represented about 8 GB of data on average. Moving images through disks or cloud filing system thus represented substantial time and was vulnerable to transfer errors. Hence, a limited number of plates were selected for training and evaluation to make sure their consistency could be validated. Chosen plates were picked taking into account the different experimental conditions that were relevant to address the biological question that was studied.
 
 \begin{itemize}
     \item The ``full" and ``balanced” dataset: this dataset contains an equal number of images in the three categories of stimulation: no stimulation, stimulation with OVA, and simulation with ConA. This is to fight issues of class imbalance when training the model.
     \item The simpler ``dual" dataset, with two categories: this dataset contains an equal number of images in two categories: no stimulation, and stimulation with OVA peptide. This was selected under the hypothesis that if useful results cannot be obtained with a dataset containing images from all categories, a deep learning model might be able to perform better with two.
-    \item The ``DMSO" dataset: Dimethyl sulfoxide (DMSO) is a solvent that helps solubilise the investigated drug compounds, as most compounds are not initially water soluble. When in solution, drug compounds should be more bioavailable and have more of a biological impact. [what does this represent exactly in dataset? is it just DMSO, no drugs?]
+    \item The ``DMSO" dataset: Dimethyl sulfoxide (DMSO) is a solvent that helps solubilise the investigated drug compounds, as most compounds are not initially water soluble. When in solution, drug compounds should be more bioavailable and have more of a biological impact. DMSO images in the dataset only include DMSO and no drugs, and act as a control. However, this should show the most difference in between stimulation categories as they do not show the impact of drugs.
 \end{itemize}
 
 These datasets are summarised in Table \ref{table:datasets}.
@@ -226,17 +226,17 @@ The following two sections highlight the purposes of developing an autoencoder i
 
 \subsection{Visualising high dimensional data}
 
-The first use for our autoencoder is to reduce the dimensions of our image input, as the size of the data points will not only make it slow for data visualisation techniques to process, but also harder for them to distinguish any structure in the data. High dimensionality visualisation techniques such as t-sne and UMAP can help visualise if there is an inherent structure to the data. We want to use this as a tool for analysis of immune cells interactions. The aim is to be able to qualify interaction from an image. We want to evaluate whether or not a technique such as t-SNE or UMAP can cluster different images around similar experimental conditions. If such successful groupings were found, it would allow us to show that different drug compounds yield structurally similar cell interactions. 
+The first use for our autoencoder is to reduce the dimensions of our image input, as the size of the data points will not only make it slow for data visualisation techniques to process, but also harder for them to distinguish any structure in the data. High dimensionality visualisation techniques such as t-sne and UMAP can help visualise if there is an inherent structure to the data. We want to use this as a tool for analysis of immune cells interactions. The aim is to be able to qualify interaction from an image. We want to evaluate whether or not a technique such as t-SNE or UMAP can cluster different images around similar experimental conditions. If such successful groupings were found, it would allow us to show that different drug compounds yield structurally similar cell interactions.
 
 \subsection{Quantifying interaction in unseen images}
 
-The second use of our autoencoder will be as a building block for a deep regression model. If our full autoencoder shows satisfactory reconstruction performance, then we can use the encoder block of the model and extend it in a regression structure. This autoencoder-based regression model will take images and associated overlap values as input for training, as shown in Figure \ref{fig:regression}.
-
-\begin{figure}[ht]
+\begin{figure}[h!]
     \centering
     \missingfigure[]{Figure of [encoder --> code] --> regression}
     \caption{Schematic diagram of a deep regression model using the decoder layers of an autoencoder as a building block. The encoder layers are connected to fully-connected layers which will output a numeric value.}
     \label{fig:regression}
 \end{figure}
+
+The second use of our autoencoder will be as a building block for a deep regression model. If our full autoencoder shows satisfactory reconstruction performance, then we can use the encoder block of the model and extend it in a regression structure. This autoencoder-based regression model will take images and associated overlap values as input for training, as shown in Figure \ref{fig:regression}.
 
 We will then use the model to make predictions for overlap values on unseen images and assess whether or not it does so successfully. The aim is for our regression model to be able to quantify interaction from an image.
