@@ -236,7 +236,7 @@
 - *1.5 hour* Getting full DMSO dataset with sliding window function
 - *2.5 hour* Using NPZ files to save compressed versions of the dataset
 
-## Week 12 c/ 9 December (10.5/40 hours)
+## Week 12 c/ 9 December (13/40 hours)
 
 ### 9 December
 - *0.5 hour* Analysing cell histograms more in-depth
@@ -258,6 +258,7 @@
 ### 13 December
 - *1 hour* Modifying t-sne visualisation code to add legend
 - *1 hour* Bugfixing, adding baseline performance of DMSO processed
+- *2.5 hours* Working on visualising step by step t-sne clustering
 
 * need more reduction of dimensionality: right now at 18,432. t-sne too slow, cannot learn
 * work on t-sne visualisation

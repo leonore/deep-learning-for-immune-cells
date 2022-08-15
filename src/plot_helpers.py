@@ -39,14 +39,19 @@ def plot_tsne(X, y, labels=["Unstimulated", "OVA", "ConA"]):
 
     y = np.array(y)
 
-    fig = plt.figure(figsize=(8, 8))
+    fig = plt.figure(figsize=(10,10))
     ax = plt.subplot()
+
     for target, color, label in zip(targets, palette, labels):
-        ax = plt.scatter(X[y==target, 0], X[y==target, 1], c=[color], label=label)
+        plt.scatter(X[y==target, 0], X[y==target, 1], c=[color], label=label)
+
     ax.axis('off')
     ax.grid(False)
-    plt.legend()
-    plt.show()
+
+    box = ax.get_position()
+    ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
+
+    ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
 
 # ## scatter() credit: https://github.com/oreillymedia/t-SNE-tutorial
 # def scatter(x, colors):
