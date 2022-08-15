@@ -1,10 +1,17 @@
 # Readme
 
-* `cell_autoencoder.ipynb` includes the current model and clustering algorithm being tuned
+### Jupyter notebooks
+* `cell_autoencoder.ipynb` includes the autoencoder model and clustering algorithm being tuned
+* `baseline_performance.ipynb` reports on the clustering algorithm's base performance with unmodified datasets
+* `cell_histograms.ipynb` contains research on the structure of the dataset for better pre-processing
+* `compress_files.ipynb` is the code used to compress images into efficient NPZ files for re-use locally and on Google Colab
+* `visualise_tsne.ipynb` is the code used to visualise step-by-step t-sne clustering, returning a GIF
 * `clustering_mnist.ipynb` contains the tutorial code for clustering MNIST with PCA, PCA+t-sne, and UMAP
+
+### Helper files
 * `prepare_dataset.py` contains the code used to transfer the needed images from the OneDrive dataset for transformation
 * `dataset_helpers.py` contains helper functions to prepare the dataset
-* `plot_helpers.py` contains helper functions to plot different results 
+* `plot_helpers.py` contains helper functions to plot different results
 
 
 ## Build instructions
@@ -14,26 +21,14 @@ instructions to run automated tests.
 
 ### Requirements
 
-List the all of the pre-requisites software required to set up your project (e.g. compilers, packages, libraries, OS, hardware)
-
-For example:
-
 * Python 3.7
 * Packages: listed in `requirements.txt`
-* Tested on Windows 10
-
-or another example:
-
-* Requires Raspberry Pi 3
-* a Linux host machine with the `arm-none-eabi` toolchain (at least version `x.xx`) installed
-* a working LuaJIT installation > 2.1.0
 
 ### Build steps
 
-List the steps required to build software.
-
-Hopefully something simple like `pip install -e .` or `make` or `cd build; cmake ..`. In
-some cases you may have much more involved setup required.
+```bash
+pip install -r requirements.txt # if in this directory
+```
 
 ### Test steps
 
