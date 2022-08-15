@@ -27,7 +27,7 @@ def plot_range(imgs, RS=8):
     ax.axis('off')
 
 
-def plot_clusters(X, y, labels=["Unstimulated", "OVA", "ConA", "Faulty"]):
+def plot_clusters(X, y, labels=["Unstimulated", "OVA", "ConA", "Faulty"], label=None):
     targets = range(len(labels))
     palette = np.array(sns.color_palette("hls", len(labels)))
 
@@ -49,8 +49,12 @@ def plot_clusters(X, y, labels=["Unstimulated", "OVA", "ConA", "Faulty"]):
 
     plt.show()
 
+    if label:
+        new_label = "../data/evaluation/clustering/" + label + ".png"
+        plt.savefig(new_label)
 
-def plot_live(X, y, data,labels=["Unstimulated", "OVA", "ConA", "Faulty"]):
+
+def plot_live(X, y, data, labels=["Unstimulated", "OVA", "ConA", "Faulty"]):
     targets = range(len(labels))
     palette = np.array(sns.color_palette("hls", len(labels)))
 

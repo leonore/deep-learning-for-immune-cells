@@ -21,10 +21,6 @@ def minmax(x):
         return x
     return (x-np.min(x))/(np.max(x)-np.min(x))
 
-def max_normalise(x):
-    max = np.max(x)
-    return x / max
-
 def is_faulty(x):
     if x.max() <= 255:
         return True
