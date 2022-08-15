@@ -208,7 +208,7 @@
 - *1.5 hour* Pairing up tcells/dcells into one image before training, testing code on that
 - *0.5 hour* Playing with dataset
 
-## Week 11 c/ 2 December (8.5/15 hours)
+## Week 11 c/ 2 December (9.5/15 hours)
 
 ### 2 December 2019
 - *1 hour* Playing with dataset (cropping, shuffling) to see if it impacts learning
@@ -221,4 +221,14 @@
 - *0.5 hour* Debugging models again
 
 ### 5 December
-- *1 hour* Working on clipping images to examine impact on autoencoder training
+- *1.5 hour* Working on clipping images to examine impact on autoencoder training
+
+### 6 December
+- *0.5 hour* Talking to Carol about best ways to pre-process images
+
+Next up:
+* Clean up clipping code
+* Go through function to make sure we don't copy in array memory addres = make copies !!
+* clean up and send to colab
+* copy images to usb or hard drive
+* write sliding window function
