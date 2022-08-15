@@ -188,7 +188,7 @@
 ### 21 November 2019
 - *1 hour* Running clustering code on full + DMSO dataset to have baseline
 
-## Week 10 c/ 25 November (5.5/15 hours)
+## Week 10 c/ 25 November (8.5/15 hours)
 
 ### 27 November 2019
 - *1 hour* Debugging autoencoder code with empty convolutional feature maps
@@ -203,3 +203,5 @@
 
 ### 1 December 2019
 - *1 hour* Researching image augmentation
+- *1 hour* Looking at other small dataset + autoencoder performance for comparison
+- *1 hour* Visualising features with different activation functions

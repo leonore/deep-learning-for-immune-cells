@@ -11,7 +11,10 @@ from PIL import Image
 imw, imh, c = 192, 192, 1
 
 def reshape(img, w=imw, h=imh, c=c):
-    return np.reshape(img, (w, h, c))
+    if c > 1:
+      return np.reshape(img, (w, h, c))
+    else:
+      return np.reshape(img, (w, h))
 
 def reformat(img):
     formatted = (img).astype('uint16')
