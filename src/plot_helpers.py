@@ -3,8 +3,6 @@ import matplotlib.patheffects as PathEffects
 import matplotlib
 import numpy as np
 
-from dataset_helpers import reshape
-
 import seaborn as sns
 sns.set_style('darkgrid')
 sns.set_palette('muted')
@@ -18,20 +16,6 @@ def show_image(img, title="untitled", cmap="gray", **kwargs):
         plt.imshow(img[:, :, 0], cmap=cmap, **kwargs)
     plt.axis("off")
     plt.title(title)
-
-def plot_results(input_imgs, output_imgs, labels, cmap='gist_yarg'):
-    fig = plt.figure(figsize=(15, 15))
-    rn = 8
-    for i in range(1, 6):
-        print(labels[i+rn])
-        ax = fig.add_subplot(1, 5, i)
-        plt.imshow(reshape(input_imgs[i+rn]), cmap=cmap)
-        ax.axis('off')
-
-    for i in range(1, 6):
-        ax = fig.add_subplot(2, 5, i)
-        plt.imshow(reshape(output_imgs[i+rn]), cmap=cmap)
-        ax.axis('off')
 
 def plot_tsne(X, y, labels=["Unstimulated", "OVA", "ConA"]):
     targets = range(len(labels))
