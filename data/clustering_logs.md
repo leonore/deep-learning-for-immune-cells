@@ -48,8 +48,39 @@ tsne = TSNE(random_state=RS, perplexity=5, learning_rate=10, n_iter=2500).fit_tr
 
 ![Results with DMSO](results/clustering/1_dmso_overlap.png)
 
-### Next up
+## Attempt 2 - model 11 (12*12*8 core layer)
 
-* Need more data --> make sliding window function over images: DONE
-* What is t-sne doing? --> Get visualisation up and running: DONE
-* How much dimensionality reduction for t-sne?
+```python
+input_img = Input(shape=(imw, imh, c))
+
+x = Conv2D(32, (3, 3), padding='same')(input_img)
+x = LeakyReLU()(x)
+x = MaxPooling2D((2, 2), padding='same')(x)
+x = Conv2D(16, (3, 3), padding='same')(x)
+x = LeakyReLU()(x)
+x = MaxPooling2D((2, 2), padding='same')(x)
+x = Conv2D(8, (3, 3), padding='same')(x)
+x = LeakyReLU()(x)
+x = MaxPooling2D((2, 2), padding='same')(x)
+encoded = Flatten()(x)
+
+x = Conv2D(8, (3, 3), padding='same')(x)
+x = LeakyReLU()(x)
+x = UpSampling2D((2, 2))(x)
+x = Conv2D(16, (3, 3), padding='same')(x)
+x = LeakyReLU()(x)
+x = UpSampling2D((2, 2))(x)
+x = Conv2D(32, (3, 3), padding="same")(x)
+x = LeakyReLU()(x)
+x = UpSampling2D((2, 2))(x)
+decoded = Conv2D(c, (3, 3), activation='sigmoid', padding='same')(x)
+```
+
+### Results
+
+![Clustering model 11](results/clustering/model11.png)
+
+Does not seem to differentiate between the conditions.
+
+-> try again with different parameters.
+-> look into combining the two images first?

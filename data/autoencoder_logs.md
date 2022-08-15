@@ -562,3 +562,88 @@ decoded = Conv2D(c, (3, 3), activation='sigmoid', padding='same')(x)
 ![Clipped leakyrelu](results/autoencoder/clipped255_leaky.png)
 
 Weight difference: [ 0.02239831 -0.00090417]
+
+## Model 10: more features, LeakyReLU
+
+### Structure
+
+```python
+input_img = Input(shape=(imw, imh, c))
+
+x = Conv2D(32, (3, 3), padding='same')(input_img)
+x = LeakyReLU()(x)
+x = MaxPooling2D((2, 2), padding='same')(x)
+x = Conv2D(16, (3, 3), padding='same')(x)
+x = LeakyReLU()(x)
+x = MaxPooling2D((2, 2), padding='same')(x)
+x = Conv2D(8, (3, 3), padding='same')(x)
+x = LeakyReLU()(x)
+x = MaxPooling2D((2, 2), padding='same')(x)
+encoded = Flatten()(x)
+
+x = Conv2D(8, (3, 3), padding='same')(x)
+x = LeakyReLU()(x)
+x = UpSampling2D((2, 2))(x)
+x = Conv2D(16, (3, 3), padding='same')(x)
+x = LeakyReLU()(x)
+x = UpSampling2D((2, 2))(x)
+x = Conv2D(32, (3, 3), padding="same")(x)
+x = LeakyReLU()(x)
+x = UpSampling2D((2, 2))(x)
+decoded = Conv2D(c, (3, 3), activation='sigmoid', padding='same')(x)
+```
+
+### Parameters
+* Optimiser: adam, loss: binary cross entropy
+* batch size = 48, epochs = 15
+
+### Outputs
+
+![Model 10 loss](results/autoencoder/model10_loss.png)
+![Model 10 train output](results/autoencoder/model10_train.png)
+![Model 10 test output](results/autoencoder/model10_test.png)
+
+## Model 11: extra inner layer for reduced dimensionality
+
+### Structure
+
+```python
+input_img = Input(shape=(imw, imh, c))
+
+x = Conv2D(32, (3, 3), padding='same')(input_img)
+x = LeakyReLU()(x)
+x = MaxPooling2D((2, 2), padding='same')(x)
+x = Conv2D(16, (3, 3), padding='same')(x)
+x = LeakyReLU()(x)
+x = MaxPooling2D((2, 2), padding='same')(x)
+x = Conv2D(8, (3, 3), padding='same')(x)
+x = LeakyReLU()(x)
+x = MaxPooling2D((2, 2), padding='same')(x)
+encoded = Flatten()(x)
+
+x = Conv2D(8, (3, 3), padding='same')(x)
+x = LeakyReLU()(x)
+x = UpSampling2D((2, 2))(x)
+x = Conv2D(16, (3, 3), padding='same')(x)
+x = LeakyReLU()(x)
+x = UpSampling2D((2, 2))(x)
+x = Conv2D(32, (3, 3), padding="same")(x)
+x = LeakyReLU()(x)
+x = UpSampling2D((2, 2))(x)
+decoded = Conv2D(c, (3, 3), activation='sigmoid', padding='same')(x)
+```
+
+### Parameters
+* Optimiser: adam, loss: binary cross entropy
+* batch size = 48, epochs = 10
+
+### Outputs
+
+![Model 11 loss](results/autoencoder/model11_loss.png)
+![Model 11 output](results/autoencoder/model11_output.png)
+
+Weight difference: [ 0.04601523 -0.01926789]
+
+* As we can see we lose quite a lot of detail from the above, and the loss is higher than for the previous model.
+* However dimensionality is reduced.
+* But clustering doesn't perform too well.
