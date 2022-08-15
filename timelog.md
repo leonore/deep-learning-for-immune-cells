@@ -513,9 +513,38 @@
 - *4 hours* Working on reprocessing of overlaps, cleaning up files
 - *1 hour* Re-training regression, trying to re-train decoder but have ran out of Colab GPU allocation
 
-## Week 9 (22) c/ 9 March (8/15 hours)
+## Week 9 (22) c/ 9 March (25/15 hours)
 
 ### 9 March
 - *1.5 hours* Writing dissertation; drawing system diagram
 - *4.5 hours* Finally model training and running evaluations after getting access to GPU again: got CK19, DMSO evaluated before being disconnected
 - *2 hours* Writing everything I know in dissertation to structure later: all sections but eval, conclusion now have draft underway
+
+### 10 March
+- *6 hours* Running evaluations, trying to obtain a good clustering with DMSO like I have before, but failing. Ran into Google Colab restriction again
+
+### 11 March
+- *0.5 hours* Meeting
+- *0.5 hours* Recomputing faulty CK22 overlaps for evaluation (wrong size)
+- *2 hours* Finalising evaluation; experimenting with plots showing overlap size
+
+### 13 March
+- *1 hour* Finishing introduction
+- *2 hours* Writing background
+
+### 14 March
+- *1 hour* Going over immunology background to send over to Hannah
+- *1 hour* Re-reading t-SNE/UMAP papers to see best way to include them in background
+
+### 15 March
+- *1 hour* Re-running UMAP with new parameters for better visualisation
+- *2 hours* Attempting to finish writing background
+
+## Week 10 (23) c/ 16 March (7.5/15 hours)
+
+### 16 March
+- *5 hours* Going over Materials & Methods, making figures as necessary  
+
+### 17 March
+- *1 hour* Finishing Materials & methods figure and first draft
+- *0.5 hours* Final checkups on introduction + biology part of background
