@@ -1,4 +1,4 @@
-import umap
+import umap.umap_ as umap
 from sklearn.manifold import TSNE
 from datetime import datetime
 
@@ -11,12 +11,12 @@ def tsne_fn(x, y=None, random_state=RS):
     print("t-sne took {} to finish".format(datetime.now() - start))
     return x_tsne
 
-def umap_fn(x, y=None, random_state=RS):
+def umap_fn(x, y=None, random_state=RS, **kwargs):
     # WARNING: y shouldn't actually be passed in unless
     # for supervised clustering purposes
     start = datetime.now()
     print("UMAP dimensionality reduction started at {}".format(start.strftime("%H:%M:%S")))
-    x_umap = umap.UMAP(random_state=RS).fit_transform(x, y)
+    x_umap = umap.UMAP(random_state=RS, **kwargs).fit_transform(x, y)
     print("UMAP took {} to finish".format(datetime.now() - start))
     return x_umap
 
