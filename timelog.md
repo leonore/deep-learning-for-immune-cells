@@ -357,7 +357,8 @@
 - *1 hour* Having fun with autoencoder structures
 - *0.5 hours* Polishing processing deliverable
 
-## Week 3 (16) c/ 27 January (2/15 hours)
+## Week 3 (16) c/ 27 January (2.5/15 hours)
 
 ### 27 January
 - *2 hours* Collating research metrics for all datasets in data/target from data/raw
+- *0.5 hours* Writing evaluation plan
