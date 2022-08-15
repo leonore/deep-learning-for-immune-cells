@@ -188,7 +188,7 @@
 ### 21 November 2019
 - *1 hour* Running clustering code on full + DMSO dataset to have baseline
 
-## Week 10 c/ 25 November (8.5/15 hours)
+## Week 10 c/ 25 November (10/15 hours)
 
 ### 27 November 2019
 - *1 hour* Debugging autoencoder code with empty convolutional feature maps
@@ -205,3 +205,12 @@
 - *1 hour* Researching image augmentation
 - *1 hour* Looking at other small dataset + autoencoder performance for comparison
 - *1 hour* Visualising features with different activation functions
+- *1.5 hour* Pairing up tcells/dcells into one image before training, testing code on that
+
+## Week 11 c/ 2 December (0/15 hours)
+
+Plan:
+* try adding the overlap as the third channel?
+* try data augmentation
+* figure out why sigmoid function coming out black
+* if no progress before meeting: prepare live t-sne visualisation 
