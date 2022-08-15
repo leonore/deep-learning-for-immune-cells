@@ -5,5 +5,5 @@ __pycache__
 *.pptx
 _*
 .DS_Store
-**/raw/images/**
+*.npz
 .venv
