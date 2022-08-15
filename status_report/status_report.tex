@@ -1,0 +1,99 @@
+
+\documentclass[11pt]{article}
+\usepackage{times}
+    \usepackage{fullpage}
+
+    \title{Deep learning for analysing immune cell interactions}
+    \author{ Leonore Papaloizos - 2264897v }
+
+    \begin{document}
+    \maketitle
+
+
+\section{Proposal}\label{proposal}
+
+\subsection{Motivation}\label{motivation}
+
+The initiation of an immune response in our immune system depends on the interaction strength between different types of immune cells. Interactions between immune cells can be enhanced or inhibited by the application of drugs.  Applying deep learning to the analysis of microscope images of t-cells and dendritic cells would allow us to explore cell interaction under different drug conditions.
+
+\subsection{Aims}\label{aims}
+
+This project will run microscope images of immune cells through different algorithms in order to evaluate whether different levels of interactions can be uncovered in this way. A convolutional autoencoder will be used for dimensionality reduction in order to be associated with visualisation techniques such as t-sne and UMAP. Image segmentation techniques will be explored for calculating direct overlap between t-cells and dendritic cells. These two techniques could also be combined for further research. The effectiveness of the algorithms for uncovering the impact of drugs on immune cells can be evaluated by comparing the results with truth labels provided by biological researchers.
+
+\section{Progress}\label{progress}
+
+\begin{itemize}
+    \tightlist
+\item Getting to grips with the framework of choice: the project will be implemented in Python, using Keras for model development.
+\item Background research conducted on autoencoders and convolutional neural networks for image processing.
+\item Background research conducted on techniques for image segmentation.
+\item Wrote code to process large cell images into usable dataset with Numpy compression files.
+\item Developed a convolutional autoencoder model that outputs a lower-dimension reconstructed image.
+\item Used the encoded bottleneck images from the autoencoder model to evaluate whether clusters of cells are found using t-sne and UMAP.
+\item Explored different image processing methods to evaluate impact on autoencoder and clustering performance.
+\item Wrote code to visualise t-sne and UMAP output in a plot, as well as algorithm steps in a GIF.
+\item Used K-Means as an image segmentation techniques to get masks from images of t-cells and dendritic cells and calculated overlap.
+\item Used masks obtained with K-Means as a processing technique by masking out redundant data from the images.
+\end{itemize}
+
+\section{Problems and risks}\label{problems-and-risks}
+
+\subsection{Problems}\label{problems}
+
+The following issues were encountered in the project so far.
+
+\begin{itemize}
+    \tightlist
+\item The provided dataset is very large and cannot be used all at once. Using a chunk too large runs out of memory both locally and on Google Colab. Subsets of it have to be used for computations.
+\item Compressing the dataset has been a struggle as my machine runs out of memory when trying to, but it is also a very large dataset to transfer to another machine.
+\item The autoencoder was not outputting a good enough reconstruction or learning anything. This was because of a lack of appropriate activation function.
+\item The autoencoder was only outputting black images, even if it was learning something. This was because of issues with pass-in arrays and unclear documentation in Numpy.
+\item The combination of autoencoder and t-sne/UMAP has not found successful clusters around different drug conditions.
+\item The processing method which performs the best in terms of autoencoder reconstruction and t-sne clustering also has wild loss scores in the millions.
+\end{itemize}
+
+\subsection{Risks}\label{risks}
+
+\begin{itemize}
+    \tightlist
+\item Many different autoencoder structures and processing methods can be combined to be explored, which is time-consuming. \textbf{Mitigation}: will conduct research to narrow
+down to one processing method and two parameters to tune to evaluate by the start of the semester.
+\item There are many techniques I could explore to analyse images to find if they more or less overlap. \textbf{Mitigation}: will narrow it down to one other technique on top of K-Means by the start of the semester.
+\item The algorithms currently being developed could be biased towards the subset of the data being used. \textbf{Mitigation}: pick three subsets of the data to run the developed algorithms against.
+\item Unsure how to evaluate success of the project. \textbf{Mitigation}: will liaise with biological researcher providing dataset to gather expectations as well as expected metrics for given images.
+\end{itemize}
+
+\section{Plan}\label{plan}
+
+\subsection{Semester 2}
+
+\begin{itemize}
+    \tightlist
+    \item
+      Week 1-2: Complete autoencoder tuning and choice of image processing. \textbf{Deliverable}:
+      code for an autoencoder model and processing method with explanations for the choices made.
+    \item
+      Week 1-3: Liaise with biological researcher to explore current tools being used to uncover overlaps between immune cells. Collate results obtained by their research for future evaluation. \textbf{Deliverable}: detailed evaluation plan, report on current research methods for evaluating interaction, and precise Excel tables of research metrics.
+    \item
+      Week 3-4: Finalise the image segmentation technique for calculating overlap and obtaining masks. \textbf{Deliverable}: code for the image segmentation technique, with an explanation of how it works and why it was chosen.
+    \item
+      Week 5: Investigate using the masks obtained for a UNet like autoencoder structure. \textbf{Deliverable}: code for the UNet structure, working with the cell dataset.
+    \item
+      Week 6-7: Construct three separate datasets (DMSO, one CK, mixed), and analyse them with the algorithms developed. Explore other labels associated with the dataset (compound, compound concentration). \textbf{Deliverable}: compressed dataset files, plots visualising the results and performance of the models.
+    \item
+      Week 8: Compare results obtained through own algorithms with results obtained through biological research.
+      \textbf{Deliverable}: quantitative measures of comparison with ground truth values accompanied with visual plots.
+    \item
+      Week 9: Final clean up of code and packaging up.
+      \textbf{Deliverable}: polished research code, model code available in usable tools.
+    \item
+      Week 8-10: Dissertation write up. \textbf{Deliverable}: first draft submitted to
+      supervisor two weeks before final deadline.
+    \end{itemize}
+
+
+\section{Ethics and data}\label{ethics}
+
+This project does not involve human subjects or data. No approval required.
+
+\end{document}

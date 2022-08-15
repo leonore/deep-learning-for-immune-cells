@@ -263,7 +263,7 @@
 - *1.5 hours* Comparing performance on autoencoder between 2 preprocessings, tuning autoencoder with leakyrelu
 - *0.5 hour* Running t-sne visualisation on DMSO dataset
 
-## Week 13 c/ 16 December (20/40 hours)
+## Week 13 c/ 16 December (25/40 hours)
 
 ### 16 December
 - *1.5 hours* Tuning model and clustering results
@@ -286,4 +286,7 @@
 
 ### 19 December
 - *1 hour* Finishing collating all explored processing methods into one cell_autoencoder notebook
-- *0.5 hour* Removing redundant code and files for cleanliness
+- *0.5 hours* Removing redundant code and files for cleanliness
+- *1 hour* Looking at structural similarity index for exploring effects of drugs
+- *1.5 hour* Running autoencoder on cell images with not-cell pixels masked out (obtained from K-Means)
+- *2.5 hours* Writing status report
