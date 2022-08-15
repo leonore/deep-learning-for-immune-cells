@@ -53,9 +53,99 @@ decoded = Conv2D(1, (3, 3), padding='same')(x)
 * Augment dataset; see if it makes any changes with this basic model
 
 
+## Model 2 - doubled up dataset
 
+Rationale: see if duplicating the dataset produces any change whatsoever. If not another parameter might be at fault
 
+### Structure, parameters
 
+See [model 1](#model-1).
+
+### Images
+
+![Image results](results/model2_output.png)
+![Loss function](results/model2_loss.png)
+
+### Results
+
+* Compared to model 1, loss is much more irregular (but approximation does not change)
+* output does not change at all
+
+### Next up
+
+* Change optimiser; see if there is any change at all
+
+## Model 3
+
+Changed the optimiser to adadelta. No change visualised.
+I will try another autoencoder structure on the data; if nothing changes, data augmentation might be the way to go.
+
+## Interlude: clustering encoded images with this model
+
+```python
+tsne = TSNE(random_state=RS, perplexity=12, learning_rate=250.0).fit_transform(encoded_imgs)
+```
+![TSNE clustering on model 1](results/model1_tsne.png)
+
+* Upping the perplexity then made it more of a ball (we don't want that)
+* Lower perplexity seems to return a bit more outliers
+
+```python
+tsne = TSNE(random_state=RS, perplexity=4, learning_rate=250.0).fit_transform(encoded_imgs)
+```
+![TSNE clustering 2 on model 1](results/model1_tsne2.png)
+
+## Model 4
+
+### Structure
+
+```python
+x = Conv2D(64, (5, 5), padding='same')(input_img)
+x = LeakyReLU()(x)
+x = MaxPooling2D((2, 2), padding='same')(x)
+x = Conv2D(32, (5, 5), padding='same')(x)
+x = LeakyReLU()(x)
+x = MaxPooling2D((2, 2), padding='same')(x)
+x = Conv2D(16, (2, 2), padding='same')(x)
+x = LeakyReLU()(x)
+x = MaxPooling2D((2, 2), padding='same')(x)
+encoded = Flatten()(x)
+
+x = Conv2D(16, (2, 2), padding='same')(x)
+x = LeakyReLU()(x)
+x = UpSampling2D((2, 2))(x)
+x = Conv2D(32, (5, 5), padding='same')(x)
+x = LeakyReLU()(x)
+x = UpSampling2D((2, 2))(x)
+x =  Conv2D(64, (5, 5), padding='same')(x)
+x = LeakyReLU()(x)
+# this will help going back the original image dimensions
+x = UpSampling2D((2, 2))(x)
+
+decoded = Conv2D(1, (3, 3), padding='same')(x)
+```
+
+### Parameters
+
+* Optimiser = adam
+* Loss function = binary_crossentropy
+* n epochs = 30
+* batch size = 48
+
+### Images
+
+![Image results](results/model4_output.png)
+![Loss function](results/model4_loss.png)
+
+### Results
+
+* Still nothing changing. The model does not seem to actually be learning anything significant.
+
+### Next up
+
+* Add an image plot to see if the prediction changes before and after training the model.
+* Test the structure on a different dataset to see if the length of the data is the problem.
+* If so, need to do data augmentation.
 
 ---------------- old records --------------------
 
@@ -67,25 +157,6 @@ decoded = Conv2D(1, (3, 3), padding='same')(x)
 - varying kernel size gets truer colour results
 - bigger kernel size towards the centre loses points of where the bigger standouts are
 - reducing maxpooling obviously keeps more detail
-
-- the following works pretty well but doubles dimensionality:
-```python
-x =  Conv2D(128, (5, 5), activation='relu', padding='same')(input_img)
-x =  Conv2D(128, (5, 5), activation='relu', padding='same')(x)
-x = MaxPooling2D((2, 2), padding='same')(x)
-x = Conv2D(64, (5, 5), activation='relu', padding='same')(x)
-x = Conv2D(32, (3, 3), activation='relu', padding='same')(x)
-encoded = MaxPooling2D((2, 2), padding='same')(x)
-
-x = Conv2D(32, (3, 3), activation='relu', padding='same')(encoded)
-x = Conv2D(64, (5, 5), activation='relu', padding='same')(x)
-x = UpSampling2D((2, 2))(x)
-x =  Conv2D(128, (5, 5), activation='relu', padding='same')(x)
-x =  Conv2D(128, (5, 5), activation='relu', padding='same')(x)
-x = UpSampling2D((2, 2))(x)
-
-decoded = Conv2D(1, (3, 3), padding='same')(x)
-```
 
 - this has a bit less detail but works pretty well. not sure about having two convolutions right after the other
 ```python
@@ -106,21 +177,3 @@ decoded = Conv2D(1, (3, 3), padding='same')(x)
 ```
 
 - smaller kernel size gives more detail. for above, change second conv2d and corresponding to 3, 3 kernel size
-
-- this keeps same dimensionality and gives pretty good compression:
-```python
-x =  Conv2D(64, (5, 5), activation='relu', padding='same')(input_img)
-x = MaxPooling2D((2, 2), padding='same')(x)
-x = Conv2D(32, (3, 3), activation='relu', padding='same')(x)
-x = Conv2D(16, (3, 3), activation='relu', padding='same')(x)
-encoded = MaxPooling2D((2, 2), padding='same')(x)
-
-x = Conv2D(16, (3, 3), activation='relu', padding='same')(encoded)
-x = Conv2D(32, (3, 3), activation='relu', padding='same')(x)
-x = UpSampling2D((2, 2))(x)
-x =  Conv2D(64, (5, 5), activation='relu', padding='same')(x)
-# this will help going back the original image dimensions
-x = UpSampling2D((2, 2))(x)
-
-decoded = Conv2D(1, (3, 3), padding='same')(x)
-```
