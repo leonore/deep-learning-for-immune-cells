@@ -384,7 +384,9 @@
 - *1.5 hours* Bulletpoint dissertation writing, additional background research on previous uses of image segmentation
 - *0.5 hours* Writing out (on paper) a restructured dissertation plan; using materials and methods instead of analysis and design
 
-## Week 4 (17) c/ 3 February (4/15 hours)
+## Week 4 (17) c/ 3 February (6/15 hours)
 
 ### 3 February
 - *4 hours* Working on live visualisation outliers with hover annotations in matplotlib, struggling with getting all scatter points included
+- *1 hour* Working on a reconstruction function from the separated images
+- *1 hour* Jupyter notebooks to Python files (if applicable), moving notebooks to data/
