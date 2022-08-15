@@ -83,7 +83,7 @@ def is_dmso(file):
         if label in ["5", "8", "11", "15", "18", "21"] and letter in ["N", "O", "P"]:
             return True
     elif ck == "CK21" or ck == "CK22":
-        if label != 3 and letter in ["H", "P"]:
+        if label not in [1, 12, 13, 24] and letter in ["H", "P"]:
             return True
     else:
         print("No CK found")
@@ -190,8 +190,6 @@ def get_label(filename):
     # DMSO = []
 
     if ck == "CK19":
-        #if number in ["5", "8", "11", "15", "18", "21"] and letter in ["N", "O", "P"]:
-        #   DMSO.append(len(labels))
         if number in ["3", "4", "5", "6", "7", "8", "24"]:
             label = 0
         elif number in ["9", "10", "11", "13", "14", "15", "23"]:
@@ -207,8 +205,6 @@ def get_label(filename):
             label = 2
         else:
             label = 3
-        #if label != 3 and letter in ["H", "P"]:
-        #    DMSO.append(len(labels))
     else:
         print("No CK found")
         return False
