@@ -130,7 +130,7 @@ def evaluate_autoencoder(model, data, tag=None):
     assumes model has been trained on @data and is being validated on @test
     """
     score = model.evaluate(data, data)
-    print("Loss: {}".format(score['loss']))
+    print("Loss: {}".format(score))
 
     plot_reconstruction(model, data, tag)
 
