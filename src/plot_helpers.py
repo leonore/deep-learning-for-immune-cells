@@ -33,7 +33,7 @@ def plot_clusters(X, y, labels=["Unstimulated", "OVA", "ConA", "Faulty"]):
 
     y = np.array(y)
 
-    fig = plt.figure(figsize=(10,10))
+    fig = plt.figure()
     ax = plt.subplot()
 
     for target, color, label in zip(targets, palette, labels):
@@ -62,7 +62,7 @@ def plot_live(X, y, data,labels=["Unstimulated", "OVA", "ConA", "Faulty"]):
     for idx, label in enumerate(labels):
         labels_dict[str(label)] = idx
 
-    fig = plt.figure(figsize=(5,5))
+    fig = plt.figure()
     ax1 = plt.subplot()
     plt.axis('off')
 
@@ -98,7 +98,7 @@ def plot_live(X, y, data,labels=["Unstimulated", "OVA", "ConA", "Faulty"]):
 
 
         arr_img = data[y==label][ind["ind"][0]]
-        imagebox = OffsetImage(cv2.resize(arr_img, dsize=(48,48), interpolation=cv2.INTER_CUBIC))
+        imagebox = OffsetImage(cv2.resize(arr_img, dsize=(48,48), interpolation=cv2.INTER_NEAREST))
         imagebox.image.axes = ax1
         box = ax1.get_position()
 

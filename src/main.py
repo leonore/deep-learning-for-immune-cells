@@ -1,9 +1,8 @@
 import argparse
 import numpy as np
 
-import keras
-from keras.models import load_model
-from keras.models import Model
+import tensorflow.keras
+from tensorflow.keras.models import Model, load_model
 import umap.umap_ as umap
 
 from cell_autoencoder import make_autoencoder, evaluate
@@ -24,6 +23,8 @@ args = parser.parse_args()
 input = args.input
 weights = args.weights
 live = args.live
+
+RS=2211
 
 # get input
 print("{} is being loaded".format(input))
@@ -56,7 +57,7 @@ else:
 # run clustering
 print("Clustering encoded images")
 encoded_imgs = encoder.predict(x_combined)
-x_umap = umap.UMAP().fit_transform(encoded_imgs, y_combined)
+x_umap = umap.UMAP(random_state=RS).fit_transform(encoded_imgs, y_combined)
 if args.live:
     print("Visualisation being plotted live...")
     plot_live(x_umap, y_combined, x_combined)

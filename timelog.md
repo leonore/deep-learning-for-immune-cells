@@ -405,3 +405,9 @@
 - *0.5 hour* Working on main interface to launch evaluations in main.py, running into local memory troubles so adapting preprocessing function a bit
 - *2.5 hours* Debugging main.py + associated files and writing bullet points in materials & methods for dissertation
 - *0.5 hours* Final tweaks to live visualisation plot
+
+## Week 5 (18) c/ 10 February (1.5/15 hours)
+
+### 10 February (no wifi)
+- *0.5 hours* Cleaning up notebooks and adding baseline performance for combined dataset
+- *1 hour* Finishing up presentation, preparing Colab notebook for obtaining weight, testing demo for meeting tomorrow
