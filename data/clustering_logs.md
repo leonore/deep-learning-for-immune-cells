@@ -87,4 +87,4 @@ Does not seem to differentiate between the conditions.
 
 ## Attempt 3 - model 12 (2-channel image)
 
-![Clustering model 12](results/clustering/model12,png)
+![Clustering model 12](results/clustering/model12.png)
