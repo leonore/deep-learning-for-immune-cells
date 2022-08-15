@@ -39,20 +39,24 @@ def r2_score(y_true, y_pred):
     sstot = np.sum(np.square(y_true - np.mean(y_true)))
     return 1 - ssres / sstot
 
+def standard_deviation(y_pred):
+    mean = y_pred.mean()
+
+
 def metrics_report(y_true, y_pred, tag=None):
     mse = mean_squared_error(y_true, y_pred)
     rmse = np.sqrt(mse)
     r2 = r2_score(y_true, y_pred)
 
     if tag:
-        with open(repo_path + "data/evaluation/regression/" + tag + "_metrics.txt", "w") as file:
-            file.write("MSE score: {}".format(mse))
-            file.write("RMSE score: {}".format(rmse))
-            file.write("R2 score: {}".format(r2))
-    else:
-        print("MSE score: {} -- this is the average square difference between true and predicted".format(mse))
-        print("RMSE score: {} -- difference between T and P in DV unit".format(rmse))
-        print("R2 score: {} -- explains variance. closest to 1 is better".format(r2))
+        with open(evaluation_path + "regression/" + tag + "_metrics.txt", "w") as file:
+            file.write("MSE score: {}\n".format(mse))
+            file.write("RMSE score: {}\n".format(rmse))
+            file.write("R2 score: {}\n".format(r2))
+
+    print("MSE score: {} -- this is the average square difference between true and predicted".format(mse))
+    print("RMSE score: {} -- difference between T and P in DV unit".format(rmse))
+    print("R2 score: {} -- explains variance. closest to 1 is better".format(r2))
 
 
 def plot_clusters(X, y, labels=["Unstimulated", "OVA", "ConA", "Faulty"], tag=None):
@@ -61,11 +65,11 @@ def plot_clusters(X, y, labels=["Unstimulated", "OVA", "ConA", "Faulty"], tag=No
 
     y = np.array(y)
 
-    fig = plt.figure()
+    fig = plt.figure(figsize=(15,15))
     ax = plt.subplot()
 
     for target, color, label in zip(targets, palette, labels):
-        plt.scatter(X[y==target, 0], X[y==target, 1], c=[color], label=label, alpha=0.60, s=10, edgecolor='k', lw=0.2)
+        plt.scatter(X[y==target, 0], X[y==target, 1], c=[color], label=label, alpha=0.60, s=12, edgecolor='k', lw=0.2)
 
     ax.axis('off')
     ax.grid(False)
@@ -75,10 +79,10 @@ def plot_clusters(X, y, labels=["Unstimulated", "OVA", "ConA", "Faulty"], tag=No
 
     ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
 
-    plt.show()
-
     if tag:
-        plt.savefig(evaluation_path + "clustering/" + tag + ".png")
+        plt.savefig(evaluation_path + "clustering/" + tag + ".png", dpi=300)
+
+    plt.show()
 
 
 def plot_predictions_histogram(x_true, x_pred, y, tag=None):
@@ -113,10 +117,11 @@ def plot_predictions_histogram(x_true, x_pred, y, tag=None):
 
     plt.xlabel("Level of interaction (Area of overlap)")
     plt.tight_layout()
-    plt.show()
 
     if tag:
-        plt.savefig(evaluation_path + "/regression/" + tag + "_histogram.png")
+        plt.savefig(evaluation_path + "regression/" + tag + "_histogram.png", dpi=300)
+
+    plt.show()
 
 def plot_lines_of_best_fit(x_true, x_pred, y, tag=None):
     t_u = x_true[y==0].flatten() # true unstimulated
@@ -129,7 +134,7 @@ def plot_lines_of_best_fit(x_true, x_pred, y, tag=None):
 
     palette = np.array(sns.color_palette("hls", 4))[:3]
 
-    fig = plt.figure(figsize=(16,16))
+    fig = plt.figure(figsize=(15,5))
     s1 = plt.subplot(131, aspect='equal')
     s1.scatter(t_u, p_u, c=[palette[0]], alpha=0.65, lw=0.1, edgecolor='k')
     plt.xlabel('True Values')
@@ -152,22 +157,23 @@ def plot_lines_of_best_fit(x_true, x_pred, y, tag=None):
     plt.title("Predictions - ConA label")
 
     plt.tight_layout()
-    plt.show()
 
     if tag:
-        plt.savefig(evaluation_path + "regression/" + tag + "_scatter.png")
+        plt.savefig(evaluation_path + "regression/" + tag + "_scatter.png", dpi=300)
 
+    plt.show()
 
 def plot_error_distribution(y_true, y_pred, tag=None):
     error = y_pred - y_true
-    plt.hist(error, bins = 25)
+    plt.hist(error.flatten(), bins=32)
     plt.xlabel("Prediction Error")
     plt.ylabel("Count")
     plt.title("Error distribution")
-    plt.show()
 
     if tag:
-        plt.savefig(evaluation_path + "regression/" + tag + "_error.png")
+        plt.savefig(evaluation_path + "regression/" + tag + "_error.png", dpi=300)
+
+    plt.show()
 
 
 def plot_live(X, y, data, labels=["Unstimulated", "OVA", "ConA", "Faulty"]):

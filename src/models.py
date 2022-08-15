@@ -97,7 +97,7 @@ def make_regression(encoder):
                   optimizer='adam')
     return model
 
-def train(model, data, batch_size=64, epochs=20, tag=None):
+def train(model, x, y, batch_size=64, epochs=20, tag=None):
     # get before/after weights (make sure there is a change)
     untrained_weights = np.array(model.get_layer(index=1).get_weights()[1])
 
@@ -105,7 +105,7 @@ def train(model, data, batch_size=64, epochs=20, tag=None):
                               patience=3, min_lr=0.0001, verbose=1)
     early_stop = callbacks.EarlyStopping(monitor="val_loss", verbose=1, patience=5)
 
-    loss = model.fit(data, data, epochs=epochs, batch_size=batch_size, validation_split=0.15,
+    loss = model.fit(x, y, epochs=epochs, batch_size=batch_size, validation_split=0.15,
                      callbacks=[reduce_lr, early_stop])
 
     trained_weights = np.array(model.get_layer(index=1).get_weights()[1])
@@ -119,9 +119,11 @@ def train(model, data, batch_size=64, epochs=20, tag=None):
     plt.title("Evolution of loss per epoch")
     plt.grid(True)
     plt.legend()
-    plt.show()
+
     if tag:
-        plt.save(evaluation_path + "autoencoder/" + tag + "_loss.png")
+        plt.savefig(evaluation_path + tag + "_loss.png", dpi=300)
+
+    plt.show()
 
     weight_diff = trained_weights - untrained_weights
     if np.all(weight_diff) == 0:
@@ -140,14 +142,14 @@ def evaluate_autoencoder(model, data, tag=None):
 
     fig = plt.figure(figsize=(s,s))
     fig.add_subplot(1, 2, 1)
-    show_image(reshape(data[test_nb:test_nb+1], w=imw, h=imh, c=c), "original image")
+    show_image(reshape(data[test_nb:test_nb+1], w=imw, h=imh, c=c), "original image [index {}]".format(test_nb))
     fig.add_subplot(1, 2, 2)
     show_image(reshape(decoded_imgs[0], w=imw, h=imh, c=c), "reconstructed image")
 
-    plt.show()
-
     if tag:
-        plt.save(evaluation_path + "autoencoder/" + tag + "_reconstruction.png")
+        plt.savefig(evaluation_path + "autoencoder/" + tag + "_reconstruction.png", dpi=300)
+
+    plt.show()
 
 def evaluate_regression(y_true, y_pred, y_labels, tag=None):
     plot_lines_of_best_fit(y_true, y_pred, y_labels, tag)

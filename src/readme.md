@@ -8,7 +8,7 @@
 
 ### Helper files
 * `dataset_helpers.py` contains helper functions to prepare the dataset
-* `plot_helpers.py` contains helper functions to plot different results
+* `evaluation_helpers.py` contains helper functions to plot different results
 
 
 ## Build instructions
