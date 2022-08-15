@@ -1,6 +1,7 @@
 ## Standard imports
 import numpy as np
 import os
+import xlrd
 import skimage
 from skimage.io import imread, imsave, imread
 from skimage.transform import rescale, resize, downscale_local_mean
@@ -17,6 +18,8 @@ def low_clip(x):
     return np.clip(x, 255, 4095)
 
 def minmax(x):
+    if x.min() == x.max():
+        return x
     return (x-np.min(x))/(np.max(x)-np.min(x))
 
 def max_normalise(x):
@@ -63,47 +66,33 @@ def is_dmso(file):
         print("No CK found")
     return False
 
-def get_label(filename):
+def get_labels(filenames, xls):
     # 0: unstimulated
     # 1: OVA
     # 2: ConA
     # 3: empty
+    names = {
+        "Unstimulated": 0,
+        "OVA": 1,
+        "ConA": 2,
+    }
 
-    # filename format: folder/CKX - L - 00(...)
-    file = filename.split("/")[-1].split("(")[0]
+    book = xlrd.open_workbook(xls)
+    sheet = book.sheet_by_index(0)
 
-    # get letter for DMSO indices
-    letter = file.split('-')[1].strip()
+    name_to_label = {}
+    for i in range(1, sheet.nrows):
+        name_to_label[sheet.row_values(i)[0]] = names.get(sheet.row_values(i)[2])
 
-    # get number
-    number = file[-2:].strip()
+    print(len(filenames))
+    print(sheet.row_values(1)[0])
+    print(set(filenames))
+    labels = np.ndarray(shape=(len(filenames)), dtype=np.uint8)
+    for filename in filenames:
+        file = filename.split("/")[-1].split("(")[0]
+        labels[i] = name_to_label.get(file)
 
-    # get plate layout number
-    ck = file[:4]
-
-    # DMSO = []
-
-    if ck == "CK19":
-        if number in ["3", "4", "5", "6", "7", "8", "24"]:
-            label = 0
-        elif number in ["9", "10", "11", "13", "14", "15", "23"]:
-            label = 1
-        elif number in ["16", "17", "18", "19", "20", "21", "22"]:
-            label = 2
-        else:
-            label = 3
-    elif ck == "CK21" or ck == "CK22":
-        if number in ["02", "03", "04", "05", "06", "07", "08", "09", "10", "11"]:
-            label = 0
-        elif int(number) in range(14, 24):
-            label = 2
-        else:
-            label = 3
-    else:
-        print("No CK found")
-        return False
-
-    return label
+    return labels
 
 def read_folder_filenames(folder):
     return [os.path.join(folder, f)for f in os.listdir(folder) if os.path.isfile(os.path.join(folder, f)) and f[0] != '.' and "Brightfield" not in f]
@@ -158,48 +147,47 @@ def reconstruct_from(images, size=192):
     return new_img
 
 def preprocess(data, labels, mask=False):
-    # avoid changing the dataset directly
     data = np.copy(data)
+    l = len(data)
 
     # initialise arrays for filling in
-    x_data = np.ndarray(shape=(len(data) // 2, 192, 192, 3))
-    y_data = np.ndarray(shape=(len(data) // 2))
+    x_data = np.ndarray(shape=(l // 2, 192, 192, 3), dtype=np.float32)
+    y_data = np.ndarray(shape=(l // 2), dtype=np.uint8)
 
     # initialise index values
     idx = 0
     i = 0
+    count = 0
 
     # loop through images and process
-    while idx < (len(data)):
+    while idx < l-100:
         # ignore 100, 300, etc. values as they will already have been processed
-        if (idx % 100 == 0) and (idx % 200 != 0):
+        if count == 100:
+            count = 0
             idx += 100
         else:
             # if the image is "faulty" we cannot low_clip and apply minmax -> NaN
             if is_faulty(data[idx]) or is_faulty(data[idx + 100]):
-                tcell = minmax(data[idx])
-                dcell = minmax(data[idx + 100])
+                x_data[i, ..., 1] = minmax(data[idx])
+                x_data[i, ..., 0] = minmax(data[idx + 100])
                 y_data[i] = 3
             else:
-                tcell = minmax(low_clip(data[idx]))
-                dcell = minmax(low_clip(data[idx + 100]))
+                x_data[i, ..., 1] = minmax(low_clip(data[idx]))
+                x_data[i, ..., 0] = minmax(low_clip(data[idx + 100]))
                 y_data[i] = labels[idx]
-            data[idx] = None
-            data[idx+100] = None
 
             # mask out the background
             if mask:
-                x_data[i, ..., 0] = dcell * get_mask(dcell)  # red-coloured
-                x_data[i, ..., 1] = tcell * get_mask(tcell)  # green-coloured
-            else:
-                x_data[i, :, :, 0] = dcell
-                x_data[i, :, :, 1] = tcell
-            idx += 1
-            i += 1
+                x_data[i, ..., 0] *= get_mask(x_data[i, ..., 0])  # red-coloured
+                x_data[i, ..., 1] *= get_mask(x_data[i, ..., 1])  # green-coloured
 
             # try and save memory
-            tcell = None
-            dcell = None
+            data[idx] = 0
+            data[idx+100] = 0
+
+            idx += 1
+            i += 1
+            count += 1
 
     print('Images preprocessed. Size of dataset: {}'.format(len(x_data)))
     return x_data, y_data
