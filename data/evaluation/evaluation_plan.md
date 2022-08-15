@@ -5,6 +5,7 @@
 * Autoencoder
 * Clustering
 * Image segmentation
+* Classification
 
 ## Evaluation methods
 
@@ -12,7 +13,7 @@
 
 1. Plot loss
   * Compare loss values to first tries with full image, without sliding window
-2. Show reconstructed image
+2. **Show reconstructed image** 
   * Visual satisfaction
   * Progress compared to relu feature maps + reconstructed without sliding window
 
