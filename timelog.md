@@ -321,8 +321,14 @@
 - *1 hour* Testing autoencoder with batch normalisation, average pooling, removing bias
 - *0.5 hours* Reading about why upsampling (resize) + Conv2D is preferred to Conv2DTranspose
 
-## Week 2 (15) c/ 20 January (1/15 hours)
+## Week 2 (15) c/ 20 January (8/15 hours)
 
-### 20 January 
+### 20 January
 - *0.5 hours* Looking at outlier images to best code image pre-processing
-- *0.5 hours* Reading about autoencoder structures to find best parameters to tune
+- *4.5 hours* Researching autoencoder parameters and testing models
+- *0.5 hours* Debugging NaN error in processing with values < 255 clipped
+- *1 hour* Visualising autoencoder results and feature maps to see when it stops learning new features, debugging visualisation function
+- *0.5 hours* Discarding outlier images to see if clustering improves for distinguishing OVA and ConA
+
+### 21 January
+- *1 hour* Working on removing faulty images from dataset
