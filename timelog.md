@@ -540,7 +540,7 @@
 - *1 hour* Re-running UMAP with new parameters for better visualisation
 - *2 hours* Attempting to finish writing background
 
-## Week 10 (23) c/ 16 March (25.5/15 hours)
+## Week 10 (23) c/ 16 March (28.5/15 hours)
 
 ### 16 March
 - *5 hours* Going over Materials & Methods, making figures as necessary  
@@ -564,3 +564,12 @@
 ### 21 March
 - *1 hour* Making a general autoencoder structure figure (conv -> activation -> pooling)
 - *5 hours* Writing implementation; making changes to structure
+
+### 22 March
+- *3 hours* Re-reading sections, making figures as appropriate
+
+## Week 11 (24) c/ 23 March (4.5 hours)
+
+### 23 March
+- *0.5 hours* Making a skeleton for Presentation slides saying what they should have (no design yet)
+- *4 hours* Re-reading sections 2-4, making changes and figures as appropriate.
