@@ -7,5 +7,5 @@ scipy
 seaborn
 scikit-image
 scikit-learn
-tensorflow==1.15.2
+tensorflow==2.9.3
 umap-learn
